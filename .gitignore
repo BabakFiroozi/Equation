@@ -1,0 +1,9 @@
+Logs/
+.idea/
+Library/
+obj/
+Temp/
+.vs/
+Equation_unity.userprefs
+*.apk
+*.rar
