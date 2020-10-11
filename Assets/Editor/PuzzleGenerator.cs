@@ -74,7 +74,7 @@ namespace Equation.Tools
             for (int i = 0; i < _tableRow * _tableColumn; i++)
             {
                 Rect rect = new Rect(cellPos.x + cell_margine, cellPos.y + cell_margine, cellSize - cell_margine / 2, cellSize - cell_margine / 2);
-                EditorGUI.DrawRect(rect, new Color(.7f, .5f, .4f, 1));
+                EditorGUI.DrawRect(rect, new Color(.7f, .5f, .3f, 1));
 
                 var cell = new Cell {index = i, rect = rect, isBusy = false};
                 _cellsList.Add(cell);
@@ -102,7 +102,7 @@ namespace Equation.Tools
             }
 
             GUI.Label(new Rect(tableRect.x - 80, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
-            GUI.Label(new Rect(tableRect.x - 80, tableRect.y, 100, 60), $"Vers: {_verGroups.Count}");
+            GUI.Label(new Rect(tableRect.x - 80, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
 
             if (GUI.Button(new Rect(20, 20, 100, 20), "Generate"))
             {
