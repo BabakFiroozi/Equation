@@ -100,7 +100,7 @@ namespace Equation.Tools
                 }
             }
             
-            if (GUI.Button(new Rect(20, 20, 100, 20), "Generate"))
+            if (GUI.Button(new Rect(20, 20, 100, 20), "Patterns"))
             {
                 GeneratePattern();
             }
@@ -136,7 +136,7 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontPersian;
             foreach (var cell in _cellsList)
             {
-                foreach (var piece in _totalPiecesList)
+                foreach (var piece in _puzzlePieces)
                 {
                     if (cell.index == piece.cellIndex)
                     {
@@ -224,6 +224,7 @@ namespace Equation.Tools
             } while (groupCounter < _groupsCount);
 
             _totalPiecesList.Clear();
+            _puzzlePieces.Clear();
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -283,6 +284,8 @@ namespace Equation.Tools
 
             return group;
         }
+        
+        List<PuzzlePiece> _puzzlePieces = new List<PuzzlePiece>();
 
         void GeneratePieces()
         {
@@ -296,6 +299,10 @@ namespace Equation.Tools
             }
 
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
+
+            _puzzlePieces.Clear();
+            foreach (var piece in _totalPiecesList)
+                _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.None, content = piece.content});
         }
 
         bool TryGeneratePieces()

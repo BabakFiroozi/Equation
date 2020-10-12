@@ -23,6 +23,7 @@ namespace Equation.Models
 
     public enum PieceTypes
     {
+        None = -1,
         Hollow,
         Fixed,
         Movable
