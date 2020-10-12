@@ -157,7 +157,7 @@ namespace Equation.Tools
             GUI.skin.label.alignment = alignment;
         }
 
-        bool GeneratePattern()
+        void GeneratePattern()
         {
             _horGroups.Clear();
             _verGroups.Clear();
@@ -220,8 +220,6 @@ namespace Equation.Tools
             } while (groupCounter < _groupsCount);
 
             _totalPiecesList.Clear();
-            
-            return true;
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -282,8 +280,24 @@ namespace Equation.Tools
             return group;
         }
 
-        bool GeneratePieces()
+        void GeneratePieces()
         {
+            int failedCounter = 0;
+            while (true)
+            {
+                bool succeed = TryGeneratePieces();
+                if (succeed)
+                    break;
+                failedCounter++;
+            }
+
+            Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
+        }
+
+        bool TryGeneratePieces()
+        {
+            bool failed = false;
+
             var allGroups = new List<Group>();
             var horGroupsList = _horGroups.ToList();
             var verGroupsList = _verGroups.ToList();
@@ -303,21 +317,22 @@ namespace Equation.Tools
                     verGroupsList.RemoveAt(0);
                 }
             } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
-            
+
             var oppsList = new List<string>();
             oppsList.Add("p");
             oppsList.Add("m");
+            // oppsList.Add("t");
+            // oppsList.Add("d");
 
             int numberMin = 1;
-            int numberMax = 20;
-            
-            
+            int numberMax = 10;
+
             _totalPiecesList.Clear();
+
             do
             {
                 var group = allGroups.ElementAt(0);
-                allGroups.RemoveAt(0);
-                
+
                 var piecesList = new List<Piece>();
                 foreach (var p in group.parts)
                 {
@@ -341,7 +356,7 @@ namespace Equation.Tools
                 }
 
                 var resPiece = piecesList.Find(p => !oppPieces.Contains(p) && !numPieces.Contains(p));
-                
+
                 foreach (var p1 in _totalPiecesList)
                 {
                     foreach (var p2 in numPieces)
@@ -354,14 +369,24 @@ namespace Equation.Tools
                         resPiece.content = p1.content;
                 }
 
+
+                int loopIter = 0;
+                const int max_iterate = 10000;
+                var emptyPieces = new List<Piece>();
+
                 //Try numbers
                 do
                 {
+                    emptyPieces.Clear();
+
                     string opperator = oppPieces.Find(p => p.content != "e").content;
                     foreach (var p in numPieces)
                     {
                         if (p.content == "")
+                        {
                             p.content = Random.Range(numberMin, numberMax).ToString();
+                            emptyPieces.Add(p);
+                        }
                     }
 
                     if (resPiece.content == "")
@@ -370,24 +395,79 @@ namespace Equation.Tools
                             resPiece.content = $"{int.Parse(numPieces[0].content) + int.Parse(numPieces[1].content)}";
                         if (opperator == "m")
                             resPiece.content = $"{int.Parse(numPieces[0].content) - int.Parse(numPieces[1].content)}";
+                        if (opperator == "t")
+                            resPiece.content = $"{int.Parse(numPieces[0].content) * int.Parse(numPieces[1].content)}";
+                        if (opperator == "d")
+                            resPiece.content = $"{int.Parse(numPieces[0].content) / int.Parse(numPieces[1].content)}";
+                        emptyPieces.Add(resPiece);
                     }
-                    
+
                     //Process pieces
-                    
+
+                    int resContentNumber = int.Parse(resPiece.content);
+                    var numContentsNumber = numPieces.Select(p => int.Parse(p.content)).ToList();
+                    if (opperator == "p")
+                    {
+                        int sum = numContentsNumber[0] + numContentsNumber[1];
+                        if (sum != resContentNumber)
+                        {
+                            emptyPieces.ForEach(p => p.content = "");
+                            continue;
+                        }
+                    }
+
+                    if (opperator == "m")
+                    {
+                        int diff = numContentsNumber[0] - numContentsNumber[1];
+                        if (diff <= 0 || diff != resContentNumber)
+                        {
+                            emptyPieces.ForEach(p => p.content = "");
+                            continue;
+                        }
+                    }
+
+                    if (opperator == "t")
+                    {
+                        int cross = numContentsNumber[0] * numContentsNumber[1];
+                        if (cross != resContentNumber)
+                        {
+                            emptyPieces.ForEach(p => p.content = "");
+                            continue;
+                        }
+                    }
+
+                    if (opperator == "d")
+                    {
+                        int devide = numContentsNumber[0] / numContentsNumber[1];
+                        int mod = numContentsNumber[0] % numContentsNumber[1];
+                        if (mod != 0 || devide <= 0 || devide != resContentNumber)
+                        {
+                            emptyPieces.ForEach(p => p.content = "");
+                            continue;
+                        }
+                    }
 
                     break;
-                } while (true);
-                
+                } while (loopIter++ < max_iterate);
+
+                if (loopIter >= max_iterate)
+                {
+                    failed = true;
+                    _totalPiecesList.Clear();
+                    break;
+                }
+
                 _totalPiecesList.AddRange(piecesList);
+                allGroups.RemoveAt(0);
 
             } while (allGroups.Count > 0);
 
-            //Make puzzle pieces
-            //Shuffle
+            return !failed;
+        }
+
+        void MakePuzzlesPieces(bool shuffle)
+        {
             
-            Debug.Log("<color=green>Succeed!</color>");
-            
-            return true;
         }
 
 
