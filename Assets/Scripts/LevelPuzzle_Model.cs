@@ -3,17 +3,21 @@ using System.Collections;
 
 namespace Equation.Models
 {
-    public class PuzzleModel
+    public class LevelPuzzle_Model
+    {
+        public PuzzleData[] puzzles;
+    }
+    public class PuzzleData
     {
         public string mode;
         public string level;
-        public Piece[] pieces;
+        public PuzzlePiece[] pieces;
     }
     
-    public class Piece
+    public class PuzzlePiece
     {
+        public int cellIndex;
         public PieceTypes type;
-        public int index;
         public string content;
     }
 

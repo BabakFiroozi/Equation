@@ -27,7 +27,7 @@ namespace Equation.Tools
 
         List<Cell> _cellsList = new List<Cell>();
 
-        List<PuzzleModel> _puzzlesList;
+        LevelPuzzle_Model _levelPuzzle;
 
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
@@ -87,6 +87,11 @@ namespace Equation.Tools
                     cellPos.x = tableRect.x;
                 }
             }
+            
+            if (GUI.Button(new Rect(20, 20, 100, 20), "Generate"))
+            {
+                GeneratePattern();
+            }
 
             var groups = new List<Group>();
             groups.AddRange(_horGroups);
@@ -103,14 +108,9 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(tableRect.x - 80, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 80, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
-
-            if (GUI.Button(new Rect(20, 20, 100, 20), "Generate"))
-            {
-                GeneratePuzzle();
-            }
         }
 
-        void GeneratePuzzle()
+        bool GeneratePattern()
         {
             _horGroups.Clear();
             _verGroups.Clear();
@@ -167,6 +167,8 @@ namespace Equation.Tools
 
                 groupCounter++;
             } while (groupCounter < _groupsCount);
+
+            return true;
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -177,10 +179,10 @@ namespace Equation.Tools
 
             Group group = null;
 
-            int iter = 0;
+            int loopIter = 0;
             do
             {
-                if (iter++ == 5000)
+                if (loopIter++ == 5000)
                     break;
                 
                 bool failed = false;
@@ -225,6 +227,17 @@ namespace Equation.Tools
             } while (true);
 
             return group;
+        }
+
+        bool TryNumbers()
+        {
+            var group = _horGroups.First();
+            foreach (var p in group.parts)
+            {
+                
+            }
+
+            return true;
         }
 
         class Cell
