@@ -26,7 +26,7 @@ namespace Equation.Tools
         int _tableRow = 8;
         int _groupsCount = 3;
 
-        List<Cell> _cellsList = new List<Cell>();
+        List<Cell> _allCellsList = new List<Cell>();
 
         LevelPuzzle_Model _levelPuzzle;
 
@@ -81,7 +81,7 @@ namespace Equation.Tools
             Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
             EditorGUI.DrawRect(tableRect, new Color(.8f, .7f, .4f, 1));
 
-            _cellsList.Clear();
+            _allCellsList.Clear();
             Vector2 cellPos = new Vector2(tableRect.x, tableRect.y);
             for (int i = 0; i < _tableRow * _tableColumn; i++)
             {
@@ -89,7 +89,7 @@ namespace Equation.Tools
                 EditorGUI.DrawRect(rect, new Color(.7f, .5f, .3f, 1));
 
                 var cell = new Cell {index = i, rect = rect, isBusy = false};
-                _cellsList.Add(cell);
+                _allCellsList.Add(cell);
 
                 cellPos.x += cellSize;
 
@@ -110,7 +110,7 @@ namespace Equation.Tools
             }
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
-                ShufflePieces();
+                ShufflePuzzlePieces();
             }
 
             var groups = new List<Group>();
@@ -119,7 +119,7 @@ namespace Equation.Tools
             foreach (var group in groups)
             {
                 var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
-                var cellsList = _cellsList.Where(c => cellIndices.Contains(c.index)).ToList();
+                var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
                 foreach (var cell in cellsList)
                 {
                     EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
@@ -134,24 +134,39 @@ namespace Equation.Tools
             GUI.skin.label.fontSize = 30;
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
             GUI.skin.label.font = _fontPersian;
-            foreach (var cell in _cellsList)
+            foreach (var cell in _allCellsList)
             {
                 foreach (var piece in _puzzlePieces)
                 {
                     if (cell.index == piece.cellIndex)
                     {
-                        string content = piece.content;
-                        if (content == "e")
-                            content = "=";
-                        if (content == "p")
-                            content = "+";
-                        if (content == "m")
-                            content = "-";
-                        if (content == "t")
-                            content = "×";
-                        if (content == "d")
-                            content = "÷";
-                        GUI.Label(cell.rect, content);
+                        if (piece.type != PieceTypes.Hollow)
+                        {
+                            string content = piece.content;
+                            if (content == "e")
+                                content = "=";
+                            if (content == "p")
+                                content = "+";
+                            if (content == "m")
+                                content = "-";
+                            if (content == "t")
+                                content = "×";
+                            if (content == "d")
+                                content = "÷";
+                            GUI.Label(cell.rect, content);
+
+                            if (piece.type == PieceTypes.Fixed)
+                                EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), Color.gray);
+                        }
+                        else
+                        {
+                            if (piece.held != -1)
+                            {
+                                var heldPiece = _puzzlePieces.Find(p => p.cellIndex == piece.held);
+                                var heldCell = _allCellsList.Find(c => c.index == heldPiece.cellIndex);
+                                GUI.Label(heldCell.rect, heldPiece.content);
+                            }
+                        }
                     }
                 }
             }
@@ -169,7 +184,7 @@ namespace Equation.Tools
             var group = MakeGoup(true, 0);
             _horGroups.Add(group);
             foreach (var p in @group.parts.Where(p => !p.isNum))
-                _cellsList[p.cellIndex].isBusy = true;
+                _allCellsList[p.cellIndex].isBusy = true;
 
             const int change_iter = 2000;
             int loopIter = 0;
@@ -217,7 +232,7 @@ namespace Equation.Tools
                 foreach (var p in group.parts)
                 {
                     if (!p.isNum)
-                        _cellsList[p.cellIndex].isBusy = true;
+                        _allCellsList[p.cellIndex].isBusy = true;
                 }
 
                 groupCounter++;
@@ -231,7 +246,7 @@ namespace Equation.Tools
         {
             const int eq_len = 5;
 
-            var freeCellIndices = _cellsList.Where(c => !c.isBusy).ToList().Select(c => c.index).ToList();
+            var freeCellIndices = _allCellsList.Where(c => !c.isBusy).ToList().Select(c => c.index).ToList();
 
             Group group = null;
 
@@ -301,8 +316,15 @@ namespace Equation.Tools
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
 
             _puzzlePieces.Clear();
-            foreach (var piece in _totalPiecesList)
-                _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.None, content = piece.content});
+            for (int index = 0; index < _allCellsList.Count; ++index)
+            {
+                var cell = _allCellsList[index];
+                var piece = _totalPiecesList.Find(p => p.cellIndex == cell.index);
+                if (piece != null && piece.cellIndex == cell.index)
+                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.Fixed, content = piece.content, held = piece.cellIndex});
+                else
+                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = cell.index, type = PieceTypes.Hollow, content = "", held = -1});
+            }
         }
 
         bool TryGeneratePieces()
@@ -477,9 +499,8 @@ namespace Equation.Tools
             return !failed;
         }
 
-        void ShufflePieces()
+        void ShufflePuzzlePieces()
         {
-            
         }
 
 

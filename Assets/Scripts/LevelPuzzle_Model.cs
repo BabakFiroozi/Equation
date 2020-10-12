@@ -19,11 +19,11 @@ namespace Equation.Models
         public int cellIndex;
         public PieceTypes type;
         public string content;
+        public int held;
     }
 
     public enum PieceTypes
     {
-        None = -1,
         Hollow,
         Fixed,
         Movable
