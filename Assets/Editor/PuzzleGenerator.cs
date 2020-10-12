@@ -43,9 +43,6 @@ namespace Equation.Tools
             _tableColumn = PlayerPrefs.GetInt("PuzzleGenerator_tableColumn", _tableColumn);
             _tableRow = PlayerPrefs.GetInt("PuzzleGenerator__tableRow", _tableRow);
             _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator__groupsCount", _groupsCount);
-            
-            _fontPersian = AssetDatabase.LoadAssetAtPath<Font>("Assets/Editor/Fonts/B_Yekan_Editor.ttf");
-            _fontEnglish = GUI.skin.label.font;
         }
 
         void OnDestroy()
@@ -58,6 +55,12 @@ namespace Equation.Tools
 
         void OnGUI()
         {
+            if (_fontPersian == null)
+            {
+                _fontPersian = AssetDatabase.LoadAssetAtPath<Font>("Assets/Editor/Fonts/B_Yekan_Editor.ttf");
+                _fontEnglish = GUI.skin.label.font;
+            }
+            
             GUI.Label(new Rect(160, 20, 30, 20), "Row");
             _tableRow = EditorGUI.IntField(new Rect(160 + 30, 20, 30, 20), _tableRow);
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
@@ -368,8 +371,12 @@ namespace Equation.Tools
                         if (opperator == "m")
                             resPiece.content = $"{int.Parse(numPieces[0].content) - int.Parse(numPieces[1].content)}";
                     }
+                    
+                    //Process pieces
+                    
 
-                } while (false);
+                    break;
+                } while (true);
                 
                 _totalPiecesList.AddRange(piecesList);
 
