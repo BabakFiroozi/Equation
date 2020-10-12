@@ -146,7 +146,7 @@ namespace Equation.Tools
                         {
                             GUI.Label(cell.rect, CorrectOpperatorContent(piece.content));
                             if (piece.type == PieceTypes.Fixed)
-                                EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), Color.gray);
+                                EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
                         }
                         else
                         {
@@ -154,6 +154,7 @@ namespace Equation.Tools
                             {
                                 var holdPiece = _puzzlePieces[piece.cellIndex];
                                 var holdCell = _allCellsList[piece.cellIndex];
+                                EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
                                 GUI.Label(holdCell.rect, CorrectOpperatorContent(holdPiece.content));
                             }
                         }
@@ -509,7 +510,7 @@ namespace Equation.Tools
             var hollowsList = _puzzlePieces.Where(p => p.type == PieceTypes.Hollow).ToList();
             var fixedsList = _puzzlePieces.Where(p => p.type == PieceTypes.Fixed).ToList();
             
-            int shuffleCount = fixedsList.Count / 5;
+            int shuffleCount = fixedsList.Count / 3;
 
             var holdsList = new List<int>();
             var heldsList = new List<int>();
