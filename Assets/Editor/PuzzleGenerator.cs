@@ -60,7 +60,7 @@ namespace Equation.Tools
                 _fontPersian = AssetDatabase.LoadAssetAtPath<Font>("Assets/Editor/Fonts/B_Yekan_Editor.ttf");
                 _fontEnglish = GUI.skin.label.font;
             }
-            
+
             GUI.Label(new Rect(160, 20, 30, 20), "Row");
             _tableRow = EditorGUI.IntField(new Rect(160 + 30, 20, 30, 20), _tableRow);
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
@@ -68,11 +68,11 @@ namespace Equation.Tools
 
             _tableRow = Mathf.Clamp(_tableRow, 5, 12);
             _tableColumn = Mathf.Clamp(_tableColumn, 5, 10);
-            
+
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
-            
-            
+
+
             const float cell_margine = 4;
             float tableWidth = 420f;
             float cellSize = 420f / _tableColumn;
@@ -99,15 +99,17 @@ namespace Equation.Tools
                     cellPos.x = tableRect.x;
                 }
             }
-            
+
             if (GUI.Button(new Rect(20, 20, 100, 20), "Patterns"))
             {
                 GeneratePattern();
             }
+
             if (GUI.Button(new Rect(20, 45, 100, 20), "Pieces"))
             {
                 GeneratePieces();
             }
+
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
                 ShufflePuzzlePieces();
@@ -142,29 +144,17 @@ namespace Equation.Tools
                     {
                         if (piece.type != PieceTypes.Hollow)
                         {
-                            string content = piece.content;
-                            if (content == "e")
-                                content = "=";
-                            if (content == "p")
-                                content = "+";
-                            if (content == "m")
-                                content = "-";
-                            if (content == "t")
-                                content = "×";
-                            if (content == "d")
-                                content = "÷";
-                            GUI.Label(cell.rect, content);
-
+                            GUI.Label(cell.rect, CorrectOpperatorContent(piece.content));
                             if (piece.type == PieceTypes.Fixed)
                                 EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), Color.gray);
                         }
                         else
                         {
-                            if (piece.held != -1)
+                            if (piece.hold != -1)
                             {
-                                var heldPiece = _puzzlePieces.Find(p => p.cellIndex == piece.held);
-                                var heldCell = _allCellsList.Find(c => c.index == heldPiece.cellIndex);
-                                GUI.Label(heldCell.rect, heldPiece.content);
+                                var holdPiece = _puzzlePieces[piece.cellIndex];
+                                var holdCell = _allCellsList[piece.cellIndex];
+                                GUI.Label(holdCell.rect, CorrectOpperatorContent(holdPiece.content));
                             }
                         }
                     }
@@ -174,6 +164,21 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontEnglish;
             GUI.skin.label.fontSize = fontSize;
             GUI.skin.label.alignment = alignment;
+        }
+
+        string CorrectOpperatorContent(string content)
+        {
+            if (content == "e")
+                content = "=";
+            if (content == "p")
+                content = "+";
+            if (content == "m")
+                content = "-";
+            if (content == "t")
+                content = "×";
+            if (content == "d")
+                content = "÷";
+            return content;
         }
 
         void GeneratePattern()
@@ -321,9 +326,9 @@ namespace Equation.Tools
                 var cell = _allCellsList[index];
                 var piece = _totalPiecesList.Find(p => p.cellIndex == cell.index);
                 if (piece != null && piece.cellIndex == cell.index)
-                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.Fixed, content = piece.content, held = piece.cellIndex});
+                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.Fixed, content = piece.content, hold = -1});
                 else
-                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = cell.index, type = PieceTypes.Hollow, content = "", held = -1});
+                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = cell.index, type = PieceTypes.Hollow, content = "", hold = -1});
             }
         }
 
@@ -499,8 +504,52 @@ namespace Equation.Tools
             return !failed;
         }
 
-        void ShufflePuzzlePieces()
+        bool ShufflePuzzlePieces()
         {
+            var hollowsList = _puzzlePieces.Where(p => p.type == PieceTypes.Hollow).ToList();
+            var fixedsList = _puzzlePieces.Where(p => p.type == PieceTypes.Fixed).ToList();
+            
+            int shuffleCount = fixedsList.Count / 5;
+
+            var holdsList = new List<int>();
+            var heldsList = new List<int>();
+
+            do
+            {
+                int index = Random.Range(0, hollowsList.Count);
+                holdsList.Add(hollowsList[index].cellIndex);
+                hollowsList.RemoveAt(index);
+            } while (holdsList.Count < shuffleCount);
+            
+            do
+            {
+                int index = Random.Range(0, fixedsList.Count);
+                heldsList.Add(fixedsList[index].cellIndex);
+                fixedsList.RemoveAt(index);
+            } while (heldsList.Count < shuffleCount);
+
+            
+            if (holdsList.Count != heldsList.Count)
+            {
+                Debug.LogError("holdsList.Count and heldsList.Count must be equal");
+                return false;
+            }
+
+            do
+            {
+                int hold = holdsList.ElementAt(0);
+                int held = heldsList.ElementAt(0);
+                holdsList.RemoveAt(0);
+                heldsList.RemoveAt(0);
+
+                _puzzlePieces[hold].hold = held;
+                _puzzlePieces[hold].content = _puzzlePieces[held].content;
+                _puzzlePieces[held].type = PieceTypes.Movable;
+                _puzzlePieces[held].content = "";
+                
+            } while (holdsList.Count > 0);
+
+            return true;
         }
 
 

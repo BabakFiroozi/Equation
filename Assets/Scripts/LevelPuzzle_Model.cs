@@ -19,7 +19,7 @@ namespace Equation.Models
         public int cellIndex;
         public PieceTypes type;
         public string content;
-        public int held;
+        public int hold;
     }
 
     public enum PieceTypes
