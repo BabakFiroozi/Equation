@@ -95,7 +95,7 @@ namespace Equation.Tools
             }
             if (GUI.Button(new Rect(20, 40, 100, 20), "Pieces"))
             {
-                _ = GeneratePieces();
+                GeneratePieces();
             }
 
             var groups = new List<Group>();
@@ -238,7 +238,7 @@ namespace Equation.Tools
             return group;
         }
 
-        async Task<bool> GeneratePieces()
+        bool GeneratePieces()
         {
             var allGroups = new List<Group>();
             var horGroupsList = _horGroups.ToList();
@@ -310,15 +310,15 @@ namespace Equation.Tools
                         resPiece.content = p1.content;
                 }
 
-                numPieces = numPieces.Where(p => p.content == "").ToList();
-                
                 //Try numbers
-
                 do
                 {
                     string opperator = oppPieces.Find(p => p.content != "e").content;
                     foreach (var p in numPieces)
-                        p.content = Random.Range(numberMin, numberMax).ToString();
+                    {
+                        if (p.content == "")
+                            p.content = Random.Range(numberMin, numberMax).ToString();
+                    }
 
                     if (resPiece.content == "")
                     {
@@ -334,10 +334,10 @@ namespace Equation.Tools
 
             } while (allGroups.Count > 0);
 
-            await Task.Delay(1000);
-            
             //Make puzzle pieces
             //Shuffle
+            
+            Debug.Log("<color=green>Succeed!</color>");
 
             return true;
         }
