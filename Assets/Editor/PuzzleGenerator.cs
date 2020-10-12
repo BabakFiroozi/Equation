@@ -32,12 +32,20 @@ namespace Equation.Tools
 
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
+        
+        List<Piece> _totalPiecesList = new List<Piece>();
+
+        Font _fontPersian;
+        Font _fontEnglish;
 
         void Awake()
         {
             _tableColumn = PlayerPrefs.GetInt("PuzzleGenerator_tableColumn", _tableColumn);
             _tableRow = PlayerPrefs.GetInt("PuzzleGenerator__tableRow", _tableRow);
             _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator__groupsCount", _groupsCount);
+            
+            _fontPersian = AssetDatabase.LoadAssetAtPath<Font>("Assets/Editor/Fonts/B_Yekan_Editor.ttf");
+            _fontEnglish = GUI.skin.label.font;
         }
 
         void OnDestroy()
@@ -113,6 +121,37 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(tableRect.x - 80, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 80, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
+
+            int fontSize = GUI.skin.label.fontSize;
+            var alignment = GUI.skin.label.alignment;
+            GUI.skin.label.fontSize = 30;
+            GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+            GUI.skin.label.font = _fontPersian;
+            foreach (var cell in _cellsList)
+            {
+                foreach (var piece in _totalPiecesList)
+                {
+                    if (cell.index == piece.cellIndex)
+                    {
+                        string content = piece.content;
+                        if (content == "e")
+                            content = "=";
+                        if (content == "p")
+                            content = "+";
+                        if (content == "m")
+                            content = "-";
+                        if (content == "t")
+                            content = "×";
+                        if (content == "d")
+                            content = "÷";
+                        GUI.Label(cell.rect, content);
+                    }
+                }
+            }
+
+            GUI.skin.label.font = _fontEnglish;
+            GUI.skin.label.fontSize = fontSize;
+            GUI.skin.label.alignment = alignment;
         }
 
         bool GeneratePattern()
@@ -177,6 +216,8 @@ namespace Equation.Tools
                 groupCounter++;
             } while (groupCounter < _groupsCount);
 
+            _totalPiecesList.Clear();
+            
             return true;
         }
 
@@ -268,7 +309,7 @@ namespace Equation.Tools
             int numberMax = 20;
             
             
-            var totalPiecesList = new List<Piece>();
+            _totalPiecesList.Clear();
             do
             {
                 var group = allGroups.ElementAt(0);
@@ -298,7 +339,7 @@ namespace Equation.Tools
 
                 var resPiece = piecesList.Find(p => !oppPieces.Contains(p) && !numPieces.Contains(p));
                 
-                foreach (var p1 in totalPiecesList)
+                foreach (var p1 in _totalPiecesList)
                 {
                     foreach (var p2 in numPieces)
                     {
@@ -330,7 +371,7 @@ namespace Equation.Tools
 
                 } while (false);
                 
-                totalPiecesList.AddRange(piecesList);
+                _totalPiecesList.AddRange(piecesList);
 
             } while (allGroups.Count > 0);
 
@@ -338,7 +379,7 @@ namespace Equation.Tools
             //Shuffle
             
             Debug.Log("<color=green>Succeed!</color>");
-
+            
             return true;
         }
 
