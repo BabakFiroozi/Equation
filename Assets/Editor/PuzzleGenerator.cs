@@ -136,10 +136,14 @@ namespace Equation.Tools
                     isHor = !isHor;
                 
                 group = MakeGoup(isHor, isHor ? _horGroups.Count : _verGroups.Count);
-
-                var crossGroup = !isHor ? _horGroups.Last() : _verGroups.Last();
-
+                
+                if(group == null)
+                    continue;
+                
                 var parts = group.parts.Where(p => p.index % 2 == 0).ToList();
+
+                var crossGroup = !isHor ? _horGroups[Random.Range(0, _horGroups.Count)] : _verGroups[Random.Range(0, _verGroups.Count)];
+
                 var crossParts = crossGroup.parts.Where(p => p.index % 2 == 0).ToList();
 
                 var crossCellIndices = crossParts.Select(p => p.cellIndex).ToList();
@@ -229,16 +233,31 @@ namespace Equation.Tools
             return group;
         }
 
-        bool TryNumbers()
+        bool GeneratePieces()
         {
             var group = _horGroups.First();
+            var piecesList = new List<Piece>();
             foreach (var p in group.parts)
             {
-                
+                var piece = new Piece {cellIndex = p.cellIndex, index = p.index, content = ""};
+                piecesList.Add(piece);
             }
+
+            int loopMax = _horGroups.Count + _verGroups.Count;
+            int loopIter = 0;
+            do
+            {
+                //Try numbers
+                
+                
+                
+                //Validate numbers
+
+            } while (++loopIter < loopMax);
 
             return true;
         }
+
 
         class Cell
         {
@@ -259,6 +278,13 @@ namespace Equation.Tools
             public int cellIndex = -1;
             public int index = -1;
             public bool isNum => index % 2 == 0;
+        }
+
+        class Piece
+        {
+            public int cellIndex;
+            public int index;
+            public string content;
         }
     }
 }
