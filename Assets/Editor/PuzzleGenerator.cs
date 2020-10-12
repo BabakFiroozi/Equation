@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Equation.Models;
@@ -91,6 +92,10 @@ namespace Equation.Tools
             if (GUI.Button(new Rect(20, 20, 100, 20), "Generate"))
             {
                 GeneratePattern();
+            }
+            if (GUI.Button(new Rect(20, 40, 100, 20), "Pieces"))
+            {
+                _ = GeneratePieces();
             }
 
             var groups = new List<Group>();
@@ -233,27 +238,106 @@ namespace Equation.Tools
             return group;
         }
 
-        bool GeneratePieces()
+        async Task<bool> GeneratePieces()
         {
-            var group = _horGroups.First();
-            var piecesList = new List<Piece>();
-            foreach (var p in group.parts)
-            {
-                var piece = new Piece {cellIndex = p.cellIndex, index = p.index, content = ""};
-                piecesList.Add(piece);
-            }
-
-            int loopMax = _horGroups.Count + _verGroups.Count;
-            int loopIter = 0;
+            var allGroups = new List<Group>();
+            var horGroupsList = _horGroups.ToList();
+            var verGroupsList = _verGroups.ToList();
+            bool selectHor = false;
             do
             {
-                //Try numbers
-                
-                
-                
-                //Validate numbers
+                selectHor = !selectHor;
 
-            } while (++loopIter < loopMax);
+                if (selectHor) //is horizontal
+                {
+                    allGroups.Add(horGroupsList.ElementAt(0));
+                    horGroupsList.RemoveAt(0);
+                }
+                else
+                {
+                    allGroups.Add(verGroupsList.ElementAt(0));
+                    verGroupsList.RemoveAt(0);
+                }
+            } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
+            
+            var oppsList = new List<string>();
+            oppsList.Add("p");
+            oppsList.Add("m");
+
+            int numberMin = 1;
+            int numberMax = 20;
+            
+            
+            var totalPiecesList = new List<Piece>();
+            do
+            {
+                var group = allGroups.ElementAt(0);
+                allGroups.RemoveAt(0);
+                
+                var piecesList = new List<Piece>();
+                foreach (var p in group.parts)
+                {
+                    var piece = new Piece {cellIndex = p.cellIndex, index = p.index, content = ""};
+                    piecesList.Add(piece);
+                }
+
+                var oppPieces = piecesList.Where(p => p.index % 2 != 0).ToList();
+                oppPieces[0].content = Random.Range(0, 100) > 50 ? "e" : oppsList[Random.Range(0, oppsList.Count)];
+                oppPieces[1].content = oppPieces[0].content == "e" ? oppsList[Random.Range(0, oppsList.Count)] : "e";
+
+                var numPieces = new List<Piece>();
+
+                foreach (var op in oppPieces)
+                {
+                    if (op.content != "e")
+                    {
+                        numPieces.Add(piecesList[op.index - 1]);
+                        numPieces.Add(piecesList[op.index + 1]);
+                    }
+                }
+
+                var resPiece = piecesList.Find(p => !oppPieces.Contains(p) && !numPieces.Contains(p));
+                
+                foreach (var p1 in totalPiecesList)
+                {
+                    foreach (var p2 in numPieces)
+                    {
+                        if (p1.cellIndex == p2.cellIndex)
+                            p2.content = p1.content;
+                    }
+
+                    if (resPiece.cellIndex == p1.cellIndex)
+                        resPiece.content = p1.content;
+                }
+
+                numPieces = numPieces.Where(p => p.content == "").ToList();
+                
+                //Try numbers
+
+                do
+                {
+                    string opperator = oppPieces.Find(p => p.content != "e").content;
+                    foreach (var p in numPieces)
+                        p.content = Random.Range(numberMin, numberMax).ToString();
+
+                    if (resPiece.content == "")
+                    {
+                        if (opperator == "p")
+                            resPiece.content = $"{int.Parse(numPieces[0].content) + int.Parse(numPieces[1].content)}";
+                        if (opperator == "m")
+                            resPiece.content = $"{int.Parse(numPieces[0].content) - int.Parse(numPieces[1].content)}";
+                    }
+
+                } while (false);
+                
+                totalPiecesList.AddRange(piecesList);
+
+            } while (allGroups.Count > 0);
+
+            await Task.Delay(1000);
+            
+            //Make puzzle pieces
+            //Shuffle
 
             return true;
         }
@@ -282,9 +366,9 @@ namespace Equation.Tools
 
         class Piece
         {
-            public int cellIndex;
-            public int index;
-            public string content;
+            public int cellIndex = -1;
+            public int index = -1;
+            public string content = "";
         }
     }
 }
