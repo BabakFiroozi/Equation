@@ -177,8 +177,12 @@ namespace Equation.Tools
 
             Group group = null;
 
+            int iter = 0;
             do
             {
+                if (iter++ == 5000)
+                    break;
+                
                 bool failed = false;
 
                 int listIndex = Random.Range(0, freeCellIndices.Count);
