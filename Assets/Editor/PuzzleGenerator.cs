@@ -78,7 +78,7 @@ namespace Equation.Tools
             float cellSize = 420f / _tableColumn;
             float tableHeight = tableWidth + Mathf.Abs(_tableColumn - _tableRow) * cellSize;
 
-            Rect tableRect = new Rect(140, 100, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
+            Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
             EditorGUI.DrawRect(tableRect, new Color(.8f, .7f, .4f, 1));
 
             _cellsList.Clear();
@@ -104,9 +104,13 @@ namespace Equation.Tools
             {
                 GeneratePattern();
             }
-            if (GUI.Button(new Rect(20, 40, 100, 20), "Pieces"))
+            if (GUI.Button(new Rect(20, 45, 100, 20), "Pieces"))
             {
                 GeneratePieces();
+            }
+            if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
+            {
+                ShufflePieces();
             }
 
             var groups = new List<Group>();
@@ -122,8 +126,8 @@ namespace Equation.Tools
                 }
             }
 
-            GUI.Label(new Rect(tableRect.x - 80, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
-            GUI.Label(new Rect(tableRect.x - 80, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
+            GUI.Label(new Rect(tableRect.x - 70, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
+            GUI.Label(new Rect(tableRect.x - 70, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
 
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
@@ -301,6 +305,7 @@ namespace Equation.Tools
             var allGroups = new List<Group>();
             var horGroupsList = _horGroups.ToList();
             var verGroupsList = _verGroups.ToList();
+            
             bool selectHor = false;
             do
             {
@@ -465,7 +470,7 @@ namespace Equation.Tools
             return !failed;
         }
 
-        void MakePuzzlesPieces(bool shuffle)
+        void ShufflePieces()
         {
             
         }
