@@ -7,15 +7,27 @@ namespace Equation
     {
         [SerializeField] TextMesh _textMesh;
         [SerializeField] MeshRenderer _meshRendere;
-        [SerializeField] Material[] _materials;
+        [SerializeField] Material[] _typeMateials;
+        [SerializeField] Material[] _stateMaterials;
         
         public Transform Trans { get; private set; }
 
-        public GameBoard.BoardCell Cell { get; private set; }
+        public BoardCell Cell { get; private set; }
         public string Content => _textMesh.text;
         public bool Movable { get; private set; }
 
-        public void SetCell(GameBoard.BoardCell cell, bool init = false)
+
+        PawnStates _state;
+
+        public PawnStates State => _state;
+
+        public void SetState(PawnStates state)
+        {
+            _state = state;
+            _meshRendere.material = _stateMaterials[(int) _state];
+        }
+
+        public void SetCell(BoardCell cell, bool init = false)
         {
             if (Cell != null)
                 Cell.Pawn = null;
@@ -29,14 +41,12 @@ namespace Equation
                 //Play sound
             }
         }
-        
+
         public void SetData(string content, bool movable)
         {
             _textMesh.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
-
-            if (!movable)
-                _meshRendere.material = _materials[1];
+            _meshRendere.material = !movable ? _typeMateials[0] : _typeMateials[1];
         }
 
         void Awake()
@@ -65,5 +75,12 @@ namespace Equation
             pos.z = z;
             Trans.position = pos;
         }
+    }
+
+    public enum PawnStates
+    {
+        Normal,
+        Right,
+        Wrong
     }
 }

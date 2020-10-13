@@ -8,16 +8,7 @@ namespace Equation
 {
     public class GameBoard : MonoBehaviour
     {
-        public class BoardCell
-        {
-            public int index;
-            public Vector3 pos;
-            public Pawn Pawn;
-        }
-        
         public static GameBoard Instance { get; private set; }
-        
-        
         
         [SerializeField] GameObject _pawnPrefab;
 
@@ -85,7 +76,7 @@ namespace Equation
                 float minDist = 1000;
                 BoardCell nearestCell = null;
                 Vector3 pos = draggedPawn.Trans.position;
-                var emptyCells = Cells.Where(c => c.Pawn == null);
+                var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                 foreach (var cell in emptyCells)
                 {
                     float dist = (pos - cell.pos).magnitude;
@@ -100,11 +91,40 @@ namespace Equation
             }
             
             _draggingPawn = pawn;
+
+            if (pawn == null)
+            {
+                bool horRes = ValidatePawns(false);
+                bool verRes = ValidatePawns(true);
+                if (horRes && verRes)
+                {
+                    FinishGame();
+                }
+            }
+        }
+        
+        bool ValidatePawns(bool forVer)
+        {
+            
+            return false;
+        }
+
+        void FinishGame()
+        {
+            
         }
         
         void OnDestroy()
         {
             Instance = null;
         }
+    }
+    
+    
+    public class BoardCell
+    {
+        public int index;
+        public Vector3 pos;
+        public Pawn Pawn;
     }
 }

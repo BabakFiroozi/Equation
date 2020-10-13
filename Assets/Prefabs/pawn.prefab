@@ -233,8 +233,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textMesh: {fileID: 3452324972880052363}
   _meshRendere: {fileID: 3452324973298635872}
-  _materials:
-  - {fileID: 2100000, guid: 1a75406f65f62444b880f4d18c78fb4a, type: 2}
+  _typeMateials:
   - {fileID: 2100000, guid: 5694f9c7434bc014abb313ad29550dd5, type: 2}
+  - {fileID: 2100000, guid: 1a75406f65f62444b880f4d18c78fb4a, type: 2}
+  _stateMaterials:
+  - {fileID: 2100000, guid: 1a75406f65f62444b880f4d18c78fb4a, type: 2}
   - {fileID: 2100000, guid: b4b81a74e903b9a45a041f20407eb8ba, type: 2}
   - {fileID: 2100000, guid: 9e8e73af9143a024da64a9823ced7354, type: 2}

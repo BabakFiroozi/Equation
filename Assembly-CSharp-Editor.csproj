@@ -350,11 +350,11 @@
  <Reference Include="DOTweenEditor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
  </Reference>
- <Reference Include="SimpleJSON">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/SimpleJSON.dll</HintPath>
- </Reference>
  <Reference Include="NBidi">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/NBidi.dll</HintPath>
+ </Reference>
+ <Reference Include="SimpleJSON">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/SimpleJSON.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
