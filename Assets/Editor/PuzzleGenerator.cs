@@ -505,12 +505,24 @@ namespace Equation.Tools
             return !failed;
         }
 
-        bool ShufflePuzzlePieces()
+        void ShufflePuzzlePieces()
+        {
+            while (!TryShufflePuzzlePieces())
+            {
+            }
+        }
+
+        bool TryShufflePuzzlePieces()
         {
             var hollowsList = _puzzlePieces.Where(p => p.type == PieceTypes.Hollow).ToList();
             var fixedsList = _puzzlePieces.Where(p => p.type == PieceTypes.Fixed).ToList();
             
-            int shuffleCount = fixedsList.Count / 3;
+            var horGroupsList = new List<List<int>>();
+            var verGroupsList = new List<List<int>>();
+            _horGroups.ForEach(g => horGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
+            _verGroups.ForEach(g => verGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
+
+            int shuffleCount = horGroupsList.Count + verGroupsList.Count;
 
             var holdsList = new List<int>();
             var heldsList = new List<int>();
@@ -535,6 +547,29 @@ namespace Equation.Tools
                 Debug.LogError("holdsList.Count and heldsList.Count must be equal");
                 return false;
             }
+
+
+            bool failed = false;
+            foreach (var g in horGroupsList)
+            {
+                if (!g.Intersect(heldsList).Any())
+                {
+                    failed = true;
+                    break;
+                }
+            }
+            foreach (var g in verGroupsList)
+            {
+                if (!g.Intersect(heldsList).Any())
+                {
+                    failed = true;
+                    break;
+                }
+            }
+
+            if (failed)
+                return false;
+            
 
             do
             {
