@@ -107,12 +107,12 @@ namespace Equation.Tools
 
             if (GUI.Button(new Rect(20, 45, 100, 20), "Pieces"))
             {
-                GeneratePieces();
+                GenerateSegments();
             }
 
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
-                ShufflePuzzlePieces();
+                ShuffleSegments();
             }
 
             var groups = new List<Group>();
@@ -138,22 +138,22 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontPersian;
             foreach (var cell in _allCellsList)
             {
-                foreach (var piece in _puzzlePieces)
+                foreach (var seg in _segments)
                 {
-                    if (cell.index == piece.cellIndex)
+                    if (cell.index == seg.cellIndex)
                     {
-                        if (piece.type != PieceTypes.Hollow)
+                        if (seg.type != SegmentTypes.Hollow)
                         {
-                            GUI.Label(cell.rect, CorrectOpperatorContent(piece.content));
-                            if (piece.type == PieceTypes.Fixed)
+                            GUI.Label(cell.rect, CorrectOpperatorContent(seg.content));
+                            if (seg.type == SegmentTypes.Fixed)
                                 EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
                         }
                         else
                         {
-                            if (piece.hold != -1)
+                            if (seg.hold != -1)
                             {
-                                var holdPiece = _puzzlePieces[piece.cellIndex];
-                                var holdCell = _allCellsList[piece.cellIndex];
+                                var holdPiece = _segments[seg.cellIndex];
+                                var holdCell = _allCellsList[seg.cellIndex];
                                 EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
                                 GUI.Label(holdCell.rect, CorrectOpperatorContent(holdPiece.content));
                             }
@@ -245,7 +245,7 @@ namespace Equation.Tools
             } while (groupCounter < _groupsCount);
 
             _totalPiecesList.Clear();
-            _puzzlePieces.Clear();
+            _segments.Clear();
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -306,14 +306,14 @@ namespace Equation.Tools
             return group;
         }
         
-        List<PuzzlePiece> _puzzlePieces = new List<PuzzlePiece>();
+        List<Segment> _segments = new List<Segment>();
 
-        void GeneratePieces()
+        void GenerateSegments()
         {
             int failedCounter = 0;
             while (true)
             {
-                bool succeed = TryGeneratePieces();
+                bool succeed = TryGenerateSegments();
                 if (succeed)
                     break;
                 failedCounter++;
@@ -321,19 +321,19 @@ namespace Equation.Tools
 
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
 
-            _puzzlePieces.Clear();
+            _segments.Clear();
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
                 var cell = _allCellsList[index];
                 var piece = _totalPiecesList.Find(p => p.cellIndex == cell.index);
                 if (piece != null && piece.cellIndex == cell.index)
-                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = piece.cellIndex, type = PieceTypes.Fixed, content = piece.content, hold = -1});
+                    _segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = -1});
                 else
-                    _puzzlePieces.Add(new PuzzlePiece {cellIndex = cell.index, type = PieceTypes.Hollow, content = "", hold = -1});
+                    _segments.Add(new Segment {cellIndex = cell.index, type = SegmentTypes.Hollow, content = "", hold = -1});
             }
         }
 
-        bool TryGeneratePieces()
+        bool TryGenerateSegments()
         {
             bool failed = false;
 
@@ -505,17 +505,17 @@ namespace Equation.Tools
             return !failed;
         }
 
-        void ShufflePuzzlePieces()
+        void ShuffleSegments()
         {
-            while (!TryShufflePuzzlePieces())
+            while (!TryShuffleSegments())
             {
             }
         }
 
-        bool TryShufflePuzzlePieces()
+        bool TryShuffleSegments()
         {
-            var hollowsList = _puzzlePieces.Where(p => p.type == PieceTypes.Hollow).ToList();
-            var fixedsList = _puzzlePieces.Where(p => p.type == PieceTypes.Fixed).ToList();
+            var hollowSegs = _segments.Where(s => s.type == SegmentTypes.Hollow).ToList();
+            var fixedSegs = _segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
             var horGroupsList = new List<List<int>>();
             var verGroupsList = new List<List<int>>();
@@ -529,16 +529,16 @@ namespace Equation.Tools
 
             do
             {
-                int index = Random.Range(0, hollowsList.Count);
-                holdsList.Add(hollowsList[index].cellIndex);
-                hollowsList.RemoveAt(index);
+                int index = Random.Range(0, hollowSegs.Count);
+                holdsList.Add(hollowSegs[index].cellIndex);
+                hollowSegs.RemoveAt(index);
             } while (holdsList.Count < shuffleCount);
             
             do
             {
-                int index = Random.Range(0, fixedsList.Count);
-                heldsList.Add(fixedsList[index].cellIndex);
-                fixedsList.RemoveAt(index);
+                int index = Random.Range(0, fixedSegs.Count);
+                heldsList.Add(fixedSegs[index].cellIndex);
+                fixedSegs.RemoveAt(index);
             } while (heldsList.Count < shuffleCount);
 
             
@@ -578,10 +578,10 @@ namespace Equation.Tools
                 holdsList.RemoveAt(0);
                 heldsList.RemoveAt(0);
 
-                _puzzlePieces[hold].hold = held;
-                _puzzlePieces[hold].content = _puzzlePieces[held].content;
-                _puzzlePieces[held].type = PieceTypes.Movable;
-                _puzzlePieces[held].content = "";
+                _segments[hold].hold = held;
+                _segments[hold].content = _segments[held].content;
+                _segments[held].type = SegmentTypes.Movable;
+                _segments[held].content = "";
                 
             } while (holdsList.Count > 0);
 

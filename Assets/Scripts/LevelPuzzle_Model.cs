@@ -11,18 +11,18 @@ namespace Equation.Models
     {
         public string mode;
         public string level;
-        public PuzzlePiece[] pieces;
+        public Segment[] segments;
     }
     
-    public class PuzzlePiece
+    public class Segment
     {
         public int cellIndex;
-        public PieceTypes type;
+        public SegmentTypes type;
         public string content;
         public int hold;
     }
 
-    public enum PieceTypes
+    public enum SegmentTypes
     {
         Hollow,
         Fixed,
