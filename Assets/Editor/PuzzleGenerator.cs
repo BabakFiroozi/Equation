@@ -74,8 +74,8 @@ namespace Equation.Tools
 
 
             const float cell_margine = 4;
-            float tableWidth = 420f;
-            float cellSize = 420f / _tableColumn;
+            float tableWidth = 360;
+            float cellSize = 360 / _tableColumn;
             float tableHeight = tableWidth + Mathf.Abs(_tableColumn - _tableRow) * cellSize;
 
             Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
@@ -133,7 +133,7 @@ namespace Equation.Tools
 
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
-            GUI.skin.label.fontSize = 30;
+            GUI.skin.label.fontSize = (int) (tableWidth / 360 * 24);
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
             GUI.skin.label.font = _fontPersian;
             foreach (var cell in _allCellsList)
