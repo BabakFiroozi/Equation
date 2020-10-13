@@ -339,17 +339,17 @@
  <Reference Include="DOTween">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
- <Reference Include="DOTweenEditor">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
+ <Reference Include="DOTween43">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
  </Reference>
  <Reference Include="DOTween46">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
  </Reference>
- <Reference Include="DOTween43">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
- </Reference>
  <Reference Include="DOTween50">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween50.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenEditor">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

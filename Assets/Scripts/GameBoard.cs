@@ -37,7 +37,7 @@ namespace Equation
         {
         }
 
-        void FixedUpdate()
+        void Update()
         {
             if (_draggingPiece != null)
             {

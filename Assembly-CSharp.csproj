@@ -322,11 +322,11 @@
  <Reference Include="DOTween">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
- <Reference Include="DOTween46">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
- </Reference>
  <Reference Include="DOTween43">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween46">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
  </Reference>
  <Reference Include="DOTween50">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween50.dll</HintPath>
