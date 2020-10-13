@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 486822052}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d220df9a7f344228fd6960ee6ff8fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _piecePrefab: {fileID: 0}
+  _pawnPrefab: {fileID: 1574292803}
 --- !u!1 &619067841
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +526,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!1 &1574292803 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3452324974505558160, guid: 6e0f0e7f3e73d744dbb644e415a0a473,
+    type: 3}
+  m_PrefabInstance: {fileID: 3452324974779511944}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3452324974779511944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -536,7 +542,7 @@ PrefabInstance:
     - target: {fileID: 3452324974505558160, guid: 6e0f0e7f3e73d744dbb644e415a0a473,
         type: 3}
       propertyPath: m_Name
-      value: piece
+      value: pawn
       objectReference: {fileID: 0}
     - target: {fileID: 3452324974505558162, guid: 6e0f0e7f3e73d744dbb644e415a0a473,
         type: 3}
@@ -551,7 +557,7 @@ PrefabInstance:
     - target: {fileID: 3452324974505558162, guid: 6e0f0e7f3e73d744dbb644e415a0a473,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 3452324974505558162, guid: 6e0f0e7f3e73d744dbb644e415a0a473,
         type: 3}

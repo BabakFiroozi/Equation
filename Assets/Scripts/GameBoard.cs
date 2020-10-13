@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Equation.Models;
 using UnityEngine;
 
 namespace Equation
@@ -8,24 +9,27 @@ namespace Equation
     {
         public class BoardCell
         {
+            public int index;
             public Vector3 pos;
-            public Piece piece;
+            public Pawn Pawn;
         }
         
         public static GameBoard Instance { get; private set; }
         
         
         
-        [SerializeField] Piece _piecePrefab;
+        [SerializeField] GameObject _pawnPrefab;
 
-        public List<Piece> Pieces { get; } = new List<Piece>();
+        public List<Pawn> Pawns { get; } = new List<Pawn>();
+
+        public List<BoardCell> BoardCells { get; } = new List<BoardCell>();
 
       
-        Piece _draggingPiece;
+        Pawn _draggingPawn;
 
-        public void SetDraggingPiece(Piece piece)
+        public void SetDraggingPiece(Pawn pawn)
         {
-            _draggingPiece = piece;
+            _draggingPawn = pawn;
         }
 
         void Awake()
@@ -35,11 +39,34 @@ namespace Equation
 
         void Start()
         {
+            GameLevels levelName = GameLevels.Beginner;
+            var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
+            var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
+            var puzzle = puzzlesPack.puzzles[0];
+
+            int columnsCount = 7;
+            Vector3 posOffset = _pawnPrefab.transform.position;
+            foreach (var seg in puzzle.segments)
+            {
+                var cell = new BoardCell();
+                cell.index = seg.cellIndex;
+                cell.pos = posOffset + new Vector3(seg.cellIndex % columnsCount, 0, -seg.cellIndex / columnsCount);
+
+                if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
+                {
+                    var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation);
+                    pieceObj.transform.position = cell.pos;
+                    var pawn = pieceObj.GetComponent<Pawn>();
+                    pawn.SetData(seg.cellIndex, seg.content, seg.type != SegmentTypes.Fixed);
+                    Pawns.Add(pawn);
+                }
+            }
+            _pawnPrefab.SetActive(false);
         }
 
         void Update()
         {
-            if (_draggingPiece != null)
+            if (_draggingPawn != null)
             {
                 Vector3 mousePos = Input.mousePosition;
                 var ray =  Camera.main.ScreenPointToRay(mousePos);
@@ -47,7 +74,7 @@ namespace Equation
                 if (castRes)
                 {
                     Vector3 putPos = hitInfo.point;
-                    _draggingPiece.Put(putPos.x, putPos.z);
+                    _draggingPawn.Put(putPos.x, putPos.z);
                 }
             }
         }

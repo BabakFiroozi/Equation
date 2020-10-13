@@ -36,5 +36,20 @@ namespace Equation
             return str;
         }
         
+        public static string CorrectOpperatorContent(string content)
+        {
+            if (content == "e")
+                content = "=";
+            if (content == "p")
+                content = "+";
+            if (content == "m")
+                content = "-";
+            if (content == "t")
+                content = "×";
+            if (content == "d")
+                content = "÷";
+            return content;
+        }
+        
     }
 }

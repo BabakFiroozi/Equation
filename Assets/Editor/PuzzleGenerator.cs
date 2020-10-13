@@ -156,7 +156,7 @@ namespace Equation.Tools
                     {
                         if (seg.type != SegmentTypes.Hollow)
                         {
-                            GUI.Label(cell.rect, CorrectOpperatorContent(seg.content));
+                            GUI.Label(cell.rect, HelperMethods.CorrectOpperatorContent(seg.content));
                             if (seg.type == SegmentTypes.Fixed)
                                 EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
                         }
@@ -167,7 +167,7 @@ namespace Equation.Tools
                                 var holdPiece = _puzzle.segments[seg.cellIndex];
                                 var holdCell = _allCellsList[seg.cellIndex];
                                 EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
-                                GUI.Label(holdCell.rect, CorrectOpperatorContent(holdPiece.content));
+                                GUI.Label(holdCell.rect, HelperMethods.CorrectOpperatorContent(holdPiece.content));
                             }
                         }
                     }
@@ -177,21 +177,6 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontEnglish;
             GUI.skin.label.fontSize = fontSize;
             GUI.skin.label.alignment = alignment;
-        }
-
-        string CorrectOpperatorContent(string content)
-        {
-            if (content == "e")
-                content = "=";
-            if (content == "p")
-                content = "+";
-            if (content == "m")
-                content = "-";
-            if (content == "t")
-                content = "×";
-            if (content == "d")
-                content = "÷";
-            return content;
         }
 
         void GeneratePattern()
@@ -337,7 +322,7 @@ namespace Equation.Tools
                 var cell = _allCellsList[index];
                 var piece = _allPiecesList.Find(p => p.cellIndex == cell.index);
                 if (piece != null && piece.cellIndex == cell.index)
-                    _puzzle.segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = -1});
+                    _puzzle.segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = piece.cellIndex});
                 else
                     _puzzle.segments.Add(new Segment {cellIndex = cell.index, type = SegmentTypes.Hollow, content = "", hold = -1});
             }
