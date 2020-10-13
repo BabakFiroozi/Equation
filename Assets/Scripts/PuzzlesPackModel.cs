@@ -3,11 +3,11 @@ using System.Collections;
 
 namespace Equation.Models
 {
-    public class LevelPuzzle_Model
+    public class PuzzlesPackModel
     {
-        public PuzzleData[] puzzles;
+        public Puzzle[] puzzles;
     }
-    public class PuzzleData
+    public class Puzzle
     {
         public string mode;
         public string level;

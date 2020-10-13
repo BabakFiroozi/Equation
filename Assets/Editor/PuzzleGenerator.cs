@@ -28,7 +28,7 @@ namespace Equation.Tools
 
         List<Cell> _allCellsList = new List<Cell>();
 
-        LevelPuzzle_Model _levelPuzzle;
+        PuzzlesPackModel _puzzlesPack;
 
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
