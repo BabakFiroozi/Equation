@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Equation.Models;
 using UnityEngine;
 
@@ -22,15 +23,10 @@ namespace Equation
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
 
-        public List<BoardCell> BoardCells { get; } = new List<BoardCell>();
+        public List<BoardCell> Cells { get; } = new List<BoardCell>();
 
       
         Pawn _draggingPawn;
-
-        public void SetDraggingPiece(Pawn pawn)
-        {
-            _draggingPawn = pawn;
-        }
 
         void Awake()
         {
@@ -51,13 +47,14 @@ namespace Equation
                 var cell = new BoardCell();
                 cell.index = seg.cellIndex;
                 cell.pos = posOffset + new Vector3(seg.cellIndex % columnsCount, 0, -seg.cellIndex / columnsCount);
+                Cells.Add(cell);
 
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
                 {
                     var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation);
-                    pieceObj.transform.position = cell.pos;
                     var pawn = pieceObj.GetComponent<Pawn>();
-                    pawn.SetData(seg.cellIndex, seg.content, seg.type != SegmentTypes.Fixed);
+                    pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
+                    pawn.SetCell(cell, true);
                     Pawns.Add(pawn);
                 }
             }
@@ -79,6 +76,31 @@ namespace Equation
             }
         }
         
+        public void SetDraggingPiece(Pawn pawn)
+        {
+            var draggedPawn = _draggingPawn;
+
+            if (pawn == null)
+            {
+                float minDist = 1000;
+                BoardCell nearestCell = null;
+                Vector3 pos = draggedPawn.Trans.position;
+                var emptyCells = Cells.Where(c => c.Pawn == null);
+                foreach (var cell in emptyCells)
+                {
+                    float dist = (pos - cell.pos).magnitude;
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        nearestCell = cell;
+                    }
+                }
+
+                draggedPawn.SetCell(nearestCell);
+            }
+            
+            _draggingPawn = pawn;
+        }
         
         void OnDestroy()
         {

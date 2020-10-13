@@ -11,13 +11,27 @@ namespace Equation
         
         public Transform Trans { get; private set; }
 
-        public int CellIndex { get; private set; }
+        public GameBoard.BoardCell Cell { get; private set; }
         public string Content => _textMesh.text;
         public bool Movable { get; private set; }
-        
-        public void SetData(int index, string content, bool movable)
+
+        public void SetCell(GameBoard.BoardCell cell, bool init = false)
         {
-            CellIndex = index;
+            if (Cell != null)
+                Cell.Pawn = null;
+            
+            Cell = cell;
+            Cell.Pawn = this;
+            Trans.position = cell.pos;
+
+            if (!init)
+            {
+                //Play sound
+            }
+        }
+        
+        public void SetData(string content, bool movable)
+        {
             _textMesh.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
 
@@ -25,7 +39,7 @@ namespace Equation
                 _meshRendere.material = _materials[1];
         }
 
-        void Start()
+        void Awake()
         {
             Trans = transform;
         }
