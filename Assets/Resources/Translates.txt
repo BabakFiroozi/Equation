@@ -1,0 +1,81 @@
+*Puzzle Modes*
+Easy=آسان
+Normal=متوسط
+Hard=سخت
+Extreme=بغرنج
+Nightmare=کابوس
+Daily=روزانه
+
+*Puzzle Levels*
+Beginner=مبتدی
+Moderate=زرنگ
+Skillfull=ماهر
+Genious=نابغه
+Professional=حرفه ای
+Veteran=کهنه کار
+Expert=متخصص
+Master=استاد
+Advanced=پیشرفته
+Talented=بااستعداد
+
+*Puzzle Subjects*
+Animal=حیوان
+Car=ماشین
+Body=اعضای بدن
+Fruit=میوه
+Bird=پرنده
+Color=رنگ
+Dried=خشکبار
+Job=شغل
+FLower=گل
+Month=ماه
+Natural=طبیعت
+Province=استان
+Tool=ابزار
+
+*Encourage*
+Superb1=معرکه بود
+Superb2=خیره کننده
+Superb3=خیلی عالی
+Superb4=فوق العاده
+Superb5=باشکوه
+Perfect1=عالی بود
+Perfect2=بسیار خوب
+Perfect3=شگفت انگیز
+Perfect4=ترکوندی
+Perfect5=خیلی باهوشی
+Good1=خوب بود
+Good2=دیدنی بود
+Good3=نابودش کردی
+Good4=واردیا
+Good5=مهارت داری
+Ordinary1=بد نبود
+Ordinary2=بیشتر فکر کن
+Ordinary3=بهترم میتونست باشه
+Ordinary4=جالب نبود
+Ordinary5=زیاد خوب نبود
+
+*Clauses*
+Level=سطح
+In_Every_Stage=تو هر مرحله ای
+You_Already_Solved=قبلا حلش کرده بودی
+Solved_Move=حرکت حل شد
+With=با
+Old_Record=رکورد قبلی
+Entrance=ورودی
+You_Have=انقدر داری
+Medal=مدال
+
+Ok=باشه
+Ready=آماده ام
+Enter=ورود
+
+More_Quests_Comming_Soon=بقیه ماموریت ها به زودی
+You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
+You_Already_Signed_Up=شما قبلا ثبت نام کردید
+You_Need_To_Register=برای درج رکورد باید ثبت نام کنید
+
+Yor_Purchase_Failed=خرید شما ناموفق بود
+Thanks_For_Your_Purchase=ممنون از خرید شما
+Cross_Sign=×
+Day=روز

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Equation
 {
-
 	public static class LayerMaskUtil
 	{
 		public static int GetLayerMask(int layer)
@@ -19,5 +18,5 @@ namespace Equation
 			return layerMask;
 		}
 	}
-}
 
+}

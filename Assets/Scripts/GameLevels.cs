@@ -1,4 +1,4 @@
-﻿namespace Equation.Tools
+﻿namespace Equation
 {
     public enum GameLevels
     {
@@ -11,6 +11,13 @@
         Veteran,
         Expert,
         Master,
+        Count
+    }
+
+    public enum GameModes
+    {
+        None = -1,
+        Easy,
         Count
     }
 }

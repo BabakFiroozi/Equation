@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Equation.Models
 {
+    [Serializable]
     public class PuzzlesPackModel
     {
-        public Puzzle[] puzzles;
-    }
-    public class Puzzle
-    {
-        public string mode;
-        public string level;
-        public Segment[] segments;
+        public GameLevels level;
+        public List<Puzzle> puzzles;
     }
     
+    [Serializable]
+    public class Puzzle
+    {
+        public string id;
+        public List<Segment> segments;
+    }
+    
+    [Serializable]
     public class Segment
     {
         public int cellIndex;
@@ -22,6 +27,7 @@ namespace Equation.Models
         public int hold;
     }
 
+    [Serializable]
     public enum SegmentTypes
     {
         Hollow,

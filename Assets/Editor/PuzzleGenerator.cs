@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -32,16 +33,20 @@ namespace Equation.Tools
         List<Cell> _allCellsList = new List<Cell>();
         List<Piece> _allPiecesList = new List<Piece>();
 
-        List<Segment> _segments = new List<Segment>();
-
+        Puzzle _puzzle;
         PuzzlesPackModel _puzzlesPack;
         
-
         Font _fontPersian;
         Font _fontEnglish;
+        
+        public const string SAVE_PATH = "Resources/Puzzles";
+        GameLevels _saveGameLevel;
 
         void Awake()
         {
+            _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
+            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), segments = new List<Segment>()};
+            
             _tableColumn = PlayerPrefs.GetInt("PuzzleGenerator_tableColumn", _tableColumn);
             _tableRow = PlayerPrefs.GetInt("PuzzleGenerator__tableRow", _tableRow);
             _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator__groupsCount", _groupsCount);
@@ -132,6 +137,11 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(tableRect.x - 70, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 70, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
+            
+            if (GUI.Button(new Rect(600, 20, 100, 20), "Save"))
+            {
+                SavePuzzles();
+            }
 
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
@@ -140,7 +150,7 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontPersian;
             foreach (var cell in _allCellsList)
             {
-                foreach (var seg in _segments)
+                foreach (var seg in _puzzle.segments)
                 {
                     if (cell.index == seg.cellIndex)
                     {
@@ -154,7 +164,7 @@ namespace Equation.Tools
                         {
                             if (seg.hold != -1)
                             {
-                                var holdPiece = _segments[seg.cellIndex];
+                                var holdPiece = _puzzle.segments[seg.cellIndex];
                                 var holdCell = _allCellsList[seg.cellIndex];
                                 EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
                                 GUI.Label(holdCell.rect, CorrectOpperatorContent(holdPiece.content));
@@ -247,7 +257,7 @@ namespace Equation.Tools
             } while (groupCounter < _groupsCount);
 
             _allPiecesList.Clear();
-            _segments.Clear();
+            _puzzle.segments.Clear();
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -322,15 +332,14 @@ namespace Equation.Tools
 
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
 
-            _segments.Clear();
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
                 var cell = _allCellsList[index];
                 var piece = _allPiecesList.Find(p => p.cellIndex == cell.index);
                 if (piece != null && piece.cellIndex == cell.index)
-                    _segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = -1});
+                    _puzzle.segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = -1});
                 else
-                    _segments.Add(new Segment {cellIndex = cell.index, type = SegmentTypes.Hollow, content = "", hold = -1});
+                    _puzzle.segments.Add(new Segment {cellIndex = cell.index, type = SegmentTypes.Hollow, content = "", hold = -1});
             }
         }
 
@@ -511,12 +520,16 @@ namespace Equation.Tools
             while (!TryShuffleSegments())
             {
             }
+
+            if (_puzzlesPack.puzzles.Select(p => p.id).Contains(_puzzle.id))
+                return;
+            _puzzlesPack.puzzles.Add(_puzzle);
         }
 
         bool TryShuffleSegments()
         {
-            var hollowSegs = _segments.Where(s => s.type == SegmentTypes.Hollow).ToList();
-            var fixedSegs = _segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
+            var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow).ToList();
+            var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
             var horGroupsList = new List<List<int>>();
             var verGroupsList = new List<List<int>>();
@@ -579,16 +592,58 @@ namespace Equation.Tools
                 holdsList.RemoveAt(0);
                 heldsList.RemoveAt(0);
 
-                _segments[hold].hold = held;
-                _segments[hold].content = _segments[held].content;
-                _segments[held].type = SegmentTypes.Movable;
-                _segments[held].content = "";
+                _puzzle.segments[hold].hold = held;
+                _puzzle.segments[hold].content = _puzzle.segments[held].content;
+                _puzzle.segments[held].type = SegmentTypes.Movable;
+                _puzzle.segments[held].content = "";
                 
             } while (holdsList.Count > 0);
 
             return true;
         }
+        
+        
+        
+        Dictionary<string, string> _translateDic = new Dictionary<string, string>();
+        void InitTranslateDic()
+        {
+            _translateDic.Clear();
+            string dataPath = Application.dataPath;
+            var translateLines = File.ReadAllLines(dataPath + "/Resources/Translates.txt");
+            foreach (var line in translateLines)
+            {
+                if (line.StartsWith("*") || line.StartsWith(" ") || line == "")
+                    continue;
+                var strsArr = line.Split('=');
+                _translateDic[strsArr[0]] = strsArr[1];
+            }
+        }
 
+        string GetTranslate(string key)
+        {
+            if (_translateDic.ContainsKey(key))
+                return _translateDic[key];
+            return key;
+        }
+
+
+        void SavePuzzles()
+        {
+            try
+            {
+                _puzzlesPack.level = _saveGameLevel;
+
+                string savePath = $"{Application.dataPath}/{SAVE_PATH}/{_saveGameLevel}.json";
+                File.WriteAllText(savePath, JsonUtility.ToJson(_puzzlesPack));
+                //Import asset again for updating file
+                string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel}.json";
+                AssetDatabase.ImportAsset(filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+        }
 
         class Cell
         {
