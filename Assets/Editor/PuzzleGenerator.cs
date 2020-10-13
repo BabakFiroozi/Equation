@@ -26,14 +26,16 @@ namespace Equation.Tools
         int _tableRow = 8;
         int _groupsCount = 3;
 
-        List<Cell> _allCellsList = new List<Cell>();
-
-        PuzzlesPackModel _puzzlesPack;
-
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
         
-        List<Piece> _totalPiecesList = new List<Piece>();
+        List<Cell> _allCellsList = new List<Cell>();
+        List<Piece> _allPiecesList = new List<Piece>();
+
+        List<Segment> _segments = new List<Segment>();
+
+        PuzzlesPackModel _puzzlesPack;
+        
 
         Font _fontPersian;
         Font _fontEnglish;
@@ -244,7 +246,7 @@ namespace Equation.Tools
                 groupCounter++;
             } while (groupCounter < _groupsCount);
 
-            _totalPiecesList.Clear();
+            _allPiecesList.Clear();
             _segments.Clear();
         }
 
@@ -306,7 +308,6 @@ namespace Equation.Tools
             return group;
         }
         
-        List<Segment> _segments = new List<Segment>();
 
         void GenerateSegments()
         {
@@ -325,7 +326,7 @@ namespace Equation.Tools
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
                 var cell = _allCellsList[index];
-                var piece = _totalPiecesList.Find(p => p.cellIndex == cell.index);
+                var piece = _allPiecesList.Find(p => p.cellIndex == cell.index);
                 if (piece != null && piece.cellIndex == cell.index)
                     _segments.Add(new Segment {cellIndex = piece.cellIndex, type = SegmentTypes.Fixed, content = piece.content, hold = -1});
                 else
@@ -367,7 +368,7 @@ namespace Equation.Tools
             int numberMin = 1;
             int numberMax = 10;
 
-            _totalPiecesList.Clear();
+            _allPiecesList.Clear();
 
             do
             {
@@ -397,7 +398,7 @@ namespace Equation.Tools
 
                 var resPiece = piecesList.Find(p => !oppPieces.Contains(p) && !numPieces.Contains(p));
 
-                foreach (var p1 in _totalPiecesList)
+                foreach (var p1 in _allPiecesList)
                 {
                     foreach (var p2 in numPieces)
                     {
@@ -493,11 +494,11 @@ namespace Equation.Tools
                 if (loopIter >= max_iterate)
                 {
                     failed = true;
-                    _totalPiecesList.Clear();
+                    _allPiecesList.Clear();
                     break;
                 }
 
-                _totalPiecesList.AddRange(piecesList);
+                _allPiecesList.AddRange(piecesList);
                 allGroups.RemoveAt(0);
 
             } while (allGroups.Count > 0);
