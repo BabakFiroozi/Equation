@@ -94,8 +94,8 @@ namespace Equation
 
             if (pawn == null)
             {
-                bool horRes = ValidatePawns(false);
-                bool verRes = ValidatePawns(true);
+                bool horRes = ProcessTable(false);
+                bool verRes = ProcessTable(true);
                 if (horRes && verRes)
                 {
                     FinishGame();
@@ -103,7 +103,7 @@ namespace Equation
             }
         }
         
-        bool ValidatePawns(bool forVer)
+        bool ProcessTable(bool vertcal)
         {
             
             return false;
