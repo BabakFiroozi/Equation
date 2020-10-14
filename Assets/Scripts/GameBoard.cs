@@ -94,14 +94,31 @@ namespace Equation
 
             if (pawn == null)
             {
-                bool horRes = ProcessTable(true);
-                bool verRes = ProcessTable(false);
-                if(Pawns.All(p => p.State == PawnStates.Right))
-                    FinishGame();
+                ProcessTable();
             }
         }
-        
-        bool ProcessTable(bool horizontally)
+
+        void ProcessTable()
+        {
+            var statePawnsDic = new Dictionary<Pawn, bool>();
+            ProcessTable(true, statePawnsDic);
+            foreach (var pair in statePawnsDic)
+                pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
+
+            var otherPawns = Pawns.Where(p => !statePawnsDic.ContainsKey(p)).ToList();
+            foreach (var p in otherPawns)
+                p.SetState(PawnStates.Normal);
+
+            statePawnsDic.Clear();
+            ProcessTable(false, statePawnsDic);
+            foreach (var pair in statePawnsDic)
+                pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
+            
+            if (Pawns.All(p => p.State == PawnStates.Right))
+                FinishGame();
+        }
+
+        void ProcessTable(bool horizontally, Dictionary<Pawn, bool> statePawnsDic)
         {
             int cols = 7;
             int rows = 10;
@@ -127,9 +144,6 @@ namespace Equation
                         continue;
                     }
 
-                    if (pawn.State != PawnStates.Right)
-                        pawn.SetState(PawnStates.Normal);
-                    
                     bool parsed = int.TryParse(pawn.Content, out var number);
 
                     if (pawnsList.Count % 2 == 0 && !parsed || pawnsList.Count % 2 != 0 && parsed)
@@ -175,11 +189,9 @@ namespace Equation
 
                     if(res != 0 && numRes != 0)
                         foreach (var pawn in pawnsList)
-                            pawn.SetState(res == numRes ? PawnStates.Right : PawnStates.Wrong);
+                            statePawnsDic.Add(pawn, res == numRes);
                 }
             }
-            
-            return false;
         }
 
         void FinishGame()
