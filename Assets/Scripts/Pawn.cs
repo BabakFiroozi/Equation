@@ -8,12 +8,12 @@ namespace Equation
         [SerializeField] TextMesh _textMesh;
         [SerializeField] MeshRenderer _meshRendere;
         [SerializeField] Material[] _typeMateials;
-        [SerializeField] Material[] _stateMaterials;
+        [SerializeField] Color[] _stateColors;
         
         public Transform Trans { get; private set; }
 
         public BoardCell Cell { get; private set; }
-        public string Content => _textMesh.text;
+        public string Content { get; private set; }
         public bool Movable { get; private set; }
 
 
@@ -24,7 +24,7 @@ namespace Equation
         public void SetState(PawnStates state)
         {
             _state = state;
-            _meshRendere.material = _stateMaterials[(int) _state];
+            _meshRendere.material.color = _stateColors[(int) state];
         }
 
         public void SetCell(BoardCell cell, bool init = false)
@@ -44,6 +44,7 @@ namespace Equation
 
         public void SetData(string content, bool movable)
         {
+            Content = content;
             _textMesh.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
             _meshRendere.material = !movable ? _typeMateials[0] : _typeMateials[1];

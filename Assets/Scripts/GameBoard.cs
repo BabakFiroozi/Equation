@@ -95,23 +95,90 @@ namespace Equation
             if (pawn == null)
             {
                 bool horRes = ProcessTable(false);
-                bool verRes = ProcessTable(true);
-                if (horRes && verRes)
-                {
+                // bool verRes = ProcessTable(true);
+                if(Pawns.All(p => p.State == PawnStates.Right))
                     FinishGame();
-                }
             }
         }
         
-        bool ProcessTable(bool vertcal)
+        bool ProcessTable(bool vert)
         {
+            int cols = 7;
+            int rows = 10;
+
+            var pawnsList = new List<Pawn>();
+            
+            for (int r = 0; r < cols * rows; r += cols)
+            {
+                pawnsList.Clear();
+                for (int c = 0; c < cols; ++c)
+                {
+                    var cell = Cells[r + c];
+                    var pawn = cell.Pawn;
+                    if (pawn == null)
+                    {
+                        pawnsList.Clear();
+                        continue;
+                    }
+
+                    pawn.SetState(PawnStates.Normal);
+                    
+                    bool parsed = int.TryParse(pawn.Content, out var number);
+
+                    if (pawnsList.Count % 2 == 0 && !parsed || pawnsList.Count % 2 != 0 && parsed)
+                    {
+                        pawnsList.Clear();
+                        continue;
+                    }
+
+                    pawnsList.Add(pawn);
+                    if (pawnsList.Count == 5)
+                        break;
+                }
+
+                if (pawnsList.Count == 5)
+                {
+                    int num1 = 0, num2 = 0, numRes = 0;
+                    int eqIndex = pawnsList.FindIndex(p => p.Content == "e");
+                    string opp = "";
+                    if (eqIndex == 1)
+                    {
+                        numRes = int.Parse(pawnsList[0].Content);
+                        num1 = int.Parse(pawnsList[2].Content);
+                        opp = pawnsList[3].Content;
+                        num2 = int.Parse(pawnsList[4].Content);
+                    }
+                    if (eqIndex == 3)
+                    {
+                        num1 = int.Parse(pawnsList[0].Content);
+                        opp = pawnsList[1].Content;
+                        num2 = int.Parse(pawnsList[2].Content);
+                        numRes = int.Parse(pawnsList[4].Content);
+                    }
+
+                    int res = 0;
+                    if (opp == "p")
+                        res = num1 + num2;
+                    if (opp == "m")
+                        res = num1 - num2;
+                    if (opp == "t")
+                        res = num1 * num2;
+                    if (opp == "d")
+                        res = num1 / num2;
+
+                    if(res != 0 && numRes != 0)
+                        foreach (var pawn in pawnsList)
+                            pawn.SetState(res == numRes ? PawnStates.Right : PawnStates.Wrong);
+
+                }
+            }
             
             return false;
         }
 
         void FinishGame()
         {
-            
+            Debug.Log("<color=green>Game Finished!!!</color>");
         }
         
         void OnDestroy()
