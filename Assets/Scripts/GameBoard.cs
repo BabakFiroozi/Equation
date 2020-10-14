@@ -136,10 +136,11 @@ namespace Equation
             int colStep = horizontally ? 1 : cols;
 
             var pawnsList = new List<Pawn>();
-            
+
             for (int r = 0; r < rowsCount; r += rowStep)
             {
                 pawnsList.Clear();
+                
                 for (int c = horizontally ? 0 : r; c < colsCount; c += colStep)
                 {
                     var cell = Cells[r + c];
@@ -171,6 +172,7 @@ namespace Equation
                             opp = pawnsList[3].Content;
                             num2 = int.Parse(pawnsList[4].Content);
                         }
+
                         if (eqIndex == 3)
                         {
                             num1 = int.Parse(pawnsList[0].Content);
@@ -189,15 +191,14 @@ namespace Equation
                         if (opp == "d")
                             res = num1 / num2;
 
-                        if(res != 0 && numRes != 0)
+                        if (res != 0 && numRes != 0)
                             foreach (var p in pawnsList)
                                 statePawnsDic.Add(p, res == numRes);
+                        
+                        pawnsList.Clear();
                     }
-                    
-                    pawnsList.Clear();
-                }
 
-                
+                }
             }
         }
 
