@@ -68,7 +68,7 @@ namespace Equation
                 }
             }
         }
-        
+
         public void SetDraggingPiece(Pawn pawn)
         {
             var draggedPawn = _draggingPawn;
@@ -91,13 +91,10 @@ namespace Equation
 
                 draggedPawn.SetCell(nearestCell);
             }
-            
+
             _draggingPawn = pawn;
 
-            if (pawn == null)
-            {
-                ProcessTable();
-            }
+            ProcessTable();
         }
 
         void ProcessTable()
@@ -140,12 +137,18 @@ namespace Equation
             for (int r = 0; r < rowsCount; r += rowStep)
             {
                 pawnsList.Clear();
-                
+
                 for (int c = horizontally ? 0 : r; c < colsCount; c += colStep)
                 {
                     var cell = Cells[r + c];
                     var pawn = cell.Pawn;
                     if (pawn == null)
+                    {
+                        pawnsList.Clear();
+                        continue;
+                    }
+
+                    if (pawn == _draggingPawn)
                     {
                         pawnsList.Clear();
                         continue;
@@ -160,7 +163,7 @@ namespace Equation
                     }
 
                     pawnsList.Add(pawn);
-                    if (pawnsList.Count == 5)
+                    if (pawnsList.Count == 5 && pawnsList.Exists(p => p.Content == "e"))
                     {
                         int num1 = 0, num2 = 0, numRes = 0;
                         int eqIndex = pawnsList.FindIndex(p => p.Content == "e");
@@ -191,10 +194,9 @@ namespace Equation
                         if (opp == "d")
                             res = num1 / num2;
 
-                        if (res != 0 && numRes != 0)
-                            foreach (var p in pawnsList)
-                                statePawnsDic.Add(p, res == numRes);
-                        
+                        foreach (var p in pawnsList)
+                            statePawnsDic.Add(p, res == numRes);
+
                         pawnsList.Clear();
                     }
 
