@@ -94,6 +94,7 @@ namespace Equation
 
             _draggingPawn = pawn;
 
+            if(pawn == null)
             ProcessTable();
         }
 
@@ -127,17 +128,19 @@ namespace Equation
             int cols = _puzzle.columns;
 
             int rowsCount = horizontally ? cols * rows : cols;
-            int colsCount = horizontally ? cols : (cols - 1) * rows;
+            int colsCount = horizontally ? cols : (rows - 1) * cols;
 
             int rowStep = horizontally ? cols : 1;
             int colStep = horizontally ? 1 : cols;
 
             var pawnsList = new List<Pawn>();
+            int lastNumIndex = -1;
 
             for (int r = 0; r < rowsCount; r += rowStep)
             {
                 pawnsList.Clear();
-
+                lastNumIndex = -1;
+                
                 for (int c = horizontally ? 0 : r; c < colsCount; c += colStep)
                 {
                     var cell = Cells[r + c];
@@ -145,12 +148,14 @@ namespace Equation
                     if (pawn == null)
                     {
                         pawnsList.Clear();
+                        lastNumIndex = -1;
                         continue;
                     }
 
                     if (pawn == _draggingPawn)
                     {
                         pawnsList.Clear();
+                        lastNumIndex = -1;
                         continue;
                     }
 
@@ -159,10 +164,19 @@ namespace Equation
                     if (pawnsList.Count % 2 == 0 && !parsed || pawnsList.Count % 2 != 0 && parsed)
                     {
                         pawnsList.Clear();
+                        if (lastNumIndex != -1)
+                        {
+                            c = lastNumIndex;
+                            lastNumIndex = -1;
+                        }
                         continue;
                     }
 
+                    if (parsed)
+                        lastNumIndex = c;
+
                     pawnsList.Add(pawn);
+
                     if (pawnsList.Count == 5 && pawnsList.Exists(p => p.Content == "e"))
                     {
                         int num1 = 0, num2 = 0, numRes = 0;
@@ -198,6 +212,7 @@ namespace Equation
                             statePawnsDic[p] = res == numRes;
 
                         pawnsList.Clear();
+                        lastNumIndex = -1;
                     }
 
                 }
