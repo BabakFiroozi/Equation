@@ -23,8 +23,8 @@ namespace Equation.Tools
         const int Window_Width = 840;
         const int Window_Height = 720;
 
-        int _tableColumn = 8;
-        int _tableRow = 8;
+        int _colsCount = 8;
+        int _rowsCount = 8;
         int _groupsCount = 3;
 
         List<Group> _horGroups = new List<Group>();
@@ -44,19 +44,19 @@ namespace Equation.Tools
 
         void Awake()
         {
-            _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
-            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), segments = new List<Segment>()};
+            _colsCount = PlayerPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
+            _rowsCount = PlayerPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
+            _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
             
-            _tableColumn = PlayerPrefs.GetInt("PuzzleGenerator_tableColumn", _tableColumn);
-            _tableRow = PlayerPrefs.GetInt("PuzzleGenerator__tableRow", _tableRow);
-            _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator__groupsCount", _groupsCount);
+            _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
+            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
         }
 
         void OnDestroy()
         {
-            PlayerPrefs.SetInt("PuzzleGenerator_tableColumn", _tableColumn);
-            PlayerPrefs.SetInt("PuzzleGenerator__tableRow", _tableRow);
-            PlayerPrefs.SetInt("PuzzleGenerator__groupsCount", _groupsCount);
+            PlayerPrefs.SetInt("PuzzleGenerator_colsCount", _colsCount);
+            PlayerPrefs.SetInt("PuzzleGenerator_rowsCount", _rowsCount);
+            PlayerPrefs.SetInt("PuzzleGenerator_groupsCount", _groupsCount);
         }
 
 
@@ -69,12 +69,12 @@ namespace Equation.Tools
             }
 
             GUI.Label(new Rect(160, 20, 30, 20), "Row");
-            _tableRow = EditorGUI.IntField(new Rect(160 + 30, 20, 30, 20), _tableRow);
+            _rowsCount = EditorGUI.IntField(new Rect(160 + 30, 20, 30, 20), _rowsCount);
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
-            _tableColumn = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _tableColumn);
+            _colsCount = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _colsCount);
 
-            _tableRow = Mathf.Clamp(_tableRow, 5, 12);
-            _tableColumn = Mathf.Clamp(_tableColumn, 5, 10);
+            _rowsCount = Mathf.Clamp(_rowsCount, 5, 12);
+            _colsCount = Mathf.Clamp(_colsCount, 5, 10);
 
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
@@ -82,15 +82,15 @@ namespace Equation.Tools
 
             const float cell_margine = 4;
             float tableWidth = 360;
-            float cellSize = 360 / _tableColumn;
-            float tableHeight = tableWidth + Mathf.Abs(_tableColumn - _tableRow) * cellSize;
+            float cellSize = 360 / _colsCount;
+            float tableHeight = tableWidth + Mathf.Abs(_colsCount - _rowsCount) * cellSize;
 
             Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
             EditorGUI.DrawRect(tableRect, new Color(.8f, .7f, .4f, 1));
 
             _allCellsList.Clear();
             Vector2 cellPos = new Vector2(tableRect.x, tableRect.y);
-            for (int i = 0; i < _tableRow * _tableColumn; i++)
+            for (int i = 0; i < _rowsCount * _colsCount; i++)
             {
                 Rect rect = new Rect(cellPos.x + cell_margine, cellPos.y + cell_margine, cellSize - cell_margine / 2, cellSize - cell_margine / 2);
                 EditorGUI.DrawRect(rect, new Color(.7f, .5f, .3f, 1));
@@ -100,7 +100,7 @@ namespace Equation.Tools
 
                 cellPos.x += cellSize;
 
-                if ((i + 1) % _tableColumn == 0)
+                if ((i + 1) % _colsCount == 0)
                 {
                     cellPos.y += cellSize;
                     cellPos.x = tableRect.x;
@@ -265,23 +265,23 @@ namespace Equation.Tools
                 int cellIndex = freeCellIndices[listIndex];
                 if (isHor)
                 {
-                    int horCellIndex = cellIndex % _tableColumn;
+                    int horCellIndex = cellIndex % _colsCount;
 
-                    if (horCellIndex > _tableColumn - eq_len)
+                    if (horCellIndex > _colsCount - eq_len)
                         continue;
                 }
                 else
                 {
-                    int verCellIndex = cellIndex / _tableColumn;
+                    int verCellIndex = cellIndex / _colsCount;
 
-                    if (verCellIndex > _tableRow - eq_len)
+                    if (verCellIndex > _rowsCount - eq_len)
                         continue;
                 }
 
                 var parts = new List<Part>();
                 for (int i = 0; i < eq_len; ++i)
                 {
-                    var part = new Part {cellIndex = cellIndex + i * (isHor ? 1 : _tableColumn), index = i};
+                    var part = new Part {cellIndex = cellIndex + i * (isHor ? 1 : _colsCount), index = i};
 
                     if (!freeCellIndices.Contains(part.cellIndex))
                     {

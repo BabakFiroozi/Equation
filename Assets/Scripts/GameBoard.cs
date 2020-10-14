@@ -19,6 +19,8 @@ namespace Equation
       
         Pawn _draggingPawn;
 
+        Puzzle puzzle;
+        
         void Awake()
         {
             Instance = this;
@@ -29,7 +31,7 @@ namespace Equation
             GameLevels levelName = GameLevels.Beginner;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
-            var puzzle = puzzlesPack.puzzles[0];
+            puzzle = puzzlesPack.puzzles[0];
 
             int columnsCount = 7;
             Vector3 posOffset = _pawnPrefab.transform.position;
@@ -100,19 +102,23 @@ namespace Equation
 
         void ProcessTable()
         {
-            var statePawnsDic = new Dictionary<Pawn, bool>();
-            ProcessTable(true, statePawnsDic);
-            foreach (var pair in statePawnsDic)
+            var horDic = new Dictionary<Pawn, bool>();
+            ProcessTable(true, horDic);
+            foreach (var pair in horDic)
                 pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
 
-            var otherPawns = Pawns.Where(p => !statePawnsDic.ContainsKey(p)).ToList();
+            var otherPawns = Pawns.Where(p => !horDic.ContainsKey(p)).ToList();
             foreach (var p in otherPawns)
                 p.SetState(PawnStates.Normal);
 
-            statePawnsDic.Clear();
-            ProcessTable(false, statePawnsDic);
-            foreach (var pair in statePawnsDic)
+            var verDic = new Dictionary<Pawn, bool>();
+            ProcessTable(false, verDic);
+            foreach (var pair in verDic)
+            {
+                if(horDic.ContainsKey(pair.Key))
+                    continue;
                 pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
+            }
             
             if (Pawns.All(p => p.State == PawnStates.Right))
                 FinishGame();
@@ -120,8 +126,8 @@ namespace Equation
 
         void ProcessTable(bool horizontally, Dictionary<Pawn, bool> statePawnsDic)
         {
-            int cols = 7;
-            int rows = 10;
+            int rows = puzzle.rows;
+            int cols = puzzle.columns;
 
             int rowsCount = horizontally ? cols * rows : cols;
             int colsCount = horizontally ? cols : (cols - 1) * rows;
@@ -154,43 +160,44 @@ namespace Equation
 
                     pawnsList.Add(pawn);
                     if (pawnsList.Count == 5)
-                        break;
+                    {
+                        int num1 = 0, num2 = 0, numRes = 0;
+                        int eqIndex = pawnsList.FindIndex(p => p.Content == "e");
+                        string opp = "";
+                        if (eqIndex == 1)
+                        {
+                            numRes = int.Parse(pawnsList[0].Content);
+                            num1 = int.Parse(pawnsList[2].Content);
+                            opp = pawnsList[3].Content;
+                            num2 = int.Parse(pawnsList[4].Content);
+                        }
+                        if (eqIndex == 3)
+                        {
+                            num1 = int.Parse(pawnsList[0].Content);
+                            opp = pawnsList[1].Content;
+                            num2 = int.Parse(pawnsList[2].Content);
+                            numRes = int.Parse(pawnsList[4].Content);
+                        }
+
+                        int res = 0;
+                        if (opp == "p")
+                            res = num1 + num2;
+                        if (opp == "m")
+                            res = num1 - num2;
+                        if (opp == "t")
+                            res = num1 * num2;
+                        if (opp == "d")
+                            res = num1 / num2;
+
+                        if(res != 0 && numRes != 0)
+                            foreach (var p in pawnsList)
+                                statePawnsDic.Add(p, res == numRes);
+                    }
+                    
+                    pawnsList.Clear();
                 }
 
-                if (pawnsList.Count == 5)
-                {
-                    int num1 = 0, num2 = 0, numRes = 0;
-                    int eqIndex = pawnsList.FindIndex(p => p.Content == "e");
-                    string opp = "";
-                    if (eqIndex == 1)
-                    {
-                        numRes = int.Parse(pawnsList[0].Content);
-                        num1 = int.Parse(pawnsList[2].Content);
-                        opp = pawnsList[3].Content;
-                        num2 = int.Parse(pawnsList[4].Content);
-                    }
-                    if (eqIndex == 3)
-                    {
-                        num1 = int.Parse(pawnsList[0].Content);
-                        opp = pawnsList[1].Content;
-                        num2 = int.Parse(pawnsList[2].Content);
-                        numRes = int.Parse(pawnsList[4].Content);
-                    }
-
-                    int res = 0;
-                    if (opp == "p")
-                        res = num1 + num2;
-                    if (opp == "m")
-                        res = num1 - num2;
-                    if (opp == "t")
-                        res = num1 * num2;
-                    if (opp == "d")
-                        res = num1 / num2;
-
-                    if(res != 0 && numRes != 0)
-                        foreach (var pawn in pawnsList)
-                            statePawnsDic.Add(pawn, res == numRes);
-                }
+                
             }
         }
 

@@ -15,6 +15,8 @@ namespace Equation.Models
     public class Puzzle
     {
         public string id;
+        public int rows;
+        public int columns;
         public List<Segment> segments;
     }
     
