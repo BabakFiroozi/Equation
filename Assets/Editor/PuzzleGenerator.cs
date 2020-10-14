@@ -29,8 +29,8 @@ namespace Equation.Tools
         const int Window_Width = 840;
         const int Window_Height = 720;
 
-        int _colsCount = 11;
-        int _rowsCount = 8;
+        int _rowsCount = 11;
+        int _colsCount = 8;
         int _groupsCount = 3;
 
         List<Group> _horGroups = new List<Group>();
