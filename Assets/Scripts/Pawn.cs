@@ -78,7 +78,7 @@ namespace Equation
             if (!_mousIsDown)
                 return;
 
-            float sens = (Screen.width + Screen.height) / 100f;
+            float sens = Screen.width * (20f / 720);
             
             if((_mousePos - Input.mousePosition).magnitude < sens)
                 return;

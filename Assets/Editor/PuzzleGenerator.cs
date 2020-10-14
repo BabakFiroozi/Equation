@@ -19,11 +19,17 @@ namespace Equation.Tools
             var window = GetWindowWithRect<PuzzleGenerator>(new Rect(0, 0, Window_Width, Window_Height), true, "Puzzle Generator", true);
             window.Show();
         }
+        
+        // [MenuItem("Equation/Puzzle Generator/Delete Prefs")]
+        // public static void DeleteWindowPrefs()
+        // {
+        // 	DeletePrefs();
+        // }
 
         const int Window_Width = 840;
         const int Window_Height = 720;
 
-        int _colsCount = 8;
+        int _colsCount = 11;
         int _rowsCount = 8;
         int _groupsCount = 3;
 
@@ -44,9 +50,9 @@ namespace Equation.Tools
 
         void Awake()
         {
-            _colsCount = PlayerPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
-            _rowsCount = PlayerPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
-            _groupsCount = PlayerPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
+            _colsCount = EditorPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
+            _rowsCount = EditorPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
+            _groupsCount = EditorPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
             
             _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
             _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
@@ -54,9 +60,16 @@ namespace Equation.Tools
 
         void OnDestroy()
         {
-            PlayerPrefs.SetInt("PuzzleGenerator_colsCount", _colsCount);
-            PlayerPrefs.SetInt("PuzzleGenerator_rowsCount", _rowsCount);
-            PlayerPrefs.SetInt("PuzzleGenerator_groupsCount", _groupsCount);
+            EditorPrefs.SetInt("PuzzleGenerator_colsCount", _colsCount);
+            EditorPrefs.SetInt("PuzzleGenerator_rowsCount", _rowsCount);
+            EditorPrefs.SetInt("PuzzleGenerator_groupsCount", _groupsCount);
+        }
+        
+        static void DeletePrefs()
+        {
+            EditorPrefs.DeleteKey("PuzzleGenerator_colsCount");
+            EditorPrefs.DeleteKey("PuzzleGenerator_rowsCount");
+            EditorPrefs.DeleteKey("PuzzleGenerator_groupsCount");
         }
 
 

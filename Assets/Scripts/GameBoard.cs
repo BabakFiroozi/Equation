@@ -52,6 +52,8 @@ namespace Equation
                 }
             }
             _pawnPrefab.SetActive(false);
+            
+            ProcessTable();
         }
 
         void Update()
@@ -94,7 +96,6 @@ namespace Equation
 
             _draggingPawn = pawn;
 
-            if(pawn == null)
             ProcessTable();
         }
 
@@ -141,7 +142,7 @@ namespace Equation
                 pawnsList.Clear();
                 lastNumIndex = -1;
                 
-                for (int c = horizontally ? 0 : r; c < colsCount; c += colStep)
+                for (int c = 0; c < colsCount; c += colStep)
                 {
                     var cell = Cells[r + c];
                     var pawn = cell.Pawn;
