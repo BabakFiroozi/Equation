@@ -195,7 +195,7 @@ namespace Equation
                             res = num1 / num2;
 
                         foreach (var p in pawnsList)
-                            statePawnsDic.Add(p, res == numRes);
+                            statePawnsDic[p] = res == numRes;
 
                         pawnsList.Clear();
                     }
