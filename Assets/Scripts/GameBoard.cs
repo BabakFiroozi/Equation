@@ -19,7 +19,7 @@ namespace Equation
       
         Pawn _draggingPawn;
 
-        Puzzle puzzle;
+        Puzzle _puzzle;
         
         void Awake()
         {
@@ -31,11 +31,11 @@ namespace Equation
             GameLevels levelName = GameLevels.Beginner;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
-            puzzle = puzzlesPack.puzzles[0];
+            _puzzle = puzzlesPack.puzzles[0];
 
-            int columnsCount = 7;
+            int columnsCount = _puzzle.columns;
             Vector3 posOffset = _pawnPrefab.transform.position;
-            foreach (var seg in puzzle.segments)
+            foreach (var seg in _puzzle.segments)
             {
                 var cell = new BoardCell();
                 cell.index = seg.cellIndex;
@@ -123,8 +123,8 @@ namespace Equation
 
         void ProcessTable(bool horizontally, Dictionary<Pawn, bool> statePawnsDic)
         {
-            int rows = puzzle.rows;
-            int cols = puzzle.columns;
+            int rows = _puzzle.rows;
+            int cols = _puzzle.columns;
 
             int rowsCount = horizontally ? cols * rows : cols;
             int colsCount = horizontally ? cols : (cols - 1) * rows;
