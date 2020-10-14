@@ -20,6 +20,7 @@ namespace Equation
         PawnStates _state;
 
         public PawnStates State => _state;
+        
 
         public void SetState(PawnStates state)
         {
@@ -55,10 +56,34 @@ namespace Equation
             Trans = transform;
         }
 
+        
+        bool _mousIsDown;
+        Vector3 _mousePos;
+        bool _mouseDragged;
+        
         void OnMouseDown()
         {
             if(!Movable)
                 return;
+            
+            _mousIsDown = true;
+            _mouseDragged = false;
+            _mousePos = Input.mousePosition;
+        }
+
+        void OnMouseDrag()
+        {
+            if(!Movable)
+                return;
+            if (!_mousIsDown)
+                return;
+
+            float sens = (Screen.width + Screen.height) / 100f;
+            
+            if((_mousePos - Input.mousePosition).magnitude < sens)
+                return;
+            
+            _mouseDragged = true;
             GameBoard.Instance.SetDraggingPiece(this);
         }
 
@@ -66,6 +91,12 @@ namespace Equation
         {
             if(!Movable)
                 return;
+            
+            if(!_mouseDragged)
+                return;
+
+            _mouseDragged = false;
+            _mousIsDown = false;
             GameBoard.Instance.SetDraggingPiece(null);
         }
 
