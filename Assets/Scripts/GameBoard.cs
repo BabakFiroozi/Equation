@@ -94,24 +94,30 @@ namespace Equation
 
             if (pawn == null)
             {
-                bool horRes = ProcessTable(false);
-                // bool verRes = ProcessTable(true);
+                bool horRes = ProcessTable(true);
+                bool verRes = ProcessTable(false);
                 if(Pawns.All(p => p.State == PawnStates.Right))
                     FinishGame();
             }
         }
         
-        bool ProcessTable(bool vert)
+        bool ProcessTable(bool horizontally)
         {
             int cols = 7;
             int rows = 10;
 
+            int rowsCount = horizontally ? cols * rows : cols;
+            int colsCount = horizontally ? cols : (cols - 1) * rows;
+
+            int rowStep = horizontally ? cols : 1;
+            int colStep = horizontally ? 1 : cols;
+
             var pawnsList = new List<Pawn>();
             
-            for (int r = 0; r < cols * rows; r += cols)
+            for (int r = 0; r < rowsCount; r += rowStep)
             {
                 pawnsList.Clear();
-                for (int c = 0; c < cols; ++c)
+                for (int c = horizontally ? 0 : r; c < colsCount; c += colStep)
                 {
                     var cell = Cells[r + c];
                     var pawn = cell.Pawn;
@@ -121,7 +127,8 @@ namespace Equation
                         continue;
                     }
 
-                    pawn.SetState(PawnStates.Normal);
+                    if (pawn.State != PawnStates.Right)
+                        pawn.SetState(PawnStates.Normal);
                     
                     bool parsed = int.TryParse(pawn.Content, out var number);
 
@@ -169,7 +176,6 @@ namespace Equation
                     if(res != 0 && numRes != 0)
                         foreach (var pawn in pawnsList)
                             pawn.SetState(res == numRes ? PawnStates.Right : PawnStates.Wrong);
-
                 }
             }
             
