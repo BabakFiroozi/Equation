@@ -178,7 +178,7 @@ namespace Equation
 
                     pawnsList.Add(pawn);
 
-                    if (pawnsList.Count == 5 && pawnsList.Exists(p => p.Content == "e"))
+                    if (pawnsList.Count == 5 && pawnsList.Count(p => p.Content == "e") == 1)
                     {
                         int num1 = 0, num2 = 0, numRes = 0;
                         int eqIndex = pawnsList.FindIndex(p => p.Content == "e");
