@@ -56,6 +56,8 @@ namespace Equation
             ProcessTable();
         }
 
+        bool _isOnGround;
+
         void Update()
         {
             if (_draggingPawn != null)
@@ -66,7 +68,8 @@ namespace Equation
                 if (castRes)
                 {
                     Vector3 putPos = hitInfo.point;
-                    _draggingPawn.Put(putPos.x, putPos.z);
+                    _draggingPawn.Move(putPos.x, putPos.z);
+                    _isOnGround = hitInfo.collider.gameObject.name == "ground";
                 }
             }
         }
@@ -77,18 +80,25 @@ namespace Equation
 
             if (pawn == null)
             {
-                float minDist = 1000;
                 BoardCell nearestCell = null;
-                Vector3 pos = draggedPawn.Trans.position;
-                var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
-                foreach (var cell in emptyCells)
+                if (_isOnGround)
                 {
-                    float dist = (pos - cell.pos).magnitude;
-                    if (dist < minDist)
+                    float minDist = 1000;
+                    Vector3 pos = draggedPawn.Trans.position;
+                    var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
+                    foreach (var cell in emptyCells)
                     {
-                        minDist = dist;
-                        nearestCell = cell;
+                        float dist = (pos - cell.pos).magnitude;
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            nearestCell = cell;
+                        }
                     }
+                }
+                else
+                {
+                    nearestCell = draggedPawn.Cell;
                 }
 
                 draggedPawn.SetCell(nearestCell);
@@ -129,7 +139,7 @@ namespace Equation
             int cols = _puzzle.columns;
 
             int rowsCount = horizontally ? cols * rows : cols;
-            int colsCount = horizontally ? cols : (rows - 1) * cols;
+            int colsCount = horizontally ? cols : (rows - 0) * cols;
 
             int rowStep = horizontally ? cols : 1;
             int colStep = horizontally ? 1 : cols;

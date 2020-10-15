@@ -100,7 +100,7 @@ namespace Equation
             GameBoard.Instance.SetDraggingPiece(null);
         }
 
-        public void Put(float x, float z)
+        public void Move(float x, float z)
         {
             Vector3 pos = Trans.position;
             pos.x = x;
