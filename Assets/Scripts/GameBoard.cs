@@ -11,8 +11,10 @@ namespace Equation
         public static GameBoard Instance { get; private set; }
         
         [SerializeField] GameObject _pawnPrefab;
+        [SerializeField] GameObject _hintPrefab;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
+        public List<Hint> Hints { get; } = new List<Hint>();
 
         public List<BoardCell> Cells { get; } = new List<BoardCell>();
 
@@ -42,6 +44,16 @@ namespace Equation
                 cell.pos = posOffset + new Vector3(seg.cellIndex % columnsCount, 0, -seg.cellIndex / columnsCount);
                 Cells.Add(cell);
 
+                if (seg.type == SegmentTypes.Movable)
+                {
+                    Vector3 hintPos = cell.pos;
+                    hintPos.y = _hintPrefab.transform.position.y;
+                    var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation);
+                    var hint = hintObj.GetComponent<Hint>();
+                    hint.SetData("data");
+                    hintObj.SetActive(false);
+                }
+
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
                 {
                     var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation);
@@ -51,6 +63,7 @@ namespace Equation
                     Pawns.Add(pawn);
                 }
             }
+            _hintPrefab.SetActive(false);
             _pawnPrefab.SetActive(false);
             
             ProcessTable();
