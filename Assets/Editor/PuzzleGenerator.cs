@@ -515,16 +515,19 @@ namespace Equation.Tools
 
         void ShuffleSegments()
         {
-            while (!TryShuffleSegments())
+            int distort;
+            while (!TryShuffleSegments(out distort))
             {
             }
-
+            
             if (_puzzlesPack.puzzles.Select(p => p.id).Contains(_puzzle.id))
                 return;
+
+            _puzzle.distort = distort;
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments()
+        bool TryShuffleSegments(out int distort)
         {
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
@@ -553,6 +556,7 @@ namespace Equation.Tools
                 fixedSegs.RemoveAt(index);
             } while (heldsList.Count < shuffleCount);
 
+            distort = heldsList.Count;
             
             if (holdsList.Count != heldsList.Count)
             {
