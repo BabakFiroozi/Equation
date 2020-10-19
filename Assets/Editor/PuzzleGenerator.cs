@@ -170,7 +170,7 @@ namespace Equation.Tools
                     {
                         if (seg.type != SegmentTypes.Hollow)
                         {
-                            GUI.Label(cell.rect, HelperMethods.CorrectOpperatorContent(seg.content));
+                            GUI.Label(cell.rect, seg.type == SegmentTypes.Modified ? "" : HelperMethods.CorrectOpperatorContent(seg.content));
                             if (seg.type == SegmentTypes.Fixed)
                                 EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
                         }
@@ -597,8 +597,8 @@ namespace Equation.Tools
 
                 _puzzle.segments[hold].hold = held;
                 _puzzle.segments[hold].content = _puzzle.segments[held].content;
-                _puzzle.segments[held].type = SegmentTypes.Movable;
-                _puzzle.segments[held].content = "";
+                _puzzle.segments[held].type = SegmentTypes.Modified;
+                // _puzzle.segments[held].content = "";
                 
             } while (holdsList.Count > 0);
 

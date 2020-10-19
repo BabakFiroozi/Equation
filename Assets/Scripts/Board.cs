@@ -27,9 +27,6 @@ namespace Equation
 
         Transform _tr;
 
-        public int columnsCount { get; private set; }
-        public int rowsCount { get; private set; }
-        
         
         void Awake()
         {
@@ -42,11 +39,15 @@ namespace Equation
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[0];
 
-            _groundTr.localScale = new Vector3(_puzzle.columns, _groundTr.localScale.y, _puzzle.rows);
+            float cellSize = 10f / _puzzle.columns;
 
-            columnsCount = _puzzle.columns;
-            rowsCount = _puzzle.rows;
-            Vector3 posOffset = new Vector3(-(columnsCount / 2f - .5f), _pawnPrefab.transform.position.y, rowsCount / 2f - .5f);
+            _groundTr.localScale = new Vector3(cellSize * _puzzle.columns, _groundTr.localScale.y, cellSize * _puzzle.rows);
+
+            Vector3 scale = _groundTr.localScale;
+
+            int columnsCount = _puzzle.columns;
+            int rowsCount = _puzzle.rows;
+            Vector3 startPos = new Vector3(-(scale.x / 2f - cellSize * .5f), cellSize / 2, scale.z / 2f - cellSize * .5f);
 
             _groundMat.mainTextureScale = new Vector2(columnsCount, rowsCount);
             
@@ -54,22 +55,26 @@ namespace Equation
             {
                 var cell = new BoardCell();
                 cell.index = seg.cellIndex;
-                cell.pos = posOffset + new Vector3(seg.cellIndex % columnsCount, 0, -seg.cellIndex / columnsCount);
+                cell.pos = startPos + new Vector3((seg.cellIndex % columnsCount) * cellSize, 0, (-seg.cellIndex / columnsCount) * cellSize);
                 Cells.Add(cell);
 
-                if (seg.type == SegmentTypes.Movable)
+                if (seg.type == SegmentTypes.Modified)
                 {
                     Vector3 hintPos = cell.pos;
                     hintPos.y = _hintPrefab.transform.position.y;
                     var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation, _tr);
+                    hintObj.name = $"hit_{seg.content}";
+                    hintObj.transform.localScale = new Vector3(cellSize, _hintPrefab.transform.localScale.y, cellSize);
                     var hint = hintObj.GetComponent<Hint>();
-                    hint.SetData("data");
+                    hint.SetData(seg.content);
                     hintObj.SetActive(false);
                 }
 
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
                 {
                     var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation, _tr);
+                    pieceObj.transform.localScale = new Vector3(cellSize, cellSize, cellSize);
+                    pieceObj.name = $"piece_{seg.content}";
                     var pawn = pieceObj.GetComponent<Pawn>();
                     pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
                     pawn.SetCell(cell, true);
@@ -266,7 +271,7 @@ namespace Equation
             Instance = null;
             
             if(Application.isEditor)
-                _groundMat.mainTextureScale = new Vector2(6, 9);
+                _groundMat.mainTextureScale = new Vector2(10, 14);
         }
     }
     

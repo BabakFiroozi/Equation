@@ -35,6 +35,6 @@ namespace Equation.Models
     {
         Hollow,
         Fixed,
-        Movable
+        Modified
     }
 }
