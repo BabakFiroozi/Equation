@@ -32,6 +32,8 @@ namespace Equation
 
         void Start()
         {
+            _tr = transform;
+            
             GameLevels levelName = GameLevels.Beginner;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);

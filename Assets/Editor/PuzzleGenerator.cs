@@ -529,7 +529,7 @@ namespace Equation.Tools
 
         bool TryShuffleSegments(out int distort)
         {
-            var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow).ToList();
+            var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
             var horGroupsList = new List<List<int>>();
