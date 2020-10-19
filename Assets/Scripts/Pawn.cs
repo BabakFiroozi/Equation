@@ -84,7 +84,7 @@ namespace Equation
                 return;
             
             _mouseDragged = true;
-            GameBoard.Instance.SetDraggingPiece(this);
+            Board.Instance.SetDraggingPiece(this);
         }
 
         void OnMouseUp()
@@ -97,7 +97,7 @@ namespace Equation
 
             _mouseDragged = false;
             _mousIsDown = false;
-            GameBoard.Instance.SetDraggingPiece(null);
+            Board.Instance.SetDraggingPiece(null);
         }
 
         public void Move(float x, float z)

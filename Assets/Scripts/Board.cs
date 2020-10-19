@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Equation
 {
-    public class GameBoard : MonoBehaviour
+    public class Board : MonoBehaviour
     {
-        public static GameBoard Instance { get; private set; }
+        public static Board Instance { get; private set; }
         
         [SerializeField] GameObject _pawnPrefab;
         [SerializeField] GameObject _hintPrefab;
@@ -22,6 +22,8 @@ namespace Equation
         Pawn _draggingPawn;
 
         Puzzle _puzzle;
+
+        Transform _tr;
         
         void Awake()
         {
@@ -48,7 +50,7 @@ namespace Equation
                 {
                     Vector3 hintPos = cell.pos;
                     hintPos.y = _hintPrefab.transform.position.y;
-                    var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation);
+                    var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation, _tr);
                     var hint = hintObj.GetComponent<Hint>();
                     hint.SetData("data");
                     hintObj.SetActive(false);
@@ -56,7 +58,7 @@ namespace Equation
 
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
                 {
-                    var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation);
+                    var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation, _tr);
                     var pawn = pieceObj.GetComponent<Pawn>();
                     pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
                     pawn.SetCell(cell, true);
