@@ -27,9 +27,9 @@ namespace Equation.Tools
         // }
 
         const int Window_Width = 840;
-        const int Window_Height = 720;
+        const int Window_Height = 740;
 
-        int _rowsCount = 11;
+        int _rowsCount = 12;
         int _colsCount = 8;
         int _groupsCount = 3;
 
@@ -86,16 +86,17 @@ namespace Equation.Tools
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
             _colsCount = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _colsCount);
 
-            _rowsCount = Mathf.Clamp(_rowsCount, 5, 12);
-            _colsCount = Mathf.Clamp(_colsCount, 5, 10);
+            _rowsCount = Mathf.Clamp(_rowsCount, 8, 16);
+            _colsCount = Mathf.Clamp(_colsCount, 6, 12);
 
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
 
 
+            const float width_ref = 340;
             const float cell_margine = 4;
-            float tableWidth = 360;
-            float cellSize = 360 / _colsCount;
+            float tableWidth = width_ref;
+            float cellSize = width_ref / _colsCount;
             float tableHeight = tableWidth + Mathf.Abs(_colsCount - _rowsCount) * cellSize;
 
             Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
@@ -158,7 +159,7 @@ namespace Equation.Tools
 
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
-            GUI.skin.label.fontSize = (int) (tableWidth / 360 * 24);
+            GUI.skin.label.fontSize = (int) (cellSize * .5f);
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
             GUI.skin.label.font = _fontPersian;
             foreach (var cell in _allCellsList)
@@ -373,7 +374,7 @@ namespace Equation.Tools
             // oppsList.Add("d");
 
             int numberMin = 1;
-            int numberMax = 10;
+            int numberMax = 20;
 
             _allPiecesList.Clear();
 

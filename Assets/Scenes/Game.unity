@@ -528,6 +528,8 @@ MonoBehaviour:
   _pawnPrefab: {fileID: 1574292803}
   _hintPrefab: {fileID: 4899196158020417827, guid: 859ca15d5db6f5e49a2037d01f4f7746,
     type: 3}
+  _groundTr: {fileID: 619067844}
+  _groundMat: {fileID: 2100000, guid: 358870958d781e84da5d062f396cea9d, type: 2}
 --- !u!1 &619067841
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +568,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 358870958d781e84da5d062f396cea9d, type: 2}
+  - {fileID: 2100000, guid: 6d7285265dae02a4cbeb48436c07210e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -593,7 +596,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619067841}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2977981768884665668, guid: aa1b41d548685aa4ea68177c4bc7d82c, type: 3}
 --- !u!4 &619067844
 Transform:
   m_ObjectHideFlags: 0

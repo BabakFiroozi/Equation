@@ -12,6 +12,8 @@ namespace Equation
         
         [SerializeField] GameObject _pawnPrefab;
         [SerializeField] GameObject _hintPrefab;
+        [SerializeField] Transform _groundTr;
+        [SerializeField] Material _groundMat;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -24,6 +26,8 @@ namespace Equation
         Puzzle _puzzle;
 
         Transform _tr;
+
+        
         
         void Awake()
         {
@@ -39,8 +43,14 @@ namespace Equation
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[0];
 
+            _groundTr.localScale = new Vector3(_puzzle.columns, _groundTr.localScale.y, _puzzle.rows);
+
             int columnsCount = _puzzle.columns;
-            Vector3 posOffset = _pawnPrefab.transform.position;
+            int rowsCount = _puzzle.rows;
+            Vector3 posOffset = new Vector3(-(columnsCount / 2f - .5f), _pawnPrefab.transform.position.y, rowsCount / 2f - .5f);
+
+            _groundMat.mainTextureScale = new Vector2(columnsCount, rowsCount);
+            
             foreach (var seg in _puzzle.segments)
             {
                 var cell = new BoardCell();
