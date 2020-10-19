@@ -27,15 +27,14 @@ namespace Equation
 
         Transform _tr;
 
+        public int columnsCount { get; private set; }
+        public int rowsCount { get; private set; }
         
         
         void Awake()
         {
             Instance = this;
-        }
-
-        void Start()
-        {
+       
             _tr = transform;
             
             GameLevels levelName = GameLevels.Beginner;
@@ -45,8 +44,8 @@ namespace Equation
 
             _groundTr.localScale = new Vector3(_puzzle.columns, _groundTr.localScale.y, _puzzle.rows);
 
-            int columnsCount = _puzzle.columns;
-            int rowsCount = _puzzle.rows;
+            columnsCount = _puzzle.columns;
+            rowsCount = _puzzle.rows;
             Vector3 posOffset = new Vector3(-(columnsCount / 2f - .5f), _pawnPrefab.transform.position.y, rowsCount / 2f - .5f);
 
             _groundMat.mainTextureScale = new Vector2(columnsCount, rowsCount);
@@ -265,6 +264,9 @@ namespace Equation
         void OnDestroy()
         {
             Instance = null;
+            
+            if(Application.isEditor)
+                _groundMat.mainTextureScale = new Vector2(6, 9);
         }
     }
     
