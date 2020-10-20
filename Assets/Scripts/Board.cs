@@ -76,7 +76,7 @@ namespace Equation
                 {
                     var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation, _tr);
                     pieceObj.transform.localScale = new Vector3(cellSize, cellSize, cellSize);
-                    pieceObj.name = $"piece_{seg.content}";
+                    pieceObj.name = $"pawn_{seg.content}";
                     var pawn = pieceObj.GetComponent<Pawn>();
                     pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
                     pawn.SetCell(cell, true);
