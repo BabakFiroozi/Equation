@@ -26,6 +26,7 @@ namespace Equation
         Puzzle _puzzle;
 
         Transform _tr;
+        float _cellSize;
 
         
         void Awake()
@@ -40,6 +41,7 @@ namespace Equation
             _puzzle = puzzlesPack.puzzles[0];
 
             float cellSize = 10f / _puzzle.columns;
+            _cellSize = cellSize;
 
             _groundTr.localScale = new Vector3(cellSize * _puzzle.columns, _groundTr.localScale.y, cellSize * _puzzle.rows);
 
@@ -81,8 +83,6 @@ namespace Equation
                     Pawns.Add(pawn);
                 }
             }
-            _hintPrefab.SetActive(false);
-            _pawnPrefab.SetActive(false);
             
             ProcessTable();
         }
@@ -99,7 +99,7 @@ namespace Equation
                 if (castRes)
                 {
                     Vector3 putPos = hitInfo.point;
-                    _draggingPawn.Move(putPos.x, putPos.z);
+                    _draggingPawn.Move(putPos.x, putPos.y + _cellSize / 2 + .1f, putPos.z);
                     _isOnGround = hitInfo.collider.gameObject.name == "ground";
                 }
             }

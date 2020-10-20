@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RTLTMPro;
 using UnityEngine;
 
 namespace Equation
 {
     public class Pawn : MonoBehaviour
     {
-        [SerializeField] TextMesh _textMesh;
+        [SerializeField] RTLTextMeshPro3D _textMesh;
         [SerializeField] MeshRenderer _meshRendere;
         [SerializeField] Material[] _typeMateials;
         [SerializeField] Color[] _stateColors;
@@ -20,7 +20,7 @@ namespace Equation
         PawnStates _state;
 
         public PawnStates State => _state;
-        
+
 
         public void SetState(PawnStates state)
         {
@@ -100,11 +100,9 @@ namespace Equation
             Board.Instance.SetDraggingPiece(null);
         }
 
-        public void Move(float x, float z)
+        public void Move(float x, float y, float z)
         {
-            Vector3 pos = Trans.position;
-            pos.x = x;
-            pos.z = z;
+            Vector3 pos = new Vector3(x, y, z);
             Trans.position = pos;
         }
     }

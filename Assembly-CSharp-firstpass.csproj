@@ -694,6 +694,16 @@
  <HintPath>C:/Program Files/Unity2019.4.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
  </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="RTLTMPro-Editor.csproj">
+      <Project>{A66EF8BA-AA93-E0E0-3134-ABD297390171}</Project>
+      <Name>RTLTMPro-Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RTLTMPro.csproj">
+      <Project>{0CDECD7D-1B9B-3644-5314-F44044598943}</Project>
+      <Name>RTLTMPro</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -79,10 +79,43 @@
      <Compile Include="Assets\Scripts\Pawn.cs" />
      <Compile Include="Assets\Scripts\PuzzlesPackModel.cs" />
      <Compile Include="Assets\Scripts\StoreNames.cs" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Fixed.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF Overlay Fixed.shader" />
      <None Include="Assets\Resources\Translates.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Surface-Mobile Fixed.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_SurfaceOutline.cginc" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Surface Fixed.shader" />
+     <None Include="Assets\RTLTMPro\Ranges\LetterRanges.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\RTLTMPro\Ranges\TashkilRanges.txt" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\DOTween\readme.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Masking Fixed.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\DOTween\DOTween50.xml" />
      <None Include="Assets\DOTween\DOTween43.xml" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Overlay Fixed.shader" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\RTLTMPro\Ranges\All.txt" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\RTLTMPro\Ranges\NumberRanges.txt" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF Fixed.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\DOTween\DOTween46.xml" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -713,6 +746,14 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{43A9A18F-A38C-4C0C-E902-88AC81F545C5}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="RTLTMPro-Editor.csproj">
+      <Project>{A66EF8BA-AA93-E0E0-3134-ABD297390171}</Project>
+      <Name>RTLTMPro-Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RTLTMPro.csproj">
+      <Project>{0CDECD7D-1B9B-3644-5314-F44044598943}</Project>
+      <Name>RTLTMPro</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
