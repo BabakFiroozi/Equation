@@ -494,7 +494,7 @@ namespace Equation.Tools
                     if (opperator == "t")
                     {
                         int cross = numContentsNumber[0] * numContentsNumber[1];
-                        if (cross != resContentNumber)
+                        if (cross != resContentNumber || cross > 999)
                         {
                             emptyPieces.ForEach(p => p.content = "");
                             continue;
