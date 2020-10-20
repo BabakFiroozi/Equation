@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Equation.Models;
@@ -32,6 +31,8 @@ namespace Equation.Tools
         int _rowsCount = 12;
         int _colsCount = 8;
         int _groupsCount = 3;
+        int _shuffleCount = 1;
+
 
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
@@ -55,7 +56,6 @@ namespace Equation.Tools
             _groupsCount = EditorPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
             
             _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
-            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
         }
 
         void OnDestroy()
@@ -92,6 +92,9 @@ namespace Equation.Tools
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
 
+            GUI.Label(new Rect(420, 20, 55, 20), "Shuffles");
+            _shuffleCount = EditorGUI.IntField(new Rect(420 + 55, 20, 30, 20), _shuffleCount);
+
 
             const float width_ref = 340;
             const float cell_margine = 4;
@@ -126,14 +129,14 @@ namespace Equation.Tools
                 GeneratePattern();
             }
 
-            if (GUI.Button(new Rect(20, 45, 100, 20), "Pieces"))
+            if (GUI.Button(new Rect(20, 45, 100, 20), "Segments"))
             {
                 GenerateSegments();
             }
 
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
-                ShuffleSegments();
+                ShuffleSegments(_shuffleCount);
             }
 
             var groups = new List<Group>();
@@ -149,21 +152,27 @@ namespace Equation.Tools
                 }
             }
 
-            GUI.Label(new Rect(tableRect.x - 70, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
-            GUI.Label(new Rect(tableRect.x - 70, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
-            
+            GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
+            GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
+
             if (GUI.Button(new Rect(600, 20, 100, 20), "Save"))
             {
                 SavePuzzles();
             }
 
+            _saveGameLevel = (GameLevels) EditorGUI.EnumPopup(new Rect(600, 50, 100, 20), _saveGameLevel);
+
+            
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
             GUI.skin.label.fontSize = (int) (cellSize * .5f);
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
             GUI.skin.label.font = _fontPersian;
+
             foreach (var cell in _allCellsList)
             {
+                if(_puzzle == null)
+                    break;
                 foreach (var seg in _puzzle.segments)
                 {
                     if (cell.index == seg.cellIndex)
@@ -195,6 +204,8 @@ namespace Equation.Tools
 
         void GeneratePattern()
         {
+            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
+
             _horGroups.Clear();
             _verGroups.Clear();
 
@@ -256,7 +267,6 @@ namespace Equation.Tools
             } while (groupCounter < _groupsCount);
 
             _allPiecesList.Clear();
-            _puzzle.segments.Clear();
         }
 
         Group MakeGoup(in bool isHor, in int groupIndex)
@@ -357,13 +367,19 @@ namespace Equation.Tools
 
                 if (selectHor) //is horizontal
                 {
-                    allGroups.Add(horGroupsList.ElementAt(0));
-                    horGroupsList.RemoveAt(0);
+                    if(horGroupsList.Count > 0)
+                    {
+                        allGroups.Add(horGroupsList.ElementAt(0));
+                        horGroupsList.RemoveAt(0);
+                    }
                 }
                 else
                 {
-                    allGroups.Add(verGroupsList.ElementAt(0));
-                    verGroupsList.RemoveAt(0);
+                    if(verGroupsList.Count > 0)
+                    {
+                        allGroups.Add(verGroupsList.ElementAt(0));
+                        verGroupsList.RemoveAt(0);
+                    }
                 }
             } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
 
@@ -374,7 +390,7 @@ namespace Equation.Tools
             // oppsList.Add("d");
 
             int numberMin = 1;
-            int numberMax = 20;
+            int numberMax = 50;
 
             _allPiecesList.Clear();
 
@@ -514,22 +530,33 @@ namespace Equation.Tools
             return !failed;
         }
 
-        void ShuffleSegments()
-        {
-            int distort;
-            while (!TryShuffleSegments(out distort))
-            {
-            }
-            
-            if (_puzzlesPack.puzzles.Select(p => p.id).Contains(_puzzle.id))
-                return;
 
-            _puzzle.distort = distort;
+        void ShuffleSegments(int shuffleCount)
+        {
+            int totalDistort = 0;
+            int loopIter = 0;
+            do
+            {
+                int distort;
+                while (!TryShuffleSegments(out distort))
+                {
+
+                }
+
+                totalDistort += distort;
+            } while (++loopIter < shuffleCount);
+
+            // if (_puzzlesPack.puzzles.Exists(p => p.id == _puzzle.id))
+            //     return;
+
+            _puzzle.distort = totalDistort;
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
         bool TryShuffleSegments(out int distort)
         {
+            distort = 0;
+            
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
@@ -548,6 +575,8 @@ namespace Equation.Tools
                 int index = Random.Range(0, hollowSegs.Count);
                 holdsList.Add(hollowSegs[index].cellIndex);
                 hollowSegs.RemoveAt(index);
+                if(hollowSegs.Count == 0)
+                    break;
             } while (holdsList.Count < shuffleCount);
             
             do
@@ -555,9 +584,10 @@ namespace Equation.Tools
                 int index = Random.Range(0, fixedSegs.Count);
                 heldsList.Add(fixedSegs[index].cellIndex);
                 fixedSegs.RemoveAt(index);
+                if(fixedSegs.Count == 0)
+                    break;
             } while (heldsList.Count < shuffleCount);
 
-            distort = heldsList.Count;
             
             if (holdsList.Count != heldsList.Count)
             {
@@ -565,6 +595,7 @@ namespace Equation.Tools
                 return false;
             }
 
+            distort = heldsList.Count;
 
             bool failed = false;
             foreach (var g in horGroupsList)
