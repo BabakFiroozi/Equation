@@ -1,4 +1,6 @@
-﻿using RTLTMPro;
+﻿using System.Collections;
+using DG.Tweening;
+using RTLTMPro;
 using UnityEngine;
 
 namespace Equation
@@ -28,19 +30,34 @@ namespace Equation
             _meshRendere.material.color = _stateColors[(int) state];
         }
 
-        public void SetCell(BoardCell cell, bool init = false)
+        public float SetCell(BoardCell cell, bool init = false, bool help = false)
         {
             if (Cell != null)
                 Cell.Pawn = null;
-            
+
             Cell = cell;
             Cell.Pawn = this;
-            Trans.position = cell.pos;
+
+            float moveTime = 0;
+
+            if (init)
+            {
+                Trans.position = cell.pos;
+            }
+            else
+            {
+                float dist = (cell.pos - Trans.position).magnitude;
+                moveTime = Mathf.Clamp(dist / 10, .01f, .5f);
+                Trans.DOMove(cell.pos, moveTime).OnComplete(() => { });
+                //if help
+            }
 
             if (!init)
             {
                 //Play sound
             }
+
+            return moveTime;
         }
 
         public void SetData(string content, bool movable)

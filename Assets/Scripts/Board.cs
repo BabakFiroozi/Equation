@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Equation.Models;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Equation
 {
@@ -68,8 +69,9 @@ namespace Equation
                     hintObj.name = $"hit_{seg.content}";
                     hintObj.transform.localScale = new Vector3(cellSize, _hintPrefab.transform.localScale.y, cellSize);
                     var hint = hintObj.GetComponent<Hint>();
-                    hint.SetData(seg.content);
+                    hint.SetData(seg.content, cell);
                     hintObj.SetActive(false);
+                    Hints.Add(hint);
                 }
 
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
@@ -260,6 +262,64 @@ namespace Equation
                 }
             }
         }
+
+        public void DoHint()
+        {
+            var hints = new List<Hint>();
+
+            foreach (var h in Hints)
+            {
+                if(h.Revealed)
+                    continue;
+                if(h.Cell.Pawn != null && h.Cell.Pawn.Content == h.Content)
+                    continue;
+                hints.Add(h);
+            }
+            
+            if(hints.Count == 0)
+                return;
+            var hint = hints[Random.Range(0, hints.Count)];
+            hint.Reveal();
+        }
+
+        public Coroutine DoHelp()
+        {
+            var c = StartCoroutine(_DoHelp());
+            return c;
+        }
+
+        IEnumerator<WaitForSeconds> _DoHelp()
+        {
+            var pawnsList = Pawns.Where(p => p.Movable).ToList();
+
+            var pawns = new List<Pawn>();
+            foreach (var p in pawnsList)
+            {
+                var hint = Hints.Find(h => h.Cell == p.Cell);
+                if (hint == null || p.Content != hint.Content)
+                    pawns.Add(p);
+            }
+            
+            if(pawns.Count == 0)
+                yield break;
+
+            var selectedPawn = pawns[Random.Range(0, pawns.Count)];
+            var selectedHint = Hints.Find(h => h.Content == selectedPawn.Content && h.Cell.Pawn == null);
+            
+            if (selectedHint.Cell.Pawn != null)
+            {
+                var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
+                var emptyCell = emptyCells[Random.Range(0, emptyCells.Count)];
+                selectedHint.Cell.Pawn.SetCell(emptyCell);
+            }
+
+            float time = selectedPawn.SetCell(selectedHint.Cell, false, true);
+
+            yield return new WaitForSeconds(time);
+            
+            ProcessTable();
+        }
+        
 
         void FinishGame()
         {
