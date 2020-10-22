@@ -390,7 +390,7 @@ namespace Equation.Tools
             // oppsList.Add("d");
 
             int numberMin = 1;
-            int numberMax = 50;
+            int numberMax = 20;
 
             _allPiecesList.Clear();
 

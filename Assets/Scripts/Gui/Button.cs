@@ -28,7 +28,7 @@ namespace Equation.Gui
             
             _mouseIsDown = false;
 
-            if ((_mouseDownPos - Input.mousePosition).magnitude < 10)
+            if ((_mouseDownPos - Input.mousePosition).magnitude < 20)
                 OnClick?.Invoke();
         }
     }
