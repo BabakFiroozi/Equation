@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\Gui\Button.cs" />
      <Compile Include="Assets\Scripts\Hint.cs" />
      <Compile Include="Assets\Scripts\Hud.cs" />
+     <Compile Include="Assets\Scripts\LevelSelect.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Pawn.cs" />
      <Compile Include="Assets\Scripts\PuzzlesPackModel.cs" />
