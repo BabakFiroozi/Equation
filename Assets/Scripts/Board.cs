@@ -30,7 +30,7 @@ namespace Equation
         float _cellSize;
 
         
-        void Awake()
+        void Start()
         {
             Instance = this;
        
