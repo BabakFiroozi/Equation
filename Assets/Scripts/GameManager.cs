@@ -59,6 +59,7 @@ namespace Equation
 
         public void GoToGameplay(bool back, bool anim = true)
         {
+            _gamePanel.gameObject.GetComponent<GamePanel>().RefreshBoard();
             _oldPanel = _currentPanel;
             _currentPanel = _gamePanel;
             GoToPanel(back, anim);

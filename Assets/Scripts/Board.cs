@@ -28,13 +28,19 @@ namespace Equation
 
         Transform _tr;
         float _cellSize;
-
         
-        void Start()
+        bool _isOnGround;
+
+
+        void Awake()
         {
             Instance = this;
-       
             _tr = transform;
+        }
+
+
+        public void Initialize()
+        {
             
             GameLevels levelName = GameLevels.Beginner;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
@@ -50,7 +56,7 @@ namespace Equation
 
             int columnsCount = _puzzle.columns;
             int rowsCount = _puzzle.rows;
-            Vector3 startPos = new Vector3(-(scale.x / 2f - cellSize * .5f), cellSize / 2, scale.z / 2f - cellSize * .5f);
+            Vector3 startPos = new Vector3(-(scale.x / 2f - cellSize * .5f), _tr.position.y + cellSize / 2, scale.z / 2f - cellSize * .5f);
 
             _groundMat.mainTextureScale = new Vector2(columnsCount, rowsCount);
             
@@ -64,7 +70,7 @@ namespace Equation
                 if (seg.type == SegmentTypes.Modified)
                 {
                     Vector3 hintPos = cell.pos;
-                    hintPos.y = _hintPrefab.transform.position.y;
+                    hintPos.y -= cellSize / 2 - .03f;
                     var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation, _tr);
                     hintObj.name = $"hit_{seg.content}";
                     hintObj.transform.localScale = new Vector3(cellSize, _hintPrefab.transform.localScale.y, cellSize);
@@ -85,11 +91,13 @@ namespace Equation
                     Pawns.Add(pawn);
                 }
             }
+
+            foreach (var cell in Cells)
+                cell.pos.y -= _tr.position.y;
             
             ProcessTable();
         }
 
-        bool _isOnGround;
 
         void Update()
         {
@@ -100,8 +108,8 @@ namespace Equation
                 bool hit = Physics.Raycast(ray, out var hitInfo, 1000, LayerMaskUtil.GetLayerMask("Ground"));
                 if (hit)
                 {
-                    Vector3 putPos = hitInfo.point;
-                    _draggingPawn.Move(putPos.x, putPos.y + _cellSize / 2 + .1f, putPos.z);
+                    Vector3 putPos = hitInfo.point - ray.direction.normalized * (_cellSize * 2.1f);
+                    _draggingPawn.Move(putPos.x, putPos.y, putPos.z);
                     _isOnGround = hitInfo.collider.gameObject.name == "ground";
                 }
             }
@@ -121,7 +129,9 @@ namespace Equation
                     var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                     foreach (var cell in emptyCells)
                     {
-                        float dist = (pos - cell.pos).magnitude;
+                        Vector3 cellPos = cell.pos;
+                        cellPos.z -= _cellSize / 2;
+                        float dist = (pos - cellPos).magnitude;
                         if (dist < minDist)
                         {
                             minDist = dist;

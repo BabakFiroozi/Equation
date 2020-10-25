@@ -47,7 +47,7 @@ namespace Equation
             else
             {
                 float dist = (cell.pos - Trans.position).magnitude;
-                moveTime = Mathf.Clamp(dist / 10, .01f, .5f);
+                moveTime = Mathf.Clamp(dist / 12, .01f, .5f);
                 Trans.DOMove(cell.pos, moveTime).OnComplete(() => { });
                 //if help
             }
