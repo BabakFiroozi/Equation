@@ -34,7 +34,7 @@ namespace Equation
         
         void OnClick()
         {
-            Debug.Log("OnClick: " + Index.ToString());
+            GameManager.Instance.GoToGameplay();
         }
     }
 }

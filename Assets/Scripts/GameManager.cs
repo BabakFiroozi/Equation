@@ -13,7 +13,8 @@ namespace Equation
         [SerializeField] Transform _gamePanel;
         [SerializeField] float _moveTime = .5f;
         
-        public GameManager Instance { get; private set; }
+        public static GameManager Instance { get; private set; }
+        
 
         Transform _currentPanel;
         Transform _oldPanel;
@@ -26,10 +27,11 @@ namespace Equation
         IEnumerator Start()
         {
             yield return new WaitForSeconds(.1f);
-            _menuPanel.position += new Vector3(0, 0, 100);
-            _levelPanel.position += new Vector3(0, 0, 100);
-            _stagePanel.position += new Vector3(0, 0, 100);
-            _gamePanel.position += new Vector3(0, 0, 100);
+            
+            _menuPanel.position += new Vector3(0, 100, 0);
+            _levelPanel.position += new Vector3(0, 100, 0);
+            _stagePanel.position += new Vector3(0, 100, 0);
+            _gamePanel.position += new Vector3(0, 100, 0);
             
             GoToMenuPanel(false);
         }
@@ -43,17 +45,23 @@ namespace Equation
         
         public void GoToLevelPanel(bool anim = true)
         {
-            
+            _oldPanel = _currentPanel;
+            _currentPanel = _levelPanel;
+            GoToPanel(anim);
         }
         
         public void GoToStagePanel(bool anim = true)
         {
-            
+            _oldPanel = _currentPanel;
+            _currentPanel = _stagePanel;
+            GoToPanel(anim);
         }
         
-        public void GameToGameplay(bool anim = true)
+        public void GoToGameplay(bool anim = true)
         {
-            
+            _oldPanel = _currentPanel;
+            _currentPanel = _gamePanel;
+            GoToPanel(anim);
         }
 
         void GoToPanel(bool anim = true)
@@ -62,9 +70,9 @@ namespace Equation
             {
                 _oldPanel.DOMoveX(-20, _moveTime);
                 var pos = _currentPanel.position;
-                pos = new Vector3( 20, pos.y, 0);
+                pos = new Vector3( 20, 0, 0);
                 _currentPanel.position = pos;
-                _currentPanel.DOMoveZ(0, _moveTime);
+                _currentPanel.DOMoveX(0, _moveTime);
             }
             else
             {
@@ -76,9 +84,7 @@ namespace Equation
                 }
 
                 {
-                    var pos = _currentPanel.position;
-                    pos = new Vector3(0, pos.y, 0);
-                    _currentPanel.position = pos;
+                    _currentPanel.position = new Vector3(0, 0, 0);
                 }
             }
         }

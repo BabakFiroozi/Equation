@@ -15,9 +15,14 @@ namespace Equation
 
         List<StageButton> _buttons = new List<StageButton>();
 
+        void Awake()
+        {
+            transform.position = Vector3.zero;
+        }
 
         void Start()
         {
+            
             _buttonPrefab.SetActive(false);
 
             Vector3 pos = _buttonPrefab.transform.position;
