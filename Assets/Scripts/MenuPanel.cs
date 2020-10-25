@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Equation
 {
-    public class MainMenu : MonoBehaviour
+    public class MenuPanel : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

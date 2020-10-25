@@ -2,7 +2,7 @@
 
 namespace Equation
 {
-    public class LevelSelect : MonoBehaviour
+    public class LevelPanel : MonoBehaviour
     {
         
     }

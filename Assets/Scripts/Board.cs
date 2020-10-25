@@ -97,8 +97,8 @@ namespace Equation
             {
                 Vector3 mousePos = Input.mousePosition;
                 var ray =  Camera.main.ScreenPointToRay(mousePos);
-                bool castRes = Physics.Raycast(ray, out var hitInfo, 1000, LayerMaskUtil.GetLayerMask("Ground"));
-                if (castRes)
+                bool hit = Physics.Raycast(ray, out var hitInfo, 1000, LayerMaskUtil.GetLayerMask("Ground"));
+                if (hit)
                 {
                     Vector3 putPos = hitInfo.point;
                     _draggingPawn.Move(putPos.x, putPos.y + _cellSize / 2 + .1f, putPos.z);
