@@ -15,12 +15,14 @@ namespace Equation
         {
             _hintButton.OnClick += HintButton_OnClick;
             _helpButton.OnClick += HelpButton_OnClick;
+            _menuButton.OnClick += MenuButton_OnClick;
         }
 
         void OnDestroy()
         {
             _hintButton.OnClick -= HintButton_OnClick;
             _helpButton.OnClick -= HelpButton_OnClick;
+            _menuButton.OnClick -= MenuButton_OnClick;
         }
 
         void HintButton_OnClick()
@@ -31,6 +33,11 @@ namespace Equation
         void HelpButton_OnClick()
         {
             Board.Instance.DoHelp();
+        }
+        
+        void MenuButton_OnClick()
+        {
+            GameManager.Instance.GoToStagePanel(true);
         }
     }
 }

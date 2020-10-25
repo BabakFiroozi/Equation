@@ -28,7 +28,7 @@ namespace Equation
 
         void OnClick()
         {
-            GameManager.Instance.GoToStagePanel();
+            GameManager.Instance.GoToStagePanel(false);
         }
 
         // Update is called once per frame

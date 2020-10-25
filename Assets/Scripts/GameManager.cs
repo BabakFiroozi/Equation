@@ -33,44 +33,44 @@ namespace Equation
             _stagePanel.position += new Vector3(0, 100, 0);
             _gamePanel.position += new Vector3(0, 100, 0);
             
-            GoToMenuPanel(false);
+            GoToMenuPanel(false, false);
         }
 
-        public void GoToMenuPanel(bool anim = true)
+        public void GoToMenuPanel(bool back, bool anim = true)
         {
             _oldPanel = _currentPanel;
             _currentPanel = _menuPanel;
-            GoToPanel(anim);
+            GoToPanel(back, anim);
         }
         
-        public void GoToLevelPanel(bool anim = true)
+        public void GoToLevelPanel(bool back, bool anim = true)
         {
             _oldPanel = _currentPanel;
             _currentPanel = _levelPanel;
-            GoToPanel(anim);
+            GoToPanel(back, anim);
         }
         
-        public void GoToStagePanel(bool anim = true)
+        public void GoToStagePanel(bool back, bool anim = true)
         {
             _oldPanel = _currentPanel;
             _currentPanel = _stagePanel;
-            GoToPanel(anim);
+            GoToPanel(back, anim);
         }
         
-        public void GoToGameplay(bool anim = true)
+        public void GoToGameplay(bool back, bool anim = true)
         {
             _oldPanel = _currentPanel;
             _currentPanel = _gamePanel;
-            GoToPanel(anim);
+            GoToPanel(back, anim);
         }
 
-        void GoToPanel(bool anim = true)
+        void GoToPanel(bool back, bool anim)
         {
             if (anim)
             {
-                _oldPanel.DOMoveX(-20, _moveTime);
+                _oldPanel.DOMoveX(back ? 20 : -20, _moveTime);
                 var pos = _currentPanel.position;
-                pos = new Vector3( 20, 0, 0);
+                pos = new Vector3( back ? -20 : 20, 0, 0);
                 _currentPanel.position = pos;
                 _currentPanel.DOMoveX(0, _moveTime);
             }
@@ -79,7 +79,7 @@ namespace Equation
                 if(_oldPanel != null)
                 {
                     var pos = _oldPanel.position;
-                    pos.x = 20;
+                    pos.x = back ? -20 : 20;
                     _oldPanel.position = pos;
                 }
 
