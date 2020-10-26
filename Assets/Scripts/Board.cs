@@ -338,7 +338,8 @@ namespace Equation
         
         void OnDestroy()
         {
-            Instance = null;
+            if (Instance == this)
+                Instance = null;
             
             if(Application.isEditor)
                 _groundMat.mainTextureScale = new Vector2(10, 14);

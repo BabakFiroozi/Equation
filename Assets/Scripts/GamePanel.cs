@@ -16,8 +16,9 @@ namespace Equation
 
         public void RefreshBoard()
         {
-            var obj = Instantiate(_bordPrefab, transform);
-            var board = obj.GetComponent<Board>();
+            Destroy(_boardObj);
+            _boardObj = Instantiate(_bordPrefab, transform);
+            var board = _boardObj.GetComponent<Board>();
             board.Initialize();
         }
     }
