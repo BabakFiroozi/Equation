@@ -70,9 +70,9 @@ namespace Equation
                 if (seg.type == SegmentTypes.Modified)
                 {
                     Vector3 hintPos = cell.pos;
-                    hintPos.y -= cellSize / 2 - .03f;
+                    hintPos.y -= cellSize / 2 - .02f;
                     var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation, _tr);
-                    hintObj.name = $"hit_{seg.content}";
+                    hintObj.name = $"hint_{seg.content}";
                     hintObj.transform.localScale = new Vector3(cellSize, _hintPrefab.transform.localScale.y, cellSize);
                     var hint = hintObj.GetComponent<Hint>();
                     hint.SetData(seg.content, cell);
