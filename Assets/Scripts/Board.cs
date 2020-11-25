@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Equation.Models;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 namespace Equation
 {
-    public class Board : MonoBehaviour
+    public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public static Board Instance { get; private set; }
         
-        [SerializeField] GameObject _pawnPrefab;
-        [SerializeField] GameObject _hintPrefab;
-        [SerializeField] Transform _groundTr;
-        [SerializeField] Material _groundMat;
+        [SerializeField] RectTransform _tableRectTr;
+        [SerializeField] GameObject _cellObj;
+        [SerializeField] GameObject _pawnObj;
+        [SerializeField] GameObject _hintObj;
+        [SerializeField] float _tableMargin = 20;
+        [SerializeField] float _tableBorder = 10;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -29,52 +32,54 @@ namespace Equation
         Transform _tr;
         float _cellSize;
         
-        bool _isOnGround;
-
 
         void Awake()
         {
             Instance = this;
             _tr = transform;
+            
+            MakePuzzleUI();
         }
 
 
-        public void Initialize()
+        void MakePuzzleUI()
         {
-            
             GameLevels levelName = GameLevels.Beginner;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[0];
 
-            float cellSize = 10f / _puzzle.columns;
+            float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
 
-            _groundTr.localScale = new Vector3(cellSize * _puzzle.columns, _groundTr.localScale.y, cellSize * _puzzle.rows);
+            _tableRectTr.sizeDelta = new Vector2(cellSize * _puzzle.columns, cellSize * _puzzle.rows);
 
-            Vector3 scale = _groundTr.localScale;
+            Rect tableRect = _tableRectTr.rect;
 
             int columnsCount = _puzzle.columns;
-            int rowsCount = _puzzle.rows;
-            Vector3 startPos = new Vector3(-(scale.x / 2f - cellSize * .5f), _tr.position.y + cellSize / 2, scale.z / 2f - cellSize * .5f);
+            Vector2 startPos = new Vector2(-(tableRect.width / 2f - cellSize * .5f), tableRect.height / 2f - cellSize * .5f);
+            _tableRectTr.sizeDelta += new Vector2(_tableBorder, _tableBorder);
 
-            _groundMat.mainTextureScale = new Vector2(columnsCount, rowsCount);
-            
             foreach (var seg in _puzzle.segments)
             {
                 var cell = new BoardCell();
                 cell.index = seg.cellIndex;
-                cell.pos = startPos + new Vector3((seg.cellIndex % columnsCount) * cellSize, 0, (-seg.cellIndex / columnsCount) * cellSize);
+                cell.pos = startPos + new Vector2((seg.cellIndex % columnsCount) * cellSize, (-seg.cellIndex / columnsCount) * cellSize);
                 Cells.Add(cell);
+
+                var cellObj = Instantiate(_cellObj, _tableRectTr);
+                var cellRectTr = cellObj.GetComponent<RectTransform>();
+                cellRectTr.sizeDelta = new Vector2(cellSize, cellSize);
+                cellRectTr.anchoredPosition = cell.pos;
 
                 if (seg.type == SegmentTypes.Modified)
                 {
-                    Vector3 hintPos = cell.pos;
+                    Vector2 hintPos = cell.pos;
                     hintPos.y -= cellSize / 2 - .02f;
-                    var hintObj = Instantiate(_hintPrefab, hintPos, _hintPrefab.transform.rotation, _tr);
+                    var hintObj = Instantiate(_hintObj, hintPos, Quaternion.identity, _tableRectTr);
                     hintObj.name = $"hint_{seg.content}";
-                    hintObj.transform.localScale = new Vector3(cellSize, _hintPrefab.transform.localScale.y, cellSize);
                     var hint = hintObj.GetComponent<Hint>();
+                    hint.RectTr.sizeDelta = new Vector2(cellSize, cellSize);
                     hint.SetData(seg.content, cell);
                     hintObj.SetActive(false);
                     Hints.Add(hint);
@@ -82,50 +87,41 @@ namespace Equation
 
                 if (seg.type == SegmentTypes.Fixed || seg.type == SegmentTypes.Hollow && seg.hold != -1)
                 {
-                    var pieceObj = Instantiate(_pawnPrefab, _pawnPrefab.transform.position, _pawnPrefab.transform.rotation, _tr);
-                    pieceObj.transform.localScale = new Vector3(cellSize, cellSize, cellSize);
-                    pieceObj.name = $"pawn_{seg.content}";
-                    var pawn = pieceObj.GetComponent<Pawn>();
+                    Vector2 pawnPos = cell.pos;
+                    var pawnObj = Instantiate(_pawnObj, pawnPos, Quaternion.identity, _tableRectTr);
+                    pawnObj.name = $"pawn_{seg.content}";
+                    var pawn = pawnObj.GetComponent<Pawn>();
+                    pawn.RectTr.sizeDelta = new Vector2(cellSize, cellSize);
                     pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
                     pawn.SetCell(cell, true);
                     Pawns.Add(pawn);
                 }
             }
 
-            foreach (var cell in Cells)
-                cell.pos.y -= _tr.position.y;
-            
+            _cellObj.SetActive(false);
+            _pawnObj.SetActive(false);
+            _hintObj.SetActive(false);
+
             ProcessTable();
         }
 
 
         void Update()
         {
-            if (_draggingPawn != null)
-            {
-                Vector3 mousePos = Input.mousePosition;
-                var ray =  Camera.main.ScreenPointToRay(mousePos);
-                bool hit = Physics.Raycast(ray, out var hitInfo, 1000, LayerMaskUtil.GetLayerMask("Ground"));
-                if (hit)
-                {
-                    Vector3 putPos = hitInfo.point - ray.direction.normalized * (_cellSize * 2.1f);
-                    _draggingPawn.Move(putPos.x, putPos.y, putPos.z);
-                    _isOnGround = hitInfo.collider.gameObject.name == "ground";
-                }
-            }
         }
 
-        public void SetDraggingPiece(Pawn pawn)
+        public void SetDraggingPawn(Pawn pawn)
         {
             var draggedPawn = _draggingPawn;
 
             if (pawn == null)
             {
                 BoardCell nearestCell = null;
-                if (_isOnGround)
+                bool isInTable = _tableRectTr.rect.Contains(draggedPawn.RectTr.anchoredPosition);
+                if (isInTable)
                 {
                     float minDist = 1000;
-                    Vector3 pos = draggedPawn.Trans.position;
+                    Vector3 pos = draggedPawn.RectTr.anchoredPosition;
                     var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                     foreach (var cell in emptyCells)
                     {
@@ -176,7 +172,7 @@ namespace Equation
                 FinishGame();
         }
 
-        void ProcessTable(bool horizontally, Dictionary<Pawn, bool> statePawnsDic)
+        void ProcessTable(bool horizontally, IDictionary<Pawn, bool> statePawnsDic)
         {
             int rows = _puzzle.rows;
             int cols = _puzzle.columns;
@@ -340,9 +336,47 @@ namespace Equation
         {
             if (Instance == this)
                 Instance = null;
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            var dragObj = eventData.pointerCurrentRaycast.gameObject;
+
+            if (dragObj == null)
+                return;
             
-            if(Application.isEditor)
-                _groundMat.mainTextureScale = new Vector2(10, 14);
+            var pawn = dragObj.GetComponent<Pawn>();
+            if (pawn == null)
+                return;
+            
+            if(!pawn.Movable)
+                return;
+
+            Debug.Log(dragObj.name);
+            SetDraggingPawn(pawn);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!eventData.dragging)
+                return;
+
+            if (_draggingPawn != null)
+            {
+                Debug.Log(eventData.position.ToString());
+                Vector2 pos = eventData.position;
+                pos.y -= Screen.height / 2f;
+                pos.x -= Screen.width / 2f;
+                _draggingPawn.RectTr.anchoredPosition = pos;
+            }
+        }
+
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (_draggingPawn == null)
+                return;
+            SetDraggingPawn(null);
         }
     }
     
@@ -350,7 +384,7 @@ namespace Equation
     public class BoardCell
     {
         public int index;
-        public Vector3 pos;
+        public Vector2 pos;
         public Pawn Pawn;
     }
 }

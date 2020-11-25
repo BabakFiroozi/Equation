@@ -724,14 +724,6 @@
       <Project>{0C986E4D-36B1-D1D3-014D-9B45370C82F7}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="RTLTMPro-Editor.csproj">
-      <Project>{A66EF8BA-AA93-E0E0-3134-ABD297390171}</Project>
-      <Name>RTLTMPro-Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="RTLTMPro.csproj">
-      <Project>{0CDECD7D-1B9B-3644-5314-F44044598943}</Project>
-      <Name>RTLTMPro</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
