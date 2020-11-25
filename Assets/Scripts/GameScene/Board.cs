@@ -308,37 +308,40 @@ namespace Equation
 
         IEnumerator<WaitForSeconds> _DoHelp()
         {
+            var hintsList = Hints.Where(h => !h.Revealed).ToList();
+            hintsList = hintsList.Where(h => h.Cell.Pawn == null || h.Content != h.Cell.Pawn.Content).ToList();
+
+            if (hintsList.Count == 0)
+            {
+                hintsList = Hints.Where(h => h.Revealed).ToList();
+                hintsList = hintsList.Where(h => h.Cell.Pawn == null || h.Content != h.Cell.Pawn.Content).ToList();
+            }
+
+
             var pawnsList = Pawns.Where(p => p.Movable).ToList();
 
-            var pawns = new List<Pawn>();
-            foreach (var p in pawnsList)
+            var selectedHint = hintsList[Random.Range(0, hintsList.Count)];
+
+            var selectedPawn = pawnsList.First(p =>
             {
                 var hint = Hints.Find(h => h.Cell == p.Cell);
-                if (hint == null || p.Content != hint.Content)
-                    pawns.Add(p);
-            }
-            
-            if(pawns.Count == 0)
-                yield break;
+                return (hint == null || hint.Content != p.Content) && p.Content == selectedHint.Content;
+            });
 
-            var selectedPawn = pawns[Random.Range(0, pawns.Count)];
-            var selectedHint = Hints.Find(h => h.Content == selectedPawn.Content && h.Cell.Pawn == null);
-            
             if (selectedHint.Cell.Pawn != null)
             {
                 var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                 var emptyCell = emptyCells[Random.Range(0, emptyCells.Count)];
                 selectedHint.Cell.Pawn.SetCell(emptyCell);
             }
-
             selectedPawn.RectTr.SetAsLastSibling();
             float time = selectedPawn.SetCell(selectedHint.Cell, false, true);
 
             yield return new WaitForSeconds(time);
-            
+
             ProcessTable();
         }
-        
+
 
         void FinishGame()
         {
