@@ -71,14 +71,16 @@ namespace Equation
                 var cellRectTr = cellObj.GetComponent<RectTransform>();
                 cellRectTr.sizeDelta = new Vector2(cellSize, cellSize);
                 cellRectTr.anchoredPosition = cell.pos;
+                cell.rectTr = cellRectTr;
 
                 if (seg.type == SegmentTypes.Modified)
                 {
                     Vector2 hintPos = cell.pos;
                     hintPos.y -= cellSize / 2 - .02f;
-                    var hintObj = Instantiate(_hintObj, hintPos, Quaternion.identity, _tableRectTr);
+                    var hintObj = Instantiate(_hintObj, _tableRectTr);
                     hintObj.name = $"hint_{seg.content}";
                     var hint = hintObj.GetComponent<Hint>();
+                    hint.RectTr.anchoredPosition = hintPos;
                     hint.RectTr.sizeDelta = new Vector2(cellSize, cellSize);
                     hint.SetData(seg.content, cell);
                     hintObj.SetActive(false);
@@ -97,6 +99,13 @@ namespace Equation
                     Pawns.Add(pawn);
                 }
             }
+
+            foreach (var cell in Cells)
+                cell.rectTr.SetAsLastSibling();
+            foreach (var hint in Hints)
+                hint.RectTr.SetAsLastSibling();
+            foreach (var pawn in Pawns)
+                pawn.RectTr.SetAsLastSibling();
 
             _cellObj.SetActive(false);
             _pawnObj.SetActive(false);
@@ -144,6 +153,9 @@ namespace Equation
             }
 
             _draggingPawn = pawn;
+            
+            if(_draggingPawn != null)
+                _draggingPawn.RectTr.SetAsLastSibling();
 
             ProcessTable();
         }
@@ -319,6 +331,7 @@ namespace Equation
                 selectedHint.Cell.Pawn.SetCell(emptyCell);
             }
 
+            selectedPawn.RectTr.SetAsLastSibling();
             float time = selectedPawn.SetCell(selectedHint.Cell, false, true);
 
             yield return new WaitForSeconds(time);
@@ -386,5 +399,6 @@ namespace Equation
         public int index;
         public Vector2 pos;
         public Pawn Pawn;
+        public RectTransform rectTr;
     }
 }

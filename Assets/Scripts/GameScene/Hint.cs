@@ -17,11 +17,22 @@ namespace Equation
 
         public BoardCell Cell { get; private set; }
 
+        float _initWidth;
+        float _initFontSize;
+        
+        void Awake()
+        {
+            _initWidth = RectTr.rect.width;
+            _initFontSize = _contentText.fontSize;
+        }
+        
         public void SetData(string content, BoardCell cell)
         {
             Content = content;
             Cell = cell;
             _contentText.text = Content;
+            RectTr.anchoredPosition = cell.pos;
+            _contentText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
         }
 
         public void Reveal()

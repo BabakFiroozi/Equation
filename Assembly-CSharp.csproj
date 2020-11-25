@@ -61,7 +61,6 @@
      <Compile Include="Assets\FarsiSaz\Fa.cs" />
      <Compile Include="Assets\FarsiSaz\Farsi.cs" />
      <Compile Include="Assets\JSON\JSONObject.cs" />
-     <Compile Include="Assets\Scripts\Board.cs" />
      <Compile Include="Assets\Scripts\Common\DataHelper.cs" />
      <Compile Include="Assets\Scripts\Common\GamePlayerPrefs.cs" />
      <Compile Include="Assets\Scripts\Common\HelperMethods.cs" />
@@ -70,9 +69,11 @@
      <Compile Include="Assets\Scripts\GameConfig.cs" />
      <Compile Include="Assets\Scripts\GameLevels.cs" />
      <Compile Include="Assets\Scripts\GameSaveData.cs" />
+     <Compile Include="Assets\Scripts\GameScene\Board.cs" />
+     <Compile Include="Assets\Scripts\GameScene\Hint.cs" />
+     <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
      <Compile Include="Assets\Scripts\General.cs" />
-     <Compile Include="Assets\Scripts\Hint.cs" />
-     <Compile Include="Assets\Scripts\Pawn.cs" />
+     <Compile Include="Assets\Scripts\Hud.cs" />
      <Compile Include="Assets\Scripts\PuzzlesPackModel.cs" />
      <Compile Include="Assets\Scripts\StoreNames.cs" />
      <None Include="Assets\Resources\Translates.txt" />
