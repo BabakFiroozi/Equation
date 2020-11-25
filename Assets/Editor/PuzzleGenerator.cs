@@ -86,8 +86,8 @@ namespace Equation.Tools
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
             _colsCount = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _colsCount);
 
-            _rowsCount = Mathf.Clamp(_rowsCount, 8, 16);
-            _colsCount = Mathf.Clamp(_colsCount, 6, 12);
+            _rowsCount = Mathf.Clamp(_rowsCount, 7, 21);
+            _colsCount = Mathf.Clamp(_colsCount, 6, 18);
 
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
