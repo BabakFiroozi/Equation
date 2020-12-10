@@ -9,7 +9,8 @@ namespace Equation
 		static DataHelper s_instance = null;
 
 		public const int MAX_STAGES_COUNT = 25;
-		public const int MAX_DAILY_STAGES_COUNT = 40;
+		public const int MAX_DAILY_STAGES_COUNT = 7;
+		public const int MAX_DAILY_NUM = 41; // 42 days or 6 weeks
 
 		public const int STAGE_RANK_MAX = 3;
 
@@ -17,6 +18,8 @@ namespace Equation
 		public static DataHelper Instance => s_instance ?? (s_instance = new DataHelper());
 
 		public bool DailyEntrance { get; private set; }
+
+		public bool DailyEntranceDisturbed => GameSaveData.GetDailyEntranceNumber() == 0;
 		public bool InformDailyEntrance { get; private set; }
 
 		public void CheckDailyEntrance(DateTime? nowDateTime)
@@ -33,7 +36,7 @@ namespace Equation
 					int month = (int) jsonObj["month"].i;
 					int day = (int) jsonObj["day"].i;
 					var date = new DateTime(year, month, day, 0, 0, 0, 0);
-					var diff = DateTime.Now - date;
+					var diff = nowDateTime.Value - date;
 					if (diff.TotalSeconds > 0)
 					{
 						if (diff.TotalHours < 24)
@@ -43,8 +46,9 @@ namespace Equation
 					}
 				}
 
+				//Calculate next daily entrance
 				{
-					var today = DateTime.Now;
+					var today = nowDateTime.Value;
 					int year = today.Year, month = today.Month, day = today.Day;
 					if (day < DateTime.DaysInMonth(year, month))
 					{
@@ -90,22 +94,11 @@ namespace Equation
 
 		public PuzzlePlayedInfo GetLastUnlockedInfo()
 		{
-			var gameMode = GameModes.None + 1;
-			for (int m = (int) GameModes.Count - 1; m > -1; --m)
-			{
-				var mode = (GameModes) m;
-				if (GameSaveData.IsModeUnlocked(mode))
-				{
-					gameMode = mode;
-					break;
-				}
-			}
-
 			var gameLevel = GameLevels.None + 1;
 			for (int l = (int) GameLevels.Count - 1; l > -1; --l)
 			{
 				var level = (GameLevels) l;
-				if (GameSaveData.IsLevelUnlocked(gameMode, level))
+				if (GameSaveData.IsLevelUnlocked(level))
 				{
 					gameLevel = level;
 					break;
@@ -115,18 +108,18 @@ namespace Equation
 			int gameStage = 0;
 			for (int s = MAX_STAGES_COUNT - 1; s > -1; --s)
 			{
-				if (GameSaveData.IsStageUnlocked(gameMode, gameLevel, s))
+				if (GameSaveData.IsStageUnlocked(gameLevel, s))
 				{
 					gameStage = s;
 					break;
 				}
 			}
 
-			var info = new PuzzlePlayedInfo {Mode = gameMode, Level = gameLevel, Stage = gameStage};
+			var info = new PuzzlePlayedInfo {Level = gameLevel, Stage = gameStage};
 			return info;
 		}
 
-		public PuzzlePlayedInfo LastPlayedInfo { get; } = new PuzzlePlayedInfo {Mode = GameModes.None, Level = GameLevels.None, Stage = -1};
+		public PuzzlePlayedInfo LastPlayedInfo { get; } = new PuzzlePlayedInfo {Level = GameLevels.None, Stage = -1};
 	}
 
 }

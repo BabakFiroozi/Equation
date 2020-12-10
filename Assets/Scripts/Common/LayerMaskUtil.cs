@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Equation
+namespace Cacao
 {
 	public static class LayerMaskUtil
 	{

@@ -10,7 +10,7 @@ namespace IngameDebugConsole
 		public string logString;
 		public string stackTrace;
 
-		private string completeLog = null;
+		private string completeLog;
 
 		// Sprite to show with this entry
 		public Sprite logTypeSpriteRepresentation;
@@ -18,22 +18,29 @@ namespace IngameDebugConsole
 		// Collapsed count
 		public int count;
 
-		private int hashValue = HASH_NOT_CALCULATED;
+		private int hashValue;
 
-		public DebugLogEntry( string logString, string stackTrace, Sprite sprite )
+		public void Initialize( string logString, string stackTrace )
 		{
 			this.logString = logString;
 			this.stackTrace = stackTrace;
 
-			logTypeSpriteRepresentation = sprite;
-
+			completeLog = null;
 			count = 1;
+			hashValue = HASH_NOT_CALCULATED;
 		}
 
 		// Check if two entries have the same origin
 		public bool Equals( DebugLogEntry other )
 		{
 			return this.logString == other.logString && this.stackTrace == other.stackTrace;
+		}
+
+		// Checks if logString or stackTrace contains the search term
+		public bool MatchesSearchTerm( string searchTerm )
+		{
+			return ( logString != null && logString.IndexOf( searchTerm, System.StringComparison.OrdinalIgnoreCase ) >= 0 ) ||
+				( stackTrace != null && stackTrace.IndexOf( searchTerm, System.StringComparison.OrdinalIgnoreCase ) >= 0 );
 		}
 
 		// Return a string containing complete information about this debug entry
@@ -59,6 +66,27 @@ namespace IngameDebugConsole
 			}
 
 			return hashValue;
+		}
+	}
+
+	public struct QueuedDebugLogEntry
+	{
+		public readonly string logString;
+		public readonly string stackTrace;
+		public readonly LogType logType;
+
+		public QueuedDebugLogEntry( string logString, string stackTrace, LogType logType )
+		{
+			this.logString = logString;
+			this.stackTrace = stackTrace;
+			this.logType = logType;
+		}
+
+		// Checks if logString or stackTrace contains the search term
+		public bool MatchesSearchTerm( string searchTerm )
+		{
+			return ( logString != null && logString.IndexOf( searchTerm, System.StringComparison.OrdinalIgnoreCase ) >= 0 ) ||
+				( stackTrace != null && stackTrace.IndexOf( searchTerm, System.StringComparison.OrdinalIgnoreCase ) >= 0 );
 		}
 	}
 }

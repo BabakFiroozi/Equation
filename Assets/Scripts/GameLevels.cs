@@ -13,11 +13,4 @@
         Master,
         Count
     }
-
-    public enum GameModes
-    {
-        None = -1,
-        Easy,
-        Count
-    }
 }

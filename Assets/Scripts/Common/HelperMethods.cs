@@ -9,9 +9,9 @@ namespace Equation
             int hour = timeInSecond / 3600;
             int min = timeInSecond % 3600 / 60;
             int sec = timeInSecond % 60;
-            string str = $"{hour:00}:{min:00}:{sec:00}";
+            string str = $"{hour:00} : {min:00} : {sec:00}";
             if(onlyMinute)
-                str = $"{min:00}:{sec:00}";
+                str = $"{min:00} : {sec:00}";
             return str;
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Cacao.FarsiSaz;
 using UnityEngine;
 
 
@@ -9,26 +10,33 @@ namespace Equation
 {
     internal static class Translator
     {
-        public const string Level = "Level";
-        public const string In_Every_Stage = "In_Every_Stage";
-        public const string Solved_Move = "Solved_Move";
-        public const string With = "With";
+
+        public const string CROSS_SIGN = "×";
         
         static bool _inited = false;
         
         static Dictionary<string, string> _translateDic = new Dictionary<string, string>();
 
 
-        public static string GetString(string key)
+        public static string GetString(string key, bool fix = true)
         {
             if (!_inited)
                 InitTranslateDic();
-            
+
             if (_translateDic.ContainsKey(key))
-                return NBidi.NBidi.LogicalToVisual(_translateDic[key]);
+            {
+                if (fix)
+                    return Farsi.Fix(_translateDic[key], true);
+                else
+                    return _translateDic[key];
+            }
             return key.ToUpper();
         }
 
+        public static string FixFarsi(string text)
+        {
+            return Farsi.Fix(text, true);
+        }
 
         static void InitTranslateDic()
         {

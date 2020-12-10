@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 
-namespace Cacao.Tools
+namespace Cacao.FarsiSaz
 {
 	public static class Fa
 	{

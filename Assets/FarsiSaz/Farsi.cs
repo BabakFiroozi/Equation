@@ -1,4 +1,6 @@
-namespace Cacao.Tools
+
+
+namespace Cacao.FarsiSaz
 {
     public static class Farsi
     {
