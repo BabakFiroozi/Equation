@@ -44,7 +44,7 @@ namespace Equation
 
         void MakePuzzleUI()
         {
-            GameLevels levelName = GameLevels.Beginner;
+            int levelName = 0;
             var textAsset = Resources.Load<TextAsset>($"Puzzles/{levelName}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[0];

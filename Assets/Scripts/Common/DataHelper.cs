@@ -8,10 +8,6 @@ namespace Equation
 	{
 		static DataHelper s_instance = null;
 
-		public const int MAX_STAGES_COUNT = 25;
-		public const int MAX_DAILY_STAGES_COUNT = 7;
-		public const int MAX_DAILY_NUM = 41; // 42 days or 6 weeks
-
 		public const int STAGE_RANK_MAX = 3;
 
 
@@ -92,34 +88,6 @@ namespace Equation
 		{
 		}
 
-		public PuzzlePlayedInfo GetLastUnlockedInfo()
-		{
-			var gameLevel = GameLevels.None + 1;
-			for (int l = (int) GameLevels.Count - 1; l > -1; --l)
-			{
-				var level = (GameLevels) l;
-				if (GameSaveData.IsLevelUnlocked(level))
-				{
-					gameLevel = level;
-					break;
-				}
-			}
-
-			int gameStage = 0;
-			for (int s = MAX_STAGES_COUNT - 1; s > -1; --s)
-			{
-				if (GameSaveData.IsStageUnlocked(gameLevel, s))
-				{
-					gameStage = s;
-					break;
-				}
-			}
-
-			var info = new PuzzlePlayedInfo {Level = gameLevel, Stage = gameStage};
-			return info;
-		}
-
-		public PuzzlePlayedInfo LastPlayedInfo { get; } = new PuzzlePlayedInfo {Level = GameLevels.None, Stage = -1};
+		public PuzzlePlayedInfo LastPlayedInfo { get; } = new PuzzlePlayedInfo {Level = -1, Stage = -1};
 	}
-
 }

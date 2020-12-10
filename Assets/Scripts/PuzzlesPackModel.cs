@@ -7,7 +7,7 @@ namespace Equation.Models
     [Serializable]
     public class PuzzlesPackModel
     {
-        public GameLevels level;
+        public int level;
         public List<Puzzle> puzzles;
     }
     

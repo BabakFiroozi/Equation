@@ -9,7 +9,7 @@ namespace Equation
 {
 	public class PuzzlePlayedInfo
 	{
-		public GameLevels Level { get; set; }
+		public int Level { get; set; }
 		public int Stage { get; set; }
 
 		// public string Subject { get; set; }
@@ -31,7 +31,7 @@ namespace Equation
 	public static class GameSaveData
 	{
 
-		public static void UnlockLevel(GameLevels level, bool del = false)
+		public static void UnlockLevel(int level, bool del = false)
 		{
 			string key = $"{level}_Unlocked";
 			SetBool(key, true);
@@ -39,13 +39,13 @@ namespace Equation
 				PlayerPrefs.DeleteKey(key);
 		}
 
-		public static bool IsLevelUnlocked(GameLevels level)
+		public static bool IsLevelUnlocked(int level)
 		{
 			string key = $"{level}_Unlocked";
 			return GetBool(key);
 		}
 
-		public static void UnlockStage(GameLevels level, int stage, bool del = false)
+		public static void UnlockStage(int level, int stage, bool del = false)
 		{
 			string key = $"{level}_{stage}_Unlocked";
 			SetBool(key, true);
@@ -53,7 +53,7 @@ namespace Equation
 				PlayerPrefs.DeleteKey(key);
 		}
 
-		public static bool IsStageUnlocked(GameLevels level, int stage)
+		public static bool IsStageUnlocked(int level, int stage)
 		{
 			string key = $"{level}_{stage}_Unlocked";
 			return GetBool(key);
@@ -116,7 +116,7 @@ namespace Equation
 			PlayerPrefs.SetInt(key, GetLevelSolvedStagesCount(info.Level) + 1);
 		}
 
-		public static int GetLevelSolvedStagesCount(GameLevels level)
+		public static int GetLevelSolvedStagesCount(int level)
 		{
 			string key = "Level_Stages_Count_Solved_" + level;
 			int count = PlayerPrefs.GetInt(key, 0);
@@ -137,13 +137,13 @@ namespace Equation
 			string str = PlayerPrefs.GetString("LastPlayedInfo", "");
 			if (str == "null" || string.IsNullOrEmpty(str))
 			{
-				info.Level = GameLevels.Beginner;
+				info.Level = 0;
 				info.Stage = 0;
 				return;
 			}
 			
 			JSONObject obj = JSONObject.Create(str);
-			info.Level = (GameLevels) obj.GetField("level").i;
+			info.Level = (int) obj.GetField("level").i;
 			info.Stage = (int) obj.GetField("stage").i;
 		}
 
@@ -493,13 +493,13 @@ namespace Equation
 			SetBool(keyName, true);
 		}
 
-		public static bool IsNextLevelReachedRewarded(GameLevels level)
+		public static bool IsNextLevelReachedRewarded(int level)
 		{
 			string keyName = $"NextLevelReachedRewarded_{level}";
 			return GetBool(keyName, false);
 		}
 		
-		public static void RewardNextLevelReached(GameLevels level)
+		public static void RewardNextLevelReached(int level)
 		{
 			string keyName = $"NextLevelReachedRewarded_{level}";
 			SetBool(keyName, true);

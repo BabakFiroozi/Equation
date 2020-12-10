@@ -10,20 +10,12 @@ namespace Cacao
 
 		[SerializeField] int _playerInitialCoin = 10000;
 
-		[SerializeField] int _normalMedalCost = 100;
-		[SerializeField] int _hardMedalCost = 250;
-		[SerializeField] int _extremeMedalCost = 450;
-		[SerializeField] int _nightmareMedalCost = 700;
-
 		[SerializeField] int _hintCost = 30;
-		[SerializeField] int _hintCostOptional = 45;
-		[SerializeField] int _guideCost = 90;
-		[SerializeField] int _revealHiddenCostCoef = 2;
+		[SerializeField] int _helpCost = 90;
 
 		[SerializeField] StoreNames _storeName = StoreNames.Cafebazar;
 
-		[SerializeField] string _mainLeaderboardId = "";
-		[SerializeField] string _hiddenLeaderboardId = "";
+		[SerializeField] string _leaderboardId = "";
 
 		[SerializeField] int _freeCoinAmount = 100;
 		
@@ -32,15 +24,9 @@ namespace Cacao
 
 		public bool TutorialIsActive => _tutorialIsActive;
 		public bool GameIsUnlock => _gameIsUnlock;
-		public int NormalMedalCost => _normalMedalCost;
-		public int HardMedalCost => _hardMedalCost;
-		public int ExtremeMedalCost => _extremeMedalCost;
-		public int NightmareMedalCost => _nightmareMedalCost;
 
 		public int HintCost => _hintCost;
-		public int HintCostOptional => _hintCostOptional;
-		public int GuideCost => _guideCost;
-		public float RevealHiddenCostCoef => _revealHiddenCostCoef;
+		public int HelpCost => _helpCost;
 
 		public StoreNames StoreName => _storeName;
 
@@ -50,8 +36,7 @@ namespace Cacao
 		
 		public float TimeScale => _timeScale;
 
-		public string MainLeaderboardId => _mainLeaderboardId;
-		public string HiddenLeaderboardId => _hiddenLeaderboardId;
+		public string LeaderboardId => _leaderboardId;
 
 
 		static GameConfig _instance;

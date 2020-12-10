@@ -67,7 +67,6 @@
      <Compile Include="Assets\Scripts\Common\LayerMaskUtil.cs" />
      <Compile Include="Assets\Scripts\Common\Translator.cs" />
      <Compile Include="Assets\Scripts\GameConfig.cs" />
-     <Compile Include="Assets\Scripts\GameLevels.cs" />
      <Compile Include="Assets\Scripts\GameSaveData.cs" />
      <Compile Include="Assets\Scripts\GameScene\Board.cs" />
      <Compile Include="Assets\Scripts\GameScene\Hint.cs" />

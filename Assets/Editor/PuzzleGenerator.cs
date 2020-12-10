@@ -47,7 +47,7 @@ namespace Equation.Tools
         Font _fontEnglish;
         
         public const string SAVE_PATH = "Resources/Puzzles";
-        GameLevels _saveGameLevel;
+        int _saveGameLevel;
 
         void Awake()
         {
@@ -55,7 +55,7 @@ namespace Equation.Tools
             _rowsCount = EditorPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
             _groupsCount = EditorPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
             
-            _puzzlesPack = new PuzzlesPackModel {level = GameLevels.Beginner, puzzles = new List<Puzzle>()};
+            _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
         }
 
         void OnDestroy()
@@ -160,7 +160,7 @@ namespace Equation.Tools
                 SavePuzzles();
             }
 
-            _saveGameLevel = (GameLevels) EditorGUI.EnumPopup(new Rect(600, 50, 100, 20), _saveGameLevel);
+            _saveGameLevel = EditorGUI.IntField(new Rect(600, 50, 100, 20), _saveGameLevel);
 
             
             int fontSize = GUI.skin.label.fontSize;
