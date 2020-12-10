@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Equation
 {
@@ -50,6 +51,5 @@ namespace Equation
                 content = "÷";
             return content;
         }
-        
     }
 }

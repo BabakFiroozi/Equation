@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Equation.Models;
@@ -32,6 +33,12 @@ namespace Equation.Tools
         int _colsCount = 8;
         int _groupsCount = 3;
         int _shuffleCount = 1;
+        
+        int _numMinRange = 1;
+        int _numMaxRange = 20;
+
+        bool _hasTime = true;
+        bool _hasDevide = true;
 
 
         List<Group> _horGroups = new List<Group>();
@@ -42,20 +49,25 @@ namespace Equation.Tools
 
         Puzzle _puzzle;
         PuzzlesPackModel _puzzlesPack;
-        
+
+        int _loadedLevel = 0;
+        int _selectedStage = -1;
+
         Font _fontPersian;
         Font _fontEnglish;
         
         public const string SAVE_PATH = "Resources/Puzzles";
         int _saveGameLevel;
 
+        Vector2 _stagesScrollPos;
+        
+        
+
         void Awake()
         {
             _colsCount = EditorPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
             _rowsCount = EditorPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
             _groupsCount = EditorPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
-            
-            _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
         }
 
         void OnDestroy()
@@ -71,7 +83,6 @@ namespace Equation.Tools
             EditorPrefs.DeleteKey("PuzzleGenerator_rowsCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_groupsCount");
         }
-
 
         void OnGUI()
         {
@@ -91,10 +102,6 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
-
-            GUI.Label(new Rect(420, 20, 55, 20), "Shuffles");
-            _shuffleCount = EditorGUI.IntField(new Rect(420 + 55, 20, 30, 20), _shuffleCount);
-
 
             const float width_ref = 340;
             const float cell_margine = 4;
@@ -126,6 +133,7 @@ namespace Equation.Tools
 
             if (GUI.Button(new Rect(20, 20, 100, 20), "Patterns"))
             {
+                _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
                 GeneratePattern();
             }
 
@@ -136,70 +144,142 @@ namespace Equation.Tools
 
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
-                ShuffleSegments(_shuffleCount);
+                ShuffleSegments(1);
             }
-
-            var groups = new List<Group>();
-            groups.AddRange(_horGroups);
-            groups.AddRange(_verGroups);
-            foreach (var group in groups)
+            
+            if (GUI.Button(new Rect(450, 20, 100, 20), "Generare"))
             {
-                var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
-                var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
-                foreach (var cell in cellsList)
-                {
-                    EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
-                }
+                GeneratePuzzles();
             }
+            
+            GUI.Label(new Rect(400, 47, 50, 20), "Range");
+
+            _numMinRange = EditorGUI.IntField(new Rect(450, 45, 45, 20), _numMinRange);
+            _numMaxRange = EditorGUI.IntField(new Rect(505, 45, 45, 20), _numMaxRange);
+
+            _hasTime = GUI.Toggle(new Rect(450, 70, 45, 20), _hasTime, "Time");
+            _hasDevide = GUI.Toggle(new Rect(505, 70, 45, 20), _hasDevide, "Devide");
+            
+            // var groups = new List<Group>();
+            // groups.AddRange(_horGroups);
+            // groups.AddRange(_verGroups);
+            // foreach (var group in groups)
+            // {
+            //     var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
+            //     var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
+            //     foreach (var cell in cellsList)
+            //     {
+            //         EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
+            //     }
+            // }
 
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
 
-            if (GUI.Button(new Rect(600, 20, 100, 20), "Save"))
-            {
+            GUI.Label(new Rect(720, 50, 40, 20), "Level");
+            _saveGameLevel = EditorGUI.IntField(new Rect(770, 50, 50, 20), _saveGameLevel);
+            if (GUI.Button(new Rect(720, 20, 100, 20), "Save"))
                 SavePuzzles();
+            
+            _loadedLevel = EditorGUI.IntField(new Rect(660, 120, 40, 20), _loadedLevel);
+
+            if (GUI.Button(new Rect(600, 120, 50, 20), "Load"))
+            {
+                LoadPuzzlePack(_loadedLevel);
             }
 
-            _saveGameLevel = EditorGUI.IntField(new Rect(600, 50, 100, 20), _saveGameLevel);
-
-            
-            int fontSize = GUI.skin.label.fontSize;
-            var alignment = GUI.skin.label.alignment;
-            GUI.skin.label.fontSize = (int) (cellSize * .5f);
-            GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-            GUI.skin.label.font = _fontPersian;
-
-            foreach (var cell in _allCellsList)
+            if (_puzzlesPack != null)
             {
-                if(_puzzle == null)
-                    break;
-                foreach (var seg in _puzzle.segments)
+                int stagesCount = _puzzlesPack.puzzles.Count;
+                
+                EditorGUI.DrawRect(new Rect(600, 150, 100, 400), new Color(1, .5f, .9f));
+
+                _stagesScrollPos = GUI.BeginScrollView(new Rect(600, 150, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
+
+                for (int i = 0; i < stagesCount; ++i)
                 {
-                    if (cell.index == seg.cellIndex)
+                    if (i == _selectedStage)
+                        EditorGUI.DrawRect(new Rect(0, i * 20, 80, 20), new Color(1, .1f, .9f));
+
+                    var p = _puzzlesPack.puzzles[i];
+                    GUI.Label(new Rect(0, i * 20, 60, 20), $"{i + 1:000}");
+                    if (GUI.Button(new Rect(65, i * 20, 20, 20), "-"))
                     {
-                        if (seg.type != SegmentTypes.Hollow)
+                        _selectedStage = i;
+                    }
+                }
+
+                GUI.EndScrollView();
+                
+                
+                int fontSize = GUI.skin.label.fontSize;
+                var alignment = GUI.skin.label.alignment;
+                GUI.skin.label.fontSize = (int) (cellSize * .5f);
+                GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+                GUI.skin.label.font = _fontPersian;
+
+                Puzzle puzzle = null;
+                if (_selectedStage == -1)
+                    puzzle = _puzzle;
+                if (_selectedStage > -1 && _selectedStage < _puzzlesPack.puzzles.Count)
+                    puzzle = _puzzlesPack.puzzles[_selectedStage];
+
+                foreach (var cell in _allCellsList)
+                {
+                    if (puzzle == null)
+                        break;
+                    foreach (var seg in puzzle.segments)
+                    {
+                        if (cell.index == seg.cellIndex)
                         {
-                            GUI.Label(cell.rect, seg.type == SegmentTypes.Modified ? "" : HelperMethods.CorrectOpperatorContent(seg.content));
-                            if (seg.type == SegmentTypes.Fixed)
-                                EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
-                        }
-                        else
-                        {
-                            if (seg.hold != -1)
+                            if (seg.type != SegmentTypes.Hollow)
                             {
-                                var holdPiece = _puzzle.segments[seg.cellIndex];
-                                var holdCell = _allCellsList[seg.cellIndex];
-                                EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
-                                GUI.Label(holdCell.rect, HelperMethods.CorrectOpperatorContent(holdPiece.content));
+                                EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
+                                GUI.Label(cell.rect, seg.type == SegmentTypes.Modified ? "" : HelperMethods.CorrectOpperatorContent(seg.content));
+                                if (seg.type == SegmentTypes.Fixed)
+                                    EditorGUI.DrawRect(new Rect(cell.rect.x, cell.rect.y, 10, 10), new Color(.5f, .5f, .5f, .5f));
+                            }
+                            else
+                            {
+                                if (seg.hold != -1)
+                                {
+                                    var holdPiece = puzzle.segments[seg.cellIndex];
+                                    var holdCell = _allCellsList[seg.cellIndex];
+                                    EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
+                                    GUI.Label(holdCell.rect, HelperMethods.CorrectOpperatorContent(holdPiece.content));
+                                }
                             }
                         }
                     }
                 }
+                
+                GUI.skin.label.font = _fontEnglish;
+                GUI.skin.label.fontSize = fontSize;
+                GUI.skin.label.alignment = alignment;
             }
+        }
 
-            GUI.skin.label.font = _fontEnglish;
-            GUI.skin.label.fontSize = fontSize;
-            GUI.skin.label.alignment = alignment;
+
+        void LoadPuzzlePack(int level)
+        {
+            string loadPath = $"{Application.dataPath}/{SAVE_PATH}/level_{level:000}.json";
+            string data = File.ReadAllText(loadPath);
+            _puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
+            _selectedStage = 0;
+        }
+
+
+        async void GeneratePuzzles()
+        {
+            if (_puzzlesPack == null)
+                _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+            _selectedStage = 0;
+            GeneratePattern();
+            GenerateSegments();
+            Repaint();
+            await Task.Delay(200);
+            ShuffleSegments(1);
+            Repaint();
         }
 
         void GeneratePattern()
@@ -383,14 +463,14 @@ namespace Equation.Tools
                 }
             } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
 
-            var oppsList = new List<string>();
-            oppsList.Add("p");
-            oppsList.Add("m");
-            // oppsList.Add("t");
-            // oppsList.Add("d");
+            var oppsList = new List<string> {"p", "m"};
+            if (_hasTime)
+                oppsList.Add("t");
+            if (_hasDevide)
+                oppsList.Add("d");
 
-            int numberMin = 1;
-            int numberMax = 20;
+            int numberMin = _numMinRange;
+            int numberMax = _numMaxRange;
 
             _allPiecesList.Clear();
 
@@ -667,11 +747,12 @@ namespace Equation.Tools
             {
                 _puzzlesPack.level = _saveGameLevel;
 
-                string savePath = $"{Application.dataPath}/{SAVE_PATH}/{_saveGameLevel}.json";
+                string savePath = $"{Application.dataPath}/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
                 File.WriteAllText(savePath, JsonUtility.ToJson(_puzzlesPack));
                 //Import asset again for updating file
                 string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel}.json";
                 AssetDatabase.ImportAsset(filePath);
+                AssetDatabase.Refresh();
             }
             catch (Exception e)
             {
