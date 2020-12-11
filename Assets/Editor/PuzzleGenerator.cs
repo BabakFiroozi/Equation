@@ -61,7 +61,11 @@ namespace Equation.Tools
 
         Vector2 _stagesScrollPos;
         
-        
+        int _generateCount = 30;
+
+        bool _isGenerating;
+
+        bool _singleGenerated;
 
         void Awake()
         {
@@ -134,6 +138,7 @@ namespace Equation.Tools
             if (GUI.Button(new Rect(20, 20, 100, 20), "Patterns"))
             {
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+                _singleGenerated = true; 
                 GeneratePattern();
             }
 
@@ -146,10 +151,16 @@ namespace Equation.Tools
             {
                 ShuffleSegments(1);
             }
-            
-            if (GUI.Button(new Rect(450, 20, 100, 20), "Generare"))
+
+            _generateCount = EditorGUI.IntField(new Rect(520, 20, 30, 20), _generateCount);
+            if (GUI.Button(new Rect(450, 20, 65, 20), "Generate"))
             {
                 GeneratePuzzles();
+            }
+            
+            if (GUI.Button(new Rect(560, 20, 60, 20), "Sort"))
+            {
+                SortGeneratedPuzzles();
             }
             
             GUI.Label(new Rect(400, 47, 50, 20), "Range");
@@ -160,18 +171,21 @@ namespace Equation.Tools
             _hasTime = GUI.Toggle(new Rect(450, 70, 45, 20), _hasTime, "Time");
             _hasDevide = GUI.Toggle(new Rect(505, 70, 45, 20), _hasDevide, "Devide");
             
-            // var groups = new List<Group>();
-            // groups.AddRange(_horGroups);
-            // groups.AddRange(_verGroups);
-            // foreach (var group in groups)
-            // {
-            //     var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
-            //     var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
-            //     foreach (var cell in cellsList)
-            //     {
-            //         EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
-            //     }
-            // }
+            if(_singleGenerated)
+            {
+                var groups = new List<Group>();
+                groups.AddRange(_horGroups);
+                groups.AddRange(_verGroups);
+                foreach (var group in groups)
+                {
+                    var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
+                    var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
+                    foreach (var cell in cellsList)
+                    {
+                        EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
+                    }
+                }
+            }
 
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
@@ -202,8 +216,8 @@ namespace Equation.Tools
                         EditorGUI.DrawRect(new Rect(0, i * 20, 80, 20), new Color(1, .1f, .9f));
 
                     var p = _puzzlesPack.puzzles[i];
-                    GUI.Label(new Rect(0, i * 20, 60, 20), $"{i + 1:000}");
-                    if (GUI.Button(new Rect(65, i * 20, 20, 20), "-"))
+                    GUI.Label(new Rect(0, i * 20, 70, 20), $" {i + 1:000}");
+                    if (GUI.Button(new Rect(65, i * 20, 20, 20), "«"))
                     {
                         _selectedStage = i;
                     }
@@ -257,6 +271,11 @@ namespace Equation.Tools
                 GUI.skin.label.fontSize = fontSize;
                 GUI.skin.label.alignment = alignment;
             }
+
+            if (_isGenerating)
+            {
+                GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), "Generating puzzles...");
+            }
         }
 
 
@@ -271,21 +290,38 @@ namespace Equation.Tools
 
         async void GeneratePuzzles()
         {
+            _singleGenerated = false;
+            
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             _selectedStage = 0;
-            GeneratePattern();
-            GenerateSegments();
-            Repaint();
-            await Task.Delay(200);
-            ShuffleSegments(1);
-            Repaint();
+
+            _isGenerating = true;
+
+            for (int i = 0; i < _generateCount; ++i)
+            {
+                GeneratePattern();
+                await Task.Delay(200);
+                GenerateSegments();
+                Repaint();
+                await Task.Delay(200);
+                ShuffleSegments(2);
+                _selectedStage = i;
+                Repaint();
+                await Task.Delay(200);
+            }
+
+            _isGenerating = false;
+
+        }
+
+        void SortGeneratedPuzzles()
+        {
+            
         }
 
         void GeneratePattern()
         {
-            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
-
             _horGroups.Clear();
             _verGroups.Clear();
 
@@ -420,6 +456,8 @@ namespace Equation.Tools
             }
 
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
+
+            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
 
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
@@ -613,29 +651,29 @@ namespace Equation.Tools
 
         void ShuffleSegments(int shuffleCount)
         {
-            int totalDistort = 0;
+            int totalShuffle = 0;
             int loopIter = 0;
             do
             {
-                int distort;
-                while (!TryShuffleSegments(out distort))
+                int shuffledCount;
+                while (!TryShuffleSegments(loopIter, out shuffledCount))
                 {
 
                 }
 
-                totalDistort += distort;
+                totalShuffle += shuffledCount;
             } while (++loopIter < shuffleCount);
 
             // if (_puzzlesPack.puzzles.Exists(p => p.id == _puzzle.id))
             //     return;
 
-            _puzzle.distort = totalDistort;
+            _puzzle.shuffle = totalShuffle;
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments(out int distort)
+        bool TryShuffleSegments(int shuffleIter, out int shuffledCount)
         {
-            distort = 0;
+            shuffledCount = 0;
             
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
@@ -645,7 +683,11 @@ namespace Equation.Tools
             _horGroups.ForEach(g => horGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
             _verGroups.ForEach(g => verGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
 
-            int shuffleCount = horGroupsList.Count + verGroupsList.Count;
+            int shufflesCount = horGroupsList.Count + verGroupsList.Count;
+            if(shuffleIter > 0)
+            {
+                shufflesCount = shuffleIter;
+            }
 
             var holdsList = new List<int>();
             var heldsList = new List<int>();
@@ -657,7 +699,7 @@ namespace Equation.Tools
                 hollowSegs.RemoveAt(index);
                 if(hollowSegs.Count == 0)
                     break;
-            } while (holdsList.Count < shuffleCount);
+            } while (holdsList.Count < shufflesCount);
             
             do
             {
@@ -666,7 +708,7 @@ namespace Equation.Tools
                 fixedSegs.RemoveAt(index);
                 if(fixedSegs.Count == 0)
                     break;
-            } while (heldsList.Count < shuffleCount);
+            } while (heldsList.Count < shufflesCount);
 
             
             if (holdsList.Count != heldsList.Count)
@@ -675,28 +717,32 @@ namespace Equation.Tools
                 return false;
             }
 
-            distort = heldsList.Count;
+            shuffledCount = heldsList.Count;
 
-            bool failed = false;
-            foreach (var g in horGroupsList)
+            if(shuffleIter == 0)
             {
-                if (!g.Intersect(heldsList).Any())
+                bool failed = false;
+                foreach (var g in horGroupsList)
                 {
-                    failed = true;
-                    break;
+                    if (!g.Intersect(heldsList).Any())
+                    {
+                        failed = true;
+                        break;
+                    }
                 }
-            }
-            foreach (var g in verGroupsList)
-            {
-                if (!g.Intersect(heldsList).Any())
-                {
-                    failed = true;
-                    break;
-                }
-            }
 
-            if (failed)
-                return false;
+                foreach (var g in verGroupsList)
+                {
+                    if (!g.Intersect(heldsList).Any())
+                    {
+                        failed = true;
+                        break;
+                    }
+                }
+
+                if (failed)
+                    return false;
+            }
             
 
             do
