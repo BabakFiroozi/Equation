@@ -6,11 +6,11 @@ namespace Equation
 {
     public class MyTapsellAds : MonoBehaviour
     {
-        public const string FreeGuide = "5fd0c4423778d0000191a0e6";
-        public const string FreeCoin = "5f9e69ed51da85000178dd03";
-        public const string GameExit = "5fc9f091b0aeaf0001ad0927";
+        public const string FreeHint = "5fd395f44442e20001a9f63b";
+        public const string FreeCoin = "";
+        public const string GameExit = "";
         
-        const string TapsellKey = "boedlljmqetqhgkqfkslinfcfmrlepqlbakpgpnkheqsariqrlnjmmemntocsdiblfhfmc";
+        const string TapsellKey = "rgmifjqllkmjhjntghegqqljfgcriqqhgjpcigqkjgibotajtdchlpgcjrrrpnjlpaorrm";
         
         public static MyTapsellAds Instance { get; private set; }
         

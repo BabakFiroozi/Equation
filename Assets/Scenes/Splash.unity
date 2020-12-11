@@ -328,7 +328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &167569324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,8 +341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb96167e351a04baeb834291c6e662d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClientId: mytestgame1364
-  ClientSecret: 4flrbeg1c44c0vf28yhl8m
+  ClientId: tablemath1babgames
+  ClientSecret: 3rgkvads8hrxnma01n5v
   RealTimeUtilEnabled: 0
 --- !u!4 &167569325
 Transform:

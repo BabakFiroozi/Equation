@@ -25,9 +25,7 @@
 		<meta-data android:name="cheshmakPush" android:value="startServiceOnPush"/>
 	</service>
 	<meta-data android:name="cheshmakID" android:value="active" />
-	<meta-data android:name="appKey" android:value="MJ36JyATzATiyAOGZJdRnw=="/>
-	
-	
+	<meta-data android:name="appKey" android:value="K7GKtlxdh+Iw5UjOic6JKg=="/>
 	
 	
     <meta-data android:name="unity.splash-mode" android:value="0" />
