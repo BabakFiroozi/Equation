@@ -973,11 +973,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e0bddb30d520d4e8033273a84000d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: bb1fe3099d765f94499a6b4d41801761, type: 2}
-  _masterGroup: {fileID: 24300002, guid: bb1fe3099d765f94499a6b4d41801761, type: 2}
-  _soundsGroup: {fileID: -8938532440770186878, guid: bb1fe3099d765f94499a6b4d41801761,
+  _audioMixer: {fileID: 24100000, guid: 25fe369d14cd73045873787405fa40c6, type: 2}
+  _masterGroup: {fileID: 24300002, guid: 25fe369d14cd73045873787405fa40c6, type: 2}
+  _soundsGroup: {fileID: -8938532440770186878, guid: 25fe369d14cd73045873787405fa40c6,
     type: 2}
-  _musicsGroup: {fileID: -4401034995628550727, guid: bb1fe3099d765f94499a6b4d41801761,
+  _musicsGroup: {fileID: -4401034995628550727, guid: 25fe369d14cd73045873787405fa40c6,
     type: 2}
   _soundsGroupVolumeParam: .8
   _musicsGroupVolumeParam: .8

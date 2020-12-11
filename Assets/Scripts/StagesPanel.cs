@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Equation
 {
-    public class StageSelectionPanel : MonoBehaviour
+    public class StagesPanel : MonoBehaviour
     {
         void Start()
         {

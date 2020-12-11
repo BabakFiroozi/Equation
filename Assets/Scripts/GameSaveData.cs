@@ -10,6 +10,7 @@ namespace Equation
 	public class PuzzlePlayedInfo
 	{
 		public int Level { get; set; }
+		public bool Daily { get; set; }
 		public int Stage { get; set; }
 
 		// public string Subject { get; set; }

@@ -8,6 +8,8 @@ namespace Equation
 	{
 		static DataHelper s_instance = null;
 
+		public const int MAX_DAILY_NUM = 90;
+		
 		public const int STAGE_RANK_MAX = 3;
 
 

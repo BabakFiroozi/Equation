@@ -17,6 +17,8 @@ namespace Equation
 		// Use this for initialization
 		void Start()
 		{
+			MyAnalytics.Init(null);
+			
 			Application.runInBackground = true;
 			
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -85,13 +87,14 @@ namespace Equation
 
 		IEnumerator<WaitForSeconds> _GoToMenu()
 		{
-			yield return new WaitForSeconds(1.5f);
-			_splashImage.fillOrigin = 1;
-			_splashImage.DOFillAmount(0, 1);
-			MyAnalytics.Init("");
-			yield return new WaitForSeconds(1);
+			// yield return new WaitForSeconds(1.5f);
+			// _splashImage.fillOrigin = 1;
+			// _splashImage.DOFillAmount(0, 1);
+			// MyAnalytics.Init("");
+			// yield return new WaitForSeconds(1);
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, 0, true, false);
 			MyAnalytics.SendEvent(MyAnalytics.game_entrance);
+			yield break;
 		}
 	}
 }

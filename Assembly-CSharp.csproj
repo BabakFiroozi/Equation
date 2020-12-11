@@ -111,15 +111,18 @@
      <Compile Include="Assets\Scripts\GameConfig.cs" />
      <Compile Include="Assets\Scripts\GameSaveData.cs" />
      <Compile Include="Assets\Scripts\GameScene\Board.cs" />
+     <Compile Include="Assets\Scripts\GameScene\CoinBox.cs" />
      <Compile Include="Assets\Scripts\GameScene\Hint.cs" />
      <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
      <Compile Include="Assets\Scripts\General.cs" />
+     <Compile Include="Assets\Scripts\HeadingBar.cs" />
      <Compile Include="Assets\Scripts\Hud.cs" />
      <Compile Include="Assets\Scripts\ImageShineEffect.cs" />
      <Compile Include="Assets\Scripts\InputFieldFixer.cs" />
      <Compile Include="Assets\Scripts\LeaderboardPanel.cs" />
      <Compile Include="Assets\Scripts\LeaderboardPanelItem.cs" />
-     <Compile Include="Assets\Scripts\LevelSelectionPanel.cs" />
+     <Compile Include="Assets\Scripts\LevelSelect.cs" />
+     <Compile Include="Assets\Scripts\LevelsPanel.cs" />
      <Compile Include="Assets\Scripts\LoadingOverlay.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\MyAnalytics.cs" />
@@ -146,7 +149,8 @@
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\SpinnerPanel.cs" />
      <Compile Include="Assets\Scripts\SplashGame.cs" />
-     <Compile Include="Assets\Scripts\StageSelectionPanel.cs" />
+     <Compile Include="Assets\Scripts\StageSelect.cs" />
+     <Compile Include="Assets\Scripts\StagesPanel.cs" />
      <Compile Include="Assets\Scripts\StatsHelper.cs" />
      <Compile Include="Assets\Scripts\StatsPanel.cs" />
      <Compile Include="Assets\Scripts\StoreNames.cs" />
@@ -158,6 +162,7 @@
      <None Include="Assets\Resources\Translates.txt" />
      <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\TipsAndTricks.txt" />
+     <None Include="Assets\Shaders\SpriteShine.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

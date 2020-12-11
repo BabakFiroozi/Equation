@@ -79,3 +79,5 @@ Yor_Purchase_Failed=خرید شما ناموفق بود
 Thanks_For_Your_Purchase=ممنون از خرید شما
 Cross_Sign=×
 Day=روز
+Levels=فصل ها
+Level=فصل

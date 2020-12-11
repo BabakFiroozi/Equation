@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Equation.Models;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
@@ -18,11 +20,16 @@ namespace Equation
         [SerializeField] GameObject _hintObj;
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
+        [SerializeField] Image _tickImage;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
 
         public List<BoardCell> Cells { get; } = new List<BoardCell>();
+        
+        public Action RighMove { get; set; }
+
+        public PuzzlePlayedInfo CurrentPlayedInfo { get; } = new PuzzlePlayedInfo();
 
       
         Pawn _draggingPawn;
@@ -31,7 +38,12 @@ namespace Equation
 
         Transform _tr;
         float _cellSize;
-        
+
+        void Start()
+        {
+            _tickImage.DOFade(0, 0);
+        }
+
 
         void Awake()
         {
@@ -45,6 +57,10 @@ namespace Equation
         void MakePuzzleUI()
         {
             var playedInfo = DataHelper.Instance.LastPlayedInfo;
+
+            CurrentPlayedInfo.Level = playedInfo.Level;
+            CurrentPlayedInfo.Stage = playedInfo.Stage;
+            
             var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[playedInfo.Stage];
@@ -153,11 +169,20 @@ namespace Equation
             }
 
             _draggingPawn = pawn;
-            
-            if(_draggingPawn != null)
+
+            if (_draggingPawn != null)
                 _draggingPawn.RectTr.SetAsLastSibling();
 
             ProcessTable();
+
+            if (draggedPawn != null && draggedPawn.State == PawnStates.Right)
+                OnRightMove();
+        }
+
+        void OnRightMove()
+        {
+            _tickImage.DOFade(1, .3f);
+            _tickImage.DOFade(0, .3f).SetDelay(.5f);
         }
 
         void ProcessTable()
