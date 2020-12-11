@@ -264,23 +264,41 @@
  <Reference Include="DOTween">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
- <Reference Include="DOTween43">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
- </Reference>
- <Reference Include="DOTween46">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
- </Reference>
- <Reference Include="DOTween50">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween50.dll</HintPath>
- </Reference>
  <Reference Include="DOTweenEditor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.IOSResolver_v1.2.159">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/ExternalDependencyManager/Editor/Google.IOSResolver_v1.2.159.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.JarResolver_v1.2.159">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/ExternalDependencyManager/Editor/Google.JarResolver_v1.2.159.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.PackageManagerResolver_v1.2.159">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/ExternalDependencyManager/Editor/Google.PackageManagerResolver_v1.2.159.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.VersionHandler">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/ExternalDependencyManager/Editor/Google.VersionHandler.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.VersionHandlerImpl_v1.2.159">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/ExternalDependencyManager/Editor/Google.VersionHandlerImpl_v1.2.159.dll</HintPath>
  </Reference>
  <Reference Include="NBidi">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/NBidi.dll</HintPath>
  </Reference>
  <Reference Include="SimpleJSON">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/SimpleJSON.dll</HintPath>
+ </Reference>
+ <Reference Include="BCCrypto">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/BCCrypto.dll</HintPath>
+ </Reference>
+ <Reference Include="FiroozehGameService">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/FiroozehGameService.dll</HintPath>
+ </Reference>
+ <Reference Include="GProtocol">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/GProtocol.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity2019.4.8f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

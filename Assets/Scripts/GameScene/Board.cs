@@ -44,10 +44,10 @@ namespace Equation
 
         void MakePuzzleUI()
         {
-            int levelNum = 0;
-            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{levelNum:000}");
+            var playedInfo = DataHelper.Instance.LastPlayedInfo;
+            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
-            _puzzle = puzzlesPack.puzzles[0];
+            _puzzle = puzzlesPack.puzzles[playedInfo.Stage];
 
             float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
@@ -379,7 +379,6 @@ namespace Equation
 
             if (_draggingPawn != null)
             {
-                Debug.Log(eventData.position.ToString());
                 Vector2 pos = eventData.position;
                 pos.y -= Screen.height / 2f;
                 pos.x -= Screen.width / 2f;

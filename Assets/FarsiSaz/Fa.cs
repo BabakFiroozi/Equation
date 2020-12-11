@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 
-namespace Cacao.FarsiSaz
+namespace Equation.FarsiSaz
 {
 	public static class Fa
 	{

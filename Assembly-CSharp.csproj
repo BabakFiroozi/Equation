@@ -58,14 +58,56 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Bazaar InAppBilling\Demo\InAppStore.cs" />
+     <Compile Include="Assets\Bazaar InAppBilling\Demo\LogConsole.cs" />
+     <Compile Include="Assets\Bazaar InAppBilling\Scripts\StoreHandler.cs" />
+     <Compile Include="Assets\Cheshmak\Cheshmak.cs" />
+     <Compile Include="Assets\Cheshmak\libs\CheshmakLib.cs" />
+     <Compile Include="Assets\Cheshmak\libs\CheshmakListenerProxy.cs" />
+     <Compile Include="Assets\Cheshmak\libs\ICheshmakListener.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModuleAudio.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModuleSprite.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModuleUI.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+     <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\FarsiSaz\Fa.cs" />
      <Compile Include="Assets\FarsiSaz\Farsi.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Enums.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GAValidator.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Ads.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Business.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Debug.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Design.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Error.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Progression.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Resource.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Setup.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_SpecialEvents.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Fyber\GAFyberIntegration.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\GameAnalytics.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Mopub\GAMopubIntegration.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Setup\Settings.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\State\GAState.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Utilities\GA_MiniJson.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_AndroidWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_MonoWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_TizenWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_UWPWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_WebGLWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_Wrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_iOSWrapper.cs" />
+     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_tvOSWrapper.cs" />
      <Compile Include="Assets\JSON\JSONObject.cs" />
      <Compile Include="Assets\Scripts\Common\DataHelper.cs" />
      <Compile Include="Assets\Scripts\Common\GamePlayerPrefs.cs" />
      <Compile Include="Assets\Scripts\Common\HelperMethods.cs" />
      <Compile Include="Assets\Scripts\Common\LayerMaskUtil.cs" />
      <Compile Include="Assets\Scripts\Common\Translator.cs" />
+     <Compile Include="Assets\Scripts\ConfirmScreen.cs" />
+     <Compile Include="Assets\Scripts\EditProfilePanel.cs" />
+     <Compile Include="Assets\Scripts\ExitPanel.cs" />
      <Compile Include="Assets\Scripts\GameConfig.cs" />
      <Compile Include="Assets\Scripts\GameSaveData.cs" />
      <Compile Include="Assets\Scripts\GameScene\Board.cs" />
@@ -73,13 +115,49 @@
      <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
      <Compile Include="Assets\Scripts\General.cs" />
      <Compile Include="Assets\Scripts\Hud.cs" />
+     <Compile Include="Assets\Scripts\ImageShineEffect.cs" />
+     <Compile Include="Assets\Scripts\InputFieldFixer.cs" />
+     <Compile Include="Assets\Scripts\LeaderboardPanel.cs" />
+     <Compile Include="Assets\Scripts\LeaderboardPanelItem.cs" />
+     <Compile Include="Assets\Scripts\LevelSelectionPanel.cs" />
+     <Compile Include="Assets\Scripts\LoadingOverlay.cs" />
+     <Compile Include="Assets\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\MyAnalytics.cs" />
+     <Compile Include="Assets\Scripts\MyTapsellAds.cs" />
+     <Compile Include="Assets\Scripts\NativeBannerLayout.cs" />
+     <Compile Include="Assets\Scripts\PageStepScrollHor.cs" />
+     <Compile Include="Assets\Scripts\PageStepScrollHorArea.cs" />
+     <Compile Include="Assets\Scripts\ParticleOverFix.cs" />
+     <Compile Include="Assets\Scripts\PopupScreen.cs" />
      <Compile Include="Assets\Scripts\PuzzlesPackModel.cs" />
+     <Compile Include="Assets\Scripts\SafeArea.cs" />
+     <Compile Include="Assets\Scripts\SceneTransitor.cs" />
+     <Compile Include="Assets\Scripts\SettingPanel.cs" />
+     <Compile Include="Assets\Scripts\Sharing\Adapters\AndroidUnityNativeSharingAdapter.cs" />
+     <Compile Include="Assets\Scripts\Sharing\Adapters\IUnityNativeSharingAdapter.cs" />
+     <Compile Include="Assets\Scripts\Sharing\Adapters\IosUnityNativeSharingAdapter.cs" />
+     <Compile Include="Assets\Scripts\Sharing\Adapters\NullUnityNativeSharingAdapter.cs" />
+     <Compile Include="Assets\Scripts\Sharing\TakeAndShareScreenshot.cs" />
+     <Compile Include="Assets\Scripts\Sharing\UnityNativeSharing.cs" />
+     <Compile Include="Assets\Scripts\Sharing\UnityNativeSharingHelper.cs" />
+     <Compile Include="Assets\Scripts\ShopPanel.cs" />
+     <Compile Include="Assets\Scripts\ShopPanelResult.cs" />
+     <Compile Include="Assets\Scripts\SignUpPanel.cs" />
+     <Compile Include="Assets\Scripts\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\SpinnerPanel.cs" />
+     <Compile Include="Assets\Scripts\SplashGame.cs" />
+     <Compile Include="Assets\Scripts\StageSelectionPanel.cs" />
+     <Compile Include="Assets\Scripts\StatsHelper.cs" />
+     <Compile Include="Assets\Scripts\StatsPanel.cs" />
      <Compile Include="Assets\Scripts\StoreNames.cs" />
+     <Compile Include="Assets\Scripts\SwitchButton.cs" />
+     <Compile Include="Assets\Scripts\TaskEx.cs" />
+     <Compile Include="Assets\Tapsell\Tapsell.cs" />
+     <Compile Include="Assets\Tapsell\TapsellMessageHandler.cs" />
+     <None Include="Assets\GameAnalytics\Readme.txt" />
      <None Include="Assets\Resources\Translates.txt" />
      <None Include="Assets\DOTween\readme.txt" />
-     <None Include="Assets\DOTween\DOTween50.xml" />
-     <None Include="Assets\DOTween\DOTween43.xml" />
-     <None Include="Assets\DOTween\DOTween46.xml" />
+     <None Include="Assets\TipsAndTricks.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -335,20 +413,23 @@
  <Reference Include="DOTween">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
- <Reference Include="DOTween43">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
- </Reference>
- <Reference Include="DOTween46">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
- </Reference>
- <Reference Include="DOTween50">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween50.dll</HintPath>
- </Reference>
  <Reference Include="NBidi">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/NBidi.dll</HintPath>
  </Reference>
  <Reference Include="SimpleJSON">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/SimpleJSON.dll</HintPath>
+ </Reference>
+ <Reference Include="BCCrypto">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/BCCrypto.dll</HintPath>
+ </Reference>
+ <Reference Include="FiroozehGameService">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/FiroozehGameService.dll</HintPath>
+ </Reference>
+ <Reference Include="GProtocol">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/GProtocol.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity2019.4.8f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -706,6 +787,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{43A9A18F-A38C-4C0C-E902-88AC81F545C5}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="IngameDebugConsole.Runtime.csproj">
       <Project>{AF16A879-7F7F-35FA-192D-4E65337247CA}</Project>
       <Name>IngameDebugConsole.Runtime</Name>

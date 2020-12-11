@@ -25,7 +25,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_2019_4_8;UNITY_2019_4;UNITY_2019;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_RUNTIME_PERMISSIONS;ENABLE_ENGINE_CODE_STRIPPING;ENABLE_ONSCREEN_KEYBOARD;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;ENABLE_VIDEO;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;UNITY_ASTC_ONLY_DECOMPRESS;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_STANDARD_2_0;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_2019_4_8;UNITY_2019_4;UNITY_2019;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_RUNTIME_PERMISSIONS;ENABLE_ENGINE_CODE_STRIPPING;ENABLE_ONSCREEN_KEYBOARD;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;ENABLE_VIDEO;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;UNITY_ASTC_ONLY_DECOMPRESS;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -58,17 +58,114 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\ConsoleMethodAttribute.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogConsole.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogEntry.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogIndexList.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogItem.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogLogcatListener.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogManager.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogPopup.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugLogRecycledListView.cs" />
-     <Compile Include="Assets\Plugins\IngameDebugConsole\Scripts\DebugsOnScrollListener.cs" />
-     <None Include="Assets\Plugins\IngameDebugConsole\README.txt" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\AwaitExtensions.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\Awaiters.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\IEnumeratorAwaitExtensions.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\Internal\AsyncCoroutineRunner.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\Internal\SyncContextUtil.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\TaskExtensions.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\WaitForBackgroundThread.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Source\WaitForUpdate.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Tests\AsyncUtilTests.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\AsyncAwaitUtil\Tests\Util\TestButtonHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\AllowNestingAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\CurveRangeAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\DrawerAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\DropdownAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\EnumFlagsAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\HorizontalLineAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\InfoBoxAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\InputAxisAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\MinMaxSliderAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\ProgressBarAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\ReadOnlyAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\ResizableTextAreaAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\SceneAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\ShowAssetPreviewAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes\TagAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes_SpecialCase\ButtonAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes_SpecialCase\ReorderableListAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes_SpecialCase\ShowNativePropertyAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes_SpecialCase\ShowNonSerializedFieldAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\DrawerAttributes_SpecialCase\SpecialCaseDrawerAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\INaughtyAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\BoxGroupAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\DisableIfAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\EnableIfAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\EnableIfAttributeBase.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\HideIfAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\LabelAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\MetaAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\OnValueChangedAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\ShowIfAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\MetaAttributes\ShowIfAttributeBase.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\Utility\EColor.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\Utility\EConditionOperator.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\ValidatorAttributes\MaxValueAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\ValidatorAttributes\MinValueAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\ValidatorAttributes\RequiredAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\ValidatorAttributes\ValidateInputAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Tools\NaughtyAttributes\Scripts\Core\ValidatorAttributes\ValidatorAttribute.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\GameServiceInitializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Attributes\GsLiveRunable.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\GsLiveRtObserver.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Handlers\FunctionHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Handlers\MemberHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Handlers\MonoBehaviourHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Handlers\PrefabHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Handlers\PropertyHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\MonoBehaviourGsLive.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Observers\RealtimeRigidbody2DObserver.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Observers\RealtimeRigidbodyObserver.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Observers\RealtimeSmoothMoveObserver.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Classes\Observers\RealtimeTransformObserver.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Consts\FunctionType.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Consts\Sizes.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Consts\Types.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\GsLiveRealtime.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Interfaces\IFunctionHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Interfaces\IMemberHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Interfaces\IMonoBehaviourHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Interfaces\IPrefabHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Interfaces\IPropertyHandler.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\CallbackModels\OnAfterInstantiate.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\CallbackModels\OnBeforeInstantiate.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\CallbackModels\OnDestroyObject.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\CallbackModels\OnPropertyEvent.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\Property.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\SendableObjects\FunctionData.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\SendableObjects\GameObjectData.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\SendableObjects\InstantiateData.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\SendableObjects\PropertyData.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\BoundsSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\PlaneSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\RangeIntSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\Ray2DSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\RaySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\ExtendedPrimitives\RectSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Miscs\Vector2IntArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Miscs\Vector2IntSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Miscs\Vector3IntArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Miscs\Vector3IntSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\Color32Serializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ColorSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\Matrix4X4Serializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\QuaternionArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\QuaternionSerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector2ArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector2Serializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector3ArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector3Serializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector4ArraySerializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Models\UnitySerializerModels\Primitives\ٰVector4Serializer.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Utils\ActionUtil.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Utils\ObjectUtil.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Utils\SenderUtil.cs" />
+     <Compile Include="Assets\Plugins\GameService\Utils\RealTimeUtil\Utils\TypeUtil.cs" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\Plugins\GameService\Core\FiroozehGameService.xml" />
+     <None Include="Assets\Plugins\Android\proguard-user[Bazaar IAB].txt" />
+     <None Include="Assets\Plugins\GameService\Core\Newtonsoft.Json.xml" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -324,20 +421,23 @@
  <Reference Include="DOTween">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
- <Reference Include="DOTween43">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween43.dll</HintPath>
- </Reference>
- <Reference Include="DOTween46">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween46.dll</HintPath>
- </Reference>
- <Reference Include="DOTween50">
- <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/DOTween/DOTween50.dll</HintPath>
- </Reference>
  <Reference Include="NBidi">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/NBidi.dll</HintPath>
  </Reference>
  <Reference Include="SimpleJSON">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/FarsiSaz/SimpleJSON.dll</HintPath>
+ </Reference>
+ <Reference Include="BCCrypto">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/BCCrypto.dll</HintPath>
+ </Reference>
+ <Reference Include="FiroozehGameService">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/FiroozehGameService.dll</HintPath>
+ </Reference>
+ <Reference Include="GProtocol">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/GProtocol.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/MyJobProjects/Equation/Equation_unity/Assets/Plugins/GameService/Core/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity2019.4.8f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -693,6 +793,16 @@
  <Reference Include="Boo.Lang">
  <HintPath>C:/Program Files/Unity2019.4.8f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="IngameDebugConsole.Runtime.csproj">
+      <Project>{AF16A879-7F7F-35FA-192D-4E65337247CA}</Project>
+      <Name>IngameDebugConsole.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Editor.csproj">
+      <Project>{3124DC6E-5370-78CF-2480-750ADEECA22C}</Project>
+      <Name>IngameDebugConsole.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

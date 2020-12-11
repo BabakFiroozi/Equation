@@ -1,6 +1,6 @@
 
 
-namespace Cacao.FarsiSaz
+namespace Equation.FarsiSaz
 {
     public static class Farsi
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cacao
+namespace Equation
 {
 	public enum StoreNames
 	{

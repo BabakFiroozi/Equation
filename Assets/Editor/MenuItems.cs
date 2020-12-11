@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace Cacao.Tools
+namespace Equation.Tools
 {
     public class MenuItems
     {
@@ -17,6 +17,7 @@ namespace Cacao.Tools
             EditorUtility.FocusProjectWindow();
             Selection.activeObject = asset;
         }
+        
         
         
         //	[MenuItem("Tools/Config Guilds")]

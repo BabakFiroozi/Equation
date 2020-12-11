@@ -1,10 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
-namespace Cacao
+namespace Equation
 {
 	public class GameConfig : ScriptableObject
 	{
+		[Serializable]
+		public class WorldTimeAPIInfo
+		{
+			public string url;
+			public string field;
+		}
+		
+		[SerializeField] WorldTimeAPIInfo _worldTimeAPI;
+		
 		[SerializeField] bool _tutorialIsActive = true;
 		[SerializeField] bool _gameIsUnlock = false;
 
@@ -21,7 +31,15 @@ namespace Cacao
 		
 		[SerializeField] float _timeScale = 1.0f;
 
-
+		[SerializeField] bool _dailyIsLocal;
+		
+		[SerializeField] int _freeCoinDayCap = 5;
+		[SerializeField] int _freeGuideDayCap = 7;
+		[SerializeField] int _exitAdChance = 50;
+		
+		
+		public WorldTimeAPIInfo WorldTimeAPI => _worldTimeAPI;
+		
 		public bool TutorialIsActive => _tutorialIsActive;
 		public bool GameIsUnlock => _gameIsUnlock;
 
@@ -37,7 +55,12 @@ namespace Cacao
 		public float TimeScale => _timeScale;
 
 		public string LeaderboardId => _leaderboardId;
-
+		
+		public bool DailyIsLocal => _dailyIsLocal;
+		
+		public int FreeGuideDayCap => _freeGuideDayCap;
+		public int FreeCoinDayCap => _freeCoinDayCap;
+		public int ExitAdChance => _exitAdChance;
 
 		static GameConfig _instance;
 
