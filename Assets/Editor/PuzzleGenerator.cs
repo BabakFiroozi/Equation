@@ -101,8 +101,8 @@ namespace Equation.Tools
             GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
             _colsCount = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _colsCount);
 
-            _rowsCount = Mathf.Clamp(_rowsCount, 7, 21);
-            _colsCount = Mathf.Clamp(_colsCount, 6, 18);
+            _rowsCount = Mathf.Clamp(_rowsCount, 6, 21);
+            _colsCount = Mathf.Clamp(_colsCount, 5, 18);
 
             GUI.Label(new Rect(320, 20, 50, 20), "Groups");
             _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
@@ -144,12 +144,12 @@ namespace Equation.Tools
 
             if (GUI.Button(new Rect(20, 45, 100, 20), "Segments"))
             {
-                GenerateSegments();
+                GenerateSegments(0);
             }
 
             if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
             {
-                ShuffleSegments(1);
+                ShuffleSegments();
             }
 
             _generateCount = EditorGUI.IntField(new Rect(520, 20, 30, 20), _generateCount);
@@ -302,10 +302,10 @@ namespace Equation.Tools
             {
                 GeneratePattern();
                 await Task.Delay(200);
-                GenerateSegments();
                 Repaint();
+                GenerateSegments(i);
                 await Task.Delay(200);
-                ShuffleSegments(2);
+                ShuffleSegments();
                 _selectedStage = i;
                 Repaint();
                 await Task.Delay(200);
@@ -444,7 +444,7 @@ namespace Equation.Tools
         }
         
 
-        void GenerateSegments()
+        void GenerateSegments(int stage)
         {
             int failedCounter = 0;
             while (true)
@@ -457,7 +457,7 @@ namespace Equation.Tools
 
             Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
 
-            _puzzle = new Puzzle {id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
+            _puzzle = new Puzzle {stage = stage, id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
 
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
@@ -649,7 +649,7 @@ namespace Equation.Tools
         }
 
 
-        void ShuffleSegments(int shuffleCount)
+        void ShuffleSegments()
         {
             int totalShuffle = 0;
             int loopIter = 0;
@@ -662,7 +662,7 @@ namespace Equation.Tools
                 }
 
                 totalShuffle += shuffledCount;
-            } while (++loopIter < shuffleCount);
+            } while (++loopIter < _shuffleCount);
 
             // if (_puzzlesPack.puzzles.Exists(p => p.id == _puzzle.id))
             //     return;

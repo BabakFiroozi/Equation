@@ -43,8 +43,8 @@ namespace Equation
             _levelText.text = $"{_level + 1} {Translator.GetString("Level")}";
             _progressText.text = $"{_progress} / {_count}";
 
-            bool locked = !GameSaveData.IsLevelUnlocked(level);
-            _lockObject.SetActive(locked);
+            bool unlcoked = GameSaveData.IsLevelUnlocked(_level) || GameConfig.Instance.GameIsUnlock;
+            _lockObject.SetActive(!unlcoked);
         }
     }
 }

@@ -67,7 +67,8 @@ namespace Equation
 
 			if (_headingType == HeadingBarTypes.Game)
 			{
-				_exitPanel.GetComponent<PopupScreen>().Show();
+				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
+				// _exitPanel.GetComponent<PopupScreen>().Show();
 			}
 		}
 

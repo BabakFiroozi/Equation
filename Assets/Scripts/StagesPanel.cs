@@ -1,14 +1,34 @@
 ﻿using System;
+using DefaultNamespace;
+using Equation.Models;
 using UnityEngine;
 
 namespace Equation
 {
     public class StagesPanel : MonoBehaviour
     {
+        [SerializeField] Transform _stagesContent;
+        [SerializeField] GameObject _stageItemObj;
+
+        [SerializeField] HeadingBar _headingBar;
+        
         void Start()
         {
-            DataHelper.Instance.LastPlayedInfo.Stage = 0;
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+            var playedInfo = DataHelper.Instance.LastPlayedInfo;
+
+            string title = $"{playedInfo.Level + 1} {Translator.GetString("Level")}";
+            _headingBar.SetData(title);
+            
+            var level = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
+            var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
+            foreach (var puzzle in puzzlesPack.puzzles)
+            {
+                var obj = Instantiate(_stageItemObj, _stagesContent);
+                var stageSelect = obj.GetComponent<StageSelect>();
+                stageSelect.FillData(puzzlesPack.level, puzzle.stage);
+            }
+            
+            _stageItemObj.SetActive(false);
         }
     }
 }

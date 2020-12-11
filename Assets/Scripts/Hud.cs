@@ -9,11 +9,13 @@ namespace Equation
     {
         [SerializeField] Button _hintButton;
         [SerializeField] Button _helpButton;
+        [SerializeField] Button _resetButton;
 
         void Start()
         {
             _hintButton.onClick.AddListener(HintButtonClick);
             _helpButton.onClick.AddListener(HelpButtonClick);
+            _resetButton.onClick.AddListener(ResetButtonClick);
         }
 
         void HintButtonClick()
@@ -24,6 +26,11 @@ namespace Equation
         void HelpButtonClick()
         {
             Board.Instance.DoHelp();
+        }
+
+        void ResetButtonClick()
+        {
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
         }
     }
 }

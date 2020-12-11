@@ -20,7 +20,6 @@ namespace Equation
         [SerializeField] GameObject _hintObj;
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
-        [SerializeField] Image _tickImage;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -41,7 +40,6 @@ namespace Equation
 
         void Start()
         {
-            _tickImage.DOFade(0, 0);
         }
 
 
@@ -181,8 +179,6 @@ namespace Equation
 
         void OnRightMove()
         {
-            _tickImage.DOFade(1, .3f);
-            _tickImage.DOFade(0, .3f).SetDelay(.5f);
         }
 
         void ProcessTable()

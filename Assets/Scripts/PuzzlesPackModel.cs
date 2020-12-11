@@ -14,6 +14,7 @@ namespace Equation.Models
     [Serializable]
     public class Puzzle
     {
+        public int stage;
         public string id;
         public int rows;
         public int columns;
