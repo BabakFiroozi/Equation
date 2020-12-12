@@ -100,6 +100,7 @@
      <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_iOSWrapper.cs" />
      <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_tvOSWrapper.cs" />
      <Compile Include="Assets\JSON\JSONObject.cs" />
+     <Compile Include="Assets\Scripts\BottomCommand.cs" />
      <Compile Include="Assets\Scripts\Common\DataHelper.cs" />
      <Compile Include="Assets\Scripts\Common\GamePlayerPrefs.cs" />
      <Compile Include="Assets\Scripts\Common\HelperMethods.cs" />
@@ -116,7 +117,6 @@
      <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
      <Compile Include="Assets\Scripts\General.cs" />
      <Compile Include="Assets\Scripts\HeadingBar.cs" />
-     <Compile Include="Assets\Scripts\Hud.cs" />
      <Compile Include="Assets\Scripts\ImageShineEffect.cs" />
      <Compile Include="Assets\Scripts\InputFieldFixer.cs" />
      <Compile Include="Assets\Scripts\LeaderboardPanel.cs" />

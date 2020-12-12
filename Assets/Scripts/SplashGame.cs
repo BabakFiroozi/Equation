@@ -35,6 +35,8 @@ namespace Equation
 
 				GameSaveData.AddCoin(GameConfig.Instance.PlayerInitialCoin);
 			}
+			
+			DataHelper.Instance.CalcLevelsCount();
 
 			if (GameConfig.Instance.DailyIsLocal)
 				OnGetLiveTime(DateTime.Now); //Mock only for testing

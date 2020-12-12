@@ -33,16 +33,25 @@ namespace Equation
 			_backButton.onClick.AddListener(BackButtonClick);
 			_rightButton.onClick.AddListener(RightButtonClick);
 
-			if (_headingType == HeadingBarTypes.Game)
+			if (_headingType == HeadingBarTypes.Level)
 			{
+				string title = $"{Translator.GetString("Levels")}";
+				SetData(title);
+
 			}
 
+			if (_headingType == HeadingBarTypes.Stage)
+			{
+				var playedInfo = DataHelper.Instance.LastPlayedInfo;
+				string title = $"{playedInfo.Level + 1} {Translator.GetString("Level")}";
+				SetData(title);
+			}
+			
 			if (_headingType == HeadingBarTypes.Game)
 			{
-			}
-			else
-			{
-				StatsHelper.Instance.Calculate();
+				var playedInfo = DataHelper.Instance.LastPlayedInfo;
+				string title = $"{playedInfo.Stage + 1} {Translator.GetString("Stage")}  {playedInfo.Level + 1} {Translator.GetString("Level")}";
+				SetData(title);
 			}
 		}
 
@@ -83,7 +92,7 @@ namespace Equation
 
 			if(_headingType == HeadingBarTypes.Game)
 			{
-				if (Board.Instance.CurrentPlayedInfo.Daily)
+				if (DataHelper.Instance.LastPlayedInfo.Daily)
 				{
 					var dayNum = GameSaveData.GetDailyEntranceNumber();
 					if (dayNum > DataHelper.MAX_DAILY_NUM)

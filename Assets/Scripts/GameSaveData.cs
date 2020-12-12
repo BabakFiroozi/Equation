@@ -124,7 +124,7 @@ namespace Equation
 			return count;
 		}
 
-		public static void SaveLastPlayedInfo(PuzzlePlayedInfo info)
+		/*public static void SaveLastPlayedInfo(PuzzlePlayedInfo info)
 		{
 			JSONObject obj = JSONObject.Create();
 			obj.AddField("level", (int) info.Level);
@@ -146,7 +146,7 @@ namespace Equation
 			JSONObject obj = JSONObject.Create(str);
 			info.Level = (int) obj.GetField("level").i;
 			info.Stage = (int) obj.GetField("stage").i;
-		}
+		}*/
 
 		public static void SaveSolvedWord(bool hidden, List<string> wordsList, PuzzlePlayedInfo info)
 		{
@@ -210,6 +210,12 @@ namespace Equation
 		{
 			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
 			return PlayerPrefs.GetInt(keyName, cell);
+		}
+		
+		public static void ResetPawnCell(PuzzlePlayedInfo info, int pawn)
+		{
+			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			PlayerPrefs.DeleteKey(keyName);
 		}
 
 		public static void SavePrefs()

@@ -50,7 +50,7 @@ namespace Equation
 
             if (anim)
             {
-                GameSaveData.SavePawnCell(Board.Instance.CurrentPlayedInfo, Id, Cell.index);
+                GameSaveData.SavePawnCell(DataHelper.Instance.LastPlayedInfo, Id, Cell.index);
                 float dist = (cell.pos - RectTr.anchoredPosition).magnitude;
                 moveTime = Mathf.Clamp(dist / 720, .01f, .5f);
                 RectTr.DOAnchorPos(cell.pos, moveTime).OnComplete(() => { });

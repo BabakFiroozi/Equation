@@ -11,8 +11,15 @@ namespace Equation
 		public const int MAX_DAILY_NUM = 90;
 		
 		public const int STAGE_RANK_MAX = 3;
+		
+		public int LevelsCount { get; private set; }
 
-
+		public void CalcLevelsCount()
+		{
+			var levels = Resources.LoadAll<TextAsset>("Puzzles/");
+			LevelsCount = levels.Length;
+		}
+		
 		public static DataHelper Instance => s_instance ?? (s_instance = new DataHelper());
 
 		public bool DailyEntrance { get; private set; }

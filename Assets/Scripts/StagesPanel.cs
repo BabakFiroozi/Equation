@@ -16,9 +16,6 @@ namespace Equation
         {
             var playedInfo = DataHelper.Instance.LastPlayedInfo;
 
-            string title = $"{playedInfo.Level + 1} {Translator.GetString("Level")}";
-            _headingBar.SetData(title);
-            
             var level = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
             foreach (var puzzle in puzzlesPack.puzzles)

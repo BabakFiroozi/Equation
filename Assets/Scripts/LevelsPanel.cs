@@ -13,10 +13,6 @@ namespace Equation
         
         void Start()
         {
-            string title = $"{Translator.GetString("Levels")}";
-            _headingBar.SetData(title);
-            
-            
             var levels = Resources.LoadAll<TextAsset>("Puzzles/");
             foreach (var level in levels)
             {

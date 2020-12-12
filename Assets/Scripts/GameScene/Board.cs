@@ -21,15 +21,14 @@ namespace Equation
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
         [SerializeField] CoinBox _coinBox;
+        [SerializeField] GameObject _solvedBadge;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
 
         public List<BoardCell> Cells { get; } = new List<BoardCell>();
         
-        public Action RighMove { get; set; }
-
-        public PuzzlePlayedInfo CurrentPlayedInfo { get; } = new PuzzlePlayedInfo();
+        public Action GameFinishedEvent { get; set; }
 
         public CoinBox CoinBox => _coinBox;
         
@@ -41,25 +40,25 @@ namespace Equation
         Transform _tr;
         float _cellSize;
 
+        int _stagesCount;
+
         void Awake()
         {
             Instance = this;
             _tr = transform;
             
-            var playedInfo = DataHelper.Instance.LastPlayedInfo;
-
-            CurrentPlayedInfo.Level = playedInfo.Level;
-            CurrentPlayedInfo.Stage = playedInfo.Stage;
-            
             MakePuzzleUI();
+            
+            _solvedBadge.SetActive(GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo));
         }
 
 
         void MakePuzzleUI()
         {
-            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{CurrentPlayedInfo.Level:000}");
+            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{DataHelper.Instance.LastPlayedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
-            _puzzle = puzzlesPack.puzzles[CurrentPlayedInfo.Stage];
+            _puzzle = puzzlesPack.puzzles[DataHelper.Instance.LastPlayedInfo.Stage];
+            _stagesCount = puzzlesPack.puzzles.Count;
 
             float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
@@ -125,14 +124,14 @@ namespace Equation
             _hintObj.SetActive(false);
 
 
-            var usedHints = GameSaveData.LoadUsedHints(CurrentPlayedInfo);
+            var usedHints = GameSaveData.LoadUsedHints(DataHelper.Instance.LastPlayedInfo);
             var hints = Hints.Where(h => usedHints.Contains(h.Cell.index)).ToList();
             foreach (var hint in hints)
                 hint.Reveal(false);
 
             foreach (var pawn in Pawns)
             {
-                var cell = GameSaveData.LoadPawnCell(CurrentPlayedInfo, pawn.Id, pawn.Cell.index);
+                var cell = GameSaveData.LoadPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id, pawn.Cell.index);
                 pawn.SetCell(Cells[cell], false);
             }
 
@@ -371,9 +370,36 @@ namespace Equation
             ProcessTable();
         }
 
+        public void DoResetBoard()
+        {
+            foreach (var pawn in Pawns)
+                GameSaveData.ResetPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id);
+        }
+
         void FinishGame()
         {
             Debug.Log("<color=green>Game Finished!!!</color>");
+            GameSaveData.SolveStage(DataHelper.Instance.LastPlayedInfo);
+            DoResetBoard();
+            GameFinishedEvent?.Invoke();
+
+            UnlockNextPuzzle();
+        }
+
+        void UnlockNextPuzzle()
+        {
+            DataHelper.Instance.LastPlayedInfo.Stage++;
+            if (DataHelper.Instance.LastPlayedInfo.Stage == _stagesCount)
+            {
+                DataHelper.Instance.LastPlayedInfo.Stage = 0;
+                if (DataHelper.Instance.LastPlayedInfo.Level < DataHelper.Instance.LevelsCount)
+                {
+                    DataHelper.Instance.LastPlayedInfo.Level++;
+                }
+            }
+
+            GameSaveData.UnlockLevel(DataHelper.Instance.LastPlayedInfo.Level);
+            GameSaveData.UnlockStage(DataHelper.Instance.LastPlayedInfo.Level, DataHelper.Instance.LastPlayedInfo.Stage);
         }
         
         void OnDestroy()

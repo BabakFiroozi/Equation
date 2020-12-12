@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Equation
 {
-    public class Hud : MonoBehaviour
+    public class BottomCommand : MonoBehaviour
     {
         [SerializeField] Button _hintButton;
         [SerializeField] Button _helpButton;
@@ -20,28 +20,29 @@ namespace Equation
 
         void HintButtonClick()
         {
-            if (!Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
-            {
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
                 return;
-            }
 
-            GameSaveData.SubCoin(GameConfig.Instance.HintCost);
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
+                GameSaveData.SubCoin(GameConfig.Instance.HintCost, true);
+            
             Board.Instance.DoHint();
         }
 
         void HelpButtonClick()
         {
-            if (!Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HelpCost))
-            {
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HelpCost))
                 return;
-            }
-            
-            GameSaveData.SubCoin(GameConfig.Instance.HelpCost);
+
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
+                GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true);
+
             Board.Instance.DoHelp();
         }
 
         void ResetButtonClick()
         {
+            Board.Instance.DoResetBoard();
             SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
         }
     }

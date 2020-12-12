@@ -44,7 +44,7 @@ namespace Equation
 
             if (anim)
             {
-                GameSaveData.SaveUsedHints(Board.Instance.CurrentPlayedInfo, Cell.index);
+                GameSaveData.SaveUsedHints(DataHelper.Instance.LastPlayedInfo, Cell.index);
                 RectTr.localScale = Vector3.one * .1f;
                 RectTr.DOScale(1, .3f);
             }
