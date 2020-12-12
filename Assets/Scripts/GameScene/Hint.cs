@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,11 +36,18 @@ namespace Equation
             _contentText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
         }
 
-        public void Reveal()
+        public void Reveal(bool first)
         {
             Revealed = true;
             _contentText.text = "?";
             gameObject.SetActive(true);
+
+            if (first)
+            {
+                GameSaveData.SaveUsedHints(Board.Instance.CurrentPlayedInfo, Cell.index);
+                RectTr.localScale = Vector3.one * .1f;
+                RectTr.DOScale(1, .3f);
+            }
         }
     }
 }

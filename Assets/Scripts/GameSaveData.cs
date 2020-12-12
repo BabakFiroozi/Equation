@@ -171,12 +171,12 @@ namespace Equation
 				wordsList.Add(s.str);
 		}
 
-		public static void SaveUsedHints(PuzzlePlayedInfo info, int hintIndex)
+		public static void SaveUsedHints(PuzzlePlayedInfo info, int cell)
 		{
 			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
 
 			var list = LoadUsedHints(info);
-			list.Add(hintIndex);
+			list.Add(cell);
 			
 			var jsonObj = JSONObject.arr;
 			list.ForEach(e => jsonObj.Add(e));
@@ -190,22 +190,23 @@ namespace Equation
 
 			var str = PlayerPrefs.GetString(keyName);
 
-			List<int> indicesList = new List<int>();
+			List<int> cellsList = new List<int>();
 			if (!string.IsNullOrEmpty(str))
 			{
 				var list = JSONObject.Create(str).list;
-				list.ForEach(e => indicesList.Add((int) e.i));
+				list.ForEach(e => cellsList.Add((int) e.i));
 			}
 
-			return indicesList;
+			return cellsList;
 		}
 
-		public static void SaveUsedHelps(PuzzlePlayedInfo info, int hintIndex)
+		public static void SaveUsedHelps(PuzzlePlayedInfo info, int pawn, int cell)
 		{
 			string keyName = $"{info.Level}_{info.Stage}_UsedHelps";
 
 			var list = LoadUsedHints(info);
-			list.Add(hintIndex);
+			list.Add(pawn);
+			list.Add(cell);
 			
 			var jsonObj = JSONObject.arr;
 			list.ForEach(e => jsonObj.Add(e));
@@ -440,13 +441,13 @@ namespace Equation
 			return PlayerPrefs.GetInt("ConsumedHint", 0);
 		}
 		
-		public static void IncConsumeGuide()
+		public static void IncConsumeHelp()
 		{
-			int c = GetConsumeGuide();
+			int c = GetConsumeHelp();
 			PlayerPrefs.SetInt("ConsumedGuide", c + 1);
 		}
 
-		public static int GetConsumeGuide()
+		public static int GetConsumeHelp()
 		{
 			return PlayerPrefs.GetInt("ConsumedGuide", 0);
 		}

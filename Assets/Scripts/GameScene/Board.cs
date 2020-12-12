@@ -20,6 +20,7 @@ namespace Equation
         [SerializeField] GameObject _hintObj;
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
+        [SerializeField] CoinBox _coinBox;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -30,6 +31,8 @@ namespace Equation
 
         public PuzzlePlayedInfo CurrentPlayedInfo { get; } = new PuzzlePlayedInfo();
 
+        public CoinBox CoinBox => _coinBox;
+        
       
         Pawn _draggingPawn;
 
@@ -38,30 +41,37 @@ namespace Equation
         Transform _tr;
         float _cellSize;
 
-        void Start()
-        {
-        }
-
-
         void Awake()
         {
             Instance = this;
             _tr = transform;
             
-            MakePuzzleUI();
-        }
-
-
-        void MakePuzzleUI()
-        {
             var playedInfo = DataHelper.Instance.LastPlayedInfo;
 
             CurrentPlayedInfo.Level = playedInfo.Level;
             CurrentPlayedInfo.Stage = playedInfo.Stage;
             
-            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
+            MakePuzzleUI();
+
+            var usedHints = GameSaveData.LoadUsedHints(playedInfo);
+            var hints = Hints.Where(h => usedHints.Contains(h.Cell.index)).ToList();
+            foreach (var hint in hints)
+                hint.Reveal(false);
+            
+            var usedHelps = GameSaveData.LoadUsedHelps(playedInfo);
+            var pawns = Pawns.Where(p => usedHelps.Contains(p.Cell.index)).ToList();
+            foreach (var pawn in pawns)
+            {
+                
+            }
+        }
+
+
+        void MakePuzzleUI()
+        {
+            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{CurrentPlayedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
-            _puzzle = puzzlesPack.puzzles[playedInfo.Stage];
+            _puzzle = puzzlesPack.puzzles[CurrentPlayedInfo.Stage];
 
             float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
@@ -74,6 +84,7 @@ namespace Equation
             Vector2 startPos = new Vector2(-(tableRect.width / 2f - cellSize * .5f), tableRect.height / 2f - cellSize * .5f);
             _tableRectTr.sizeDelta += new Vector2(_tableBorder, _tableBorder);
 
+            int pawnId = 0;
             foreach (var seg in _puzzle.segments)
             {
                 var cell = new BoardCell();
@@ -108,7 +119,7 @@ namespace Equation
                     pawnObj.name = $"pawn_{seg.content}";
                     var pawn = pawnObj.GetComponent<Pawn>();
                     pawn.RectTr.sizeDelta = new Vector2(cellSize, cellSize);
-                    pawn.SetData(seg.content, seg.type != SegmentTypes.Fixed);
+                    pawn.SetData(++pawnId, seg.content, seg.type != SegmentTypes.Fixed);
                     pawn.SetCell(cell, true);
                     Pawns.Add(pawn);
                 }
@@ -318,7 +329,7 @@ namespace Equation
             if(hints.Count == 0)
                 return;
             var hint = hints[Random.Range(0, hints.Count)];
-            hint.Reveal();
+            hint.Reveal(true);
         }
 
         public Coroutine DoHelp()
@@ -348,7 +359,7 @@ namespace Equation
                 var hint = Hints.Find(h => h.Cell == p.Cell);
                 return (hint == null || hint.Content != p.Content) && p.Content == selectedHint.Content;
             });
-
+            
             if (selectedHint.Cell.Pawn != null)
             {
                 var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
@@ -357,12 +368,11 @@ namespace Equation
             }
             selectedPawn.RectTr.SetAsLastSibling();
             float time = selectedPawn.SetCell(selectedHint.Cell, false, true);
-
+            
             yield return new WaitForSeconds(time);
 
             ProcessTable();
         }
-
 
         void FinishGame()
         {

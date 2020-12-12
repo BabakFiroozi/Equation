@@ -1507,6 +1507,7 @@ MonoBehaviour:
   _hintObj: {fileID: 1410898393}
   _tableMargin: 20
   _tableBorder: 20
+  _coinBox: {fileID: 299690072359690920}
 --- !u!1 &1410898393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,14 +2255,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 0.6055647, b: 0, a: 0}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 9594d0e02b92fcf4ab9574ac64cd6050, type: 3}
+    m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
     m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0

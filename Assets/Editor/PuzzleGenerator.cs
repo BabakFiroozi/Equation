@@ -194,17 +194,13 @@ namespace Equation.Tools
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
 
-            GUI.Label(new Rect(720, 50, 40, 20), "Level");
-            _saveGameLevel = EditorGUI.IntField(new Rect(770, 50, 50, 20), _saveGameLevel);
-            if (GUI.Button(new Rect(720, 20, 100, 20), "Save"))
+            _saveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _saveGameLevel);
+            if (GUI.Button(new Rect(720, 20, 50, 20), "Save"))
                 SavePuzzles();
             
-            _loadedLevel = EditorGUI.IntField(new Rect(660, tableRect.position.y - 30, 40, 20), _loadedLevel);
-
-            if (GUI.Button(new Rect(600, tableRect.position.y - 30, 50, 20), "Load"))
-            {
+            _loadedLevel = EditorGUI.IntField(new Rect(780, 50, 40, 20), _loadedLevel);
+            if (GUI.Button(new Rect(720, 50, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
-            }
 
             if (_puzzlesPack != null)
             {

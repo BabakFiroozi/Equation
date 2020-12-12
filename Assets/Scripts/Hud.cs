@@ -20,11 +20,23 @@ namespace Equation
 
         void HintButtonClick()
         {
+            if (!Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
+            {
+                return;
+            }
+
+            GameSaveData.SubCoin(GameConfig.Instance.HintCost);
             Board.Instance.DoHint();
         }
 
         void HelpButtonClick()
         {
+            if (!Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HelpCost))
+            {
+                return;
+            }
+            
+            GameSaveData.SubCoin(GameConfig.Instance.HelpCost);
             Board.Instance.DoHelp();
         }
 

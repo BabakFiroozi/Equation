@@ -26,7 +26,7 @@ namespace Equation
             StarsCount = 0;
             
             ConsumeHintCount = GameSaveData.GetConsumeHint();
-            ConsumeGuidCount = GameSaveData.GetConsumeGuide();
+            ConsumeGuidCount = GameSaveData.GetConsumeHelp();
 
         }
 

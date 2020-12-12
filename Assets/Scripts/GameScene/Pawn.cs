@@ -20,6 +20,8 @@ namespace Equation
         public string Content { get; private set; }
         public bool Movable { get; private set; }
 
+        public int Id { get; set; }
+        
 
         PawnStates _state;
 
@@ -67,8 +69,9 @@ namespace Equation
             return moveTime;
         }
 
-        public void SetData(string content, bool movable)
+        public void SetData(int id, string content, bool movable)
         {
+            Id = id;
             Content = content;
             _valueText.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
