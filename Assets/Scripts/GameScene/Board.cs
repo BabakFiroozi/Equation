@@ -52,18 +52,6 @@ namespace Equation
             CurrentPlayedInfo.Stage = playedInfo.Stage;
             
             MakePuzzleUI();
-
-            var usedHints = GameSaveData.LoadUsedHints(playedInfo);
-            var hints = Hints.Where(h => usedHints.Contains(h.Cell.index)).ToList();
-            foreach (var hint in hints)
-                hint.Reveal(false);
-            
-            var usedHelps = GameSaveData.LoadUsedHelps(playedInfo);
-            var pawns = Pawns.Where(p => usedHelps.Contains(p.Cell.index)).ToList();
-            foreach (var pawn in pawns)
-            {
-                
-            }
         }
 
 
@@ -120,7 +108,7 @@ namespace Equation
                     var pawn = pawnObj.GetComponent<Pawn>();
                     pawn.RectTr.sizeDelta = new Vector2(cellSize, cellSize);
                     pawn.SetData(++pawnId, seg.content, seg.type != SegmentTypes.Fixed);
-                    pawn.SetCell(cell, true);
+                    pawn.SetCell(cell, false);
                     Pawns.Add(pawn);
                 }
             }
@@ -136,13 +124,22 @@ namespace Equation
             _pawnObj.SetActive(false);
             _hintObj.SetActive(false);
 
+
+            var usedHints = GameSaveData.LoadUsedHints(CurrentPlayedInfo);
+            var hints = Hints.Where(h => usedHints.Contains(h.Cell.index)).ToList();
+            foreach (var hint in hints)
+                hint.Reveal(false);
+
+            foreach (var pawn in Pawns)
+            {
+                var cell = GameSaveData.LoadPawnCell(CurrentPlayedInfo, pawn.Id, pawn.Cell.index);
+                pawn.SetCell(Cells[cell], false);
+            }
+
+
             ProcessTable();
         }
 
-
-        void Update()
-        {
-        }
 
         public void SetDraggingPawn(Pawn pawn)
         {
@@ -367,7 +364,7 @@ namespace Equation
                 selectedHint.Cell.Pawn.SetCell(emptyCell);
             }
             selectedPawn.RectTr.SetAsLastSibling();
-            float time = selectedPawn.SetCell(selectedHint.Cell, false, true);
+            float time = selectedPawn.SetCell(selectedHint.Cell, true, true);
             
             yield return new WaitForSeconds(time);
 
@@ -399,8 +396,8 @@ namespace Equation
             if(!pawn.Movable)
                 return;
 
-            Debug.Log(dragObj.name);
             SetDraggingPawn(pawn);
+            // Debug.Log(dragObj.name);
         }
 
         public void OnDrag(PointerEventData eventData)

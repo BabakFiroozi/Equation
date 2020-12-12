@@ -36,13 +36,13 @@ namespace Equation
             _contentText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
         }
 
-        public void Reveal(bool first)
+        public void Reveal(bool anim)
         {
             Revealed = true;
             _contentText.text = "?";
             gameObject.SetActive(true);
 
-            if (first)
+            if (anim)
             {
                 GameSaveData.SaveUsedHints(Board.Instance.CurrentPlayedInfo, Cell.index);
                 RectTr.localScale = Vector3.one * .1f;

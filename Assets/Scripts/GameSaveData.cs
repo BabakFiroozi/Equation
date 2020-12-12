@@ -200,34 +200,16 @@ namespace Equation
 			return cellsList;
 		}
 
-		public static void SaveUsedHelps(PuzzlePlayedInfo info, int pawn, int cell)
+		public static void SavePawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_UsedHelps";
-
-			var list = LoadUsedHints(info);
-			list.Add(pawn);
-			list.Add(cell);
-			
-			var jsonObj = JSONObject.arr;
-			list.ForEach(e => jsonObj.Add(e));
-
-			PlayerPrefs.SetString(keyName, jsonObj.Print());
+			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			PlayerPrefs.SetInt(keyName, cell);
 		}
 
-		public static List<int> LoadUsedHelps(PuzzlePlayedInfo info)
+		public static int LoadPawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_UsedHelps";
-
-			var str = PlayerPrefs.GetString(keyName);
-
-			List<int> indicesList = new List<int>();
-			if (!string.IsNullOrEmpty(str))
-			{
-				var list = JSONObject.Create(str).list;
-				list.ForEach(e => indicesList.Add((int) e.i));
-			}
-
-			return indicesList;
+			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			return PlayerPrefs.GetInt(keyName, cell);
 		}
 
 		public static void SavePrefs()

@@ -38,7 +38,7 @@ namespace Equation
             _fixedBadge.color = _stateColors[(int) state];
         }
 
-        public float SetCell(BoardCell cell, bool init = false, bool help = false)
+        public float SetCell(BoardCell cell, bool anim = true, bool help = false)
         {
             if (Cell != null)
                 Cell.Pawn = null;
@@ -48,20 +48,21 @@ namespace Equation
 
             float moveTime = 0;
 
-            if (init)
+            if (anim)
             {
-                RectTr.anchoredPosition = cell.pos;
-                _valueText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
-            }
-            else
-            {
+                GameSaveData.SavePawnCell(Board.Instance.CurrentPlayedInfo, Id, Cell.index);
                 float dist = (cell.pos - RectTr.anchoredPosition).magnitude;
                 moveTime = Mathf.Clamp(dist / 720, .01f, .5f);
                 RectTr.DOAnchorPos(cell.pos, moveTime).OnComplete(() => { });
                 //if help
             }
+            else
+            {
+                RectTr.anchoredPosition = cell.pos;
+                _valueText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
+            }
 
-            if (!init)
+            if (anim)
             {
                 //Play sound
             }
