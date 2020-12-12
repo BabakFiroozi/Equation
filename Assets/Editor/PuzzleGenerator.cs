@@ -113,7 +113,7 @@ namespace Equation.Tools
             float cellSize = width_ref / _colsCount;
             float tableHeight = tableWidth + Mathf.Abs(_colsCount - _rowsCount) * cellSize;
 
-            Rect tableRect = new Rect(160, 120, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
+            Rect tableRect = new Rect(160, 180, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
             EditorGUI.DrawRect(tableRect, new Color(.8f, .7f, .4f, 1));
 
             _allCellsList.Clear();
@@ -171,6 +171,10 @@ namespace Equation.Tools
             _hasTime = GUI.Toggle(new Rect(450, 70, 45, 20), _hasTime, "Time");
             _hasDevide = GUI.Toggle(new Rect(505, 70, 45, 20), _hasDevide, "Devide");
             
+            GUI.Label(new Rect(400, 95, 60, 20), "Shuffle");
+            _shuffleCount = EditorGUI.IntField(new Rect(450, 95, 40, 20), _shuffleCount);
+
+            
             if(_singleGenerated)
             {
                 var groups = new List<Group>();
@@ -195,9 +199,9 @@ namespace Equation.Tools
             if (GUI.Button(new Rect(720, 20, 100, 20), "Save"))
                 SavePuzzles();
             
-            _loadedLevel = EditorGUI.IntField(new Rect(660, 120, 40, 20), _loadedLevel);
+            _loadedLevel = EditorGUI.IntField(new Rect(660, tableRect.position.y - 30, 40, 20), _loadedLevel);
 
-            if (GUI.Button(new Rect(600, 120, 50, 20), "Load"))
+            if (GUI.Button(new Rect(600, tableRect.position.y - 30, 50, 20), "Load"))
             {
                 LoadPuzzlePack(_loadedLevel);
             }
@@ -206,9 +210,9 @@ namespace Equation.Tools
             {
                 int stagesCount = _puzzlesPack.puzzles.Count;
                 
-                EditorGUI.DrawRect(new Rect(600, 150, 100, 400), new Color(1, .5f, .9f));
+                EditorGUI.DrawRect(new Rect(600, tableRect.y, 100, 400), new Color(1, .5f, .9f));
 
-                _stagesScrollPos = GUI.BeginScrollView(new Rect(600, 150, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
+                _stagesScrollPos = GUI.BeginScrollView(new Rect(600, tableRect.y, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
 
                 for (int i = 0; i < stagesCount; ++i)
                 {
@@ -285,6 +289,9 @@ namespace Equation.Tools
             string data = File.ReadAllText(loadPath);
             _puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
             _selectedStage = 0;
+            _puzzle = _puzzlesPack.puzzles[_selectedStage];
+            _rowsCount = _puzzle.rows;
+            _colsCount = _puzzle.columns;
         }
 
 
@@ -294,6 +301,7 @@ namespace Equation.Tools
             
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+            
             _selectedStage = 0;
 
             _isGenerating = true;
@@ -303,12 +311,19 @@ namespace Equation.Tools
                 GeneratePattern();
                 await Task.Delay(200);
                 Repaint();
-                GenerateSegments(i);
+                if (!GenerateSegments(i))
+                {
+                    Debug.LogWarning("<color=yellow>GenerateSegments failed in GeneratePuzzles.</color>");
+                    continue;
+                }
                 await Task.Delay(200);
                 ShuffleSegments();
                 _selectedStage = i;
                 Repaint();
                 await Task.Delay(200);
+
+                if (i > 20)
+                    _stagesScrollPos.y += 20;
             }
 
             _isGenerating = false;
@@ -444,7 +459,7 @@ namespace Equation.Tools
         }
         
 
-        void GenerateSegments(int stage)
+        bool GenerateSegments(int stage)
         {
             int failedCounter = 0;
             while (true)
@@ -453,9 +468,15 @@ namespace Equation.Tools
                 if (succeed)
                     break;
                 failedCounter++;
+
+                if (failedCounter == 3000)
+                {
+                    Debug.Log($"<color=red>GenerateSegments failed with {failedCounter} try.</color>");
+                    return false;
+                }
             }
 
-            Debug.Log($"<color=green>Succeeded with</color> <color=red>{failedCounter} trys.</color>");
+            Debug.Log($"<color=green>GenerateSegments Succeeded with</color> <color=blue>{failedCounter} try.</color>");
 
             _puzzle = new Puzzle {stage = stage, id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
 
@@ -468,6 +489,8 @@ namespace Equation.Tools
                 else
                     _puzzle.segments.Add(new Segment {cellIndex = cell.index, type = SegmentTypes.Hollow, content = "", hold = -1});
             }
+
+            return true;
         }
 
         bool TryGenerateSegments()
