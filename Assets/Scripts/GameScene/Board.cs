@@ -32,7 +32,8 @@ namespace Equation
         public Action GameFinishedEvent { get; set; }
 
         public CoinBox CoinBox => _coinBox;
-        
+
+        public int StagesCount => _stagesCount;
       
         Pawn _draggingPawn;
 
@@ -42,6 +43,7 @@ namespace Equation
         float _cellSize;
 
         int _stagesCount;
+        
 
         void Awake()
         {
@@ -356,7 +358,9 @@ namespace Equation
                 hintsList = Hints.Where(h => h.Revealed).ToList();
                 hintsList = hintsList.Where(h => h.Cell.Pawn == null || h.Content != h.Cell.Pawn.Content).ToList();
             }
-
+            
+            if (hintsList.Count == 0)
+                yield break;
 
             var pawnsList = Pawns.Where(p => p.Movable).ToList();
 
@@ -405,9 +409,7 @@ namespace Equation
             {
                 DataHelper.Instance.LastPlayedInfo.Stage = 0;
                 if (DataHelper.Instance.LastPlayedInfo.Level < DataHelper.Instance.LevelsCount)
-                {
                     DataHelper.Instance.LastPlayedInfo.Level++;
-                }
             }
 
             GameSaveData.UnlockLevel(DataHelper.Instance.LastPlayedInfo.Level);

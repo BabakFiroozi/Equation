@@ -82,4 +82,4 @@ Day=روز
 Levels=فصل ها
 Level=فصل
 Stage=مرحله
-Needed_Moves=حرکات مورد نیاز
+Needed_Moves=جابجایی

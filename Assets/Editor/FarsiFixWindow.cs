@@ -3,7 +3,7 @@ using Equation.FarsiSaz;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cacao.Tools
+namespace Equation.Tools
 {
     public class FarsiFixWindow : EditorWindow
     {

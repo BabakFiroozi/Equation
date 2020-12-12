@@ -19,19 +19,23 @@ namespace Equation
 	{
 		[SerializeField] Text _titleText = null;
 		[SerializeField] Button _backButton = null;
-		[SerializeField] Button _rightButton = null;
-		[SerializeField] HeadingBarTypes _headingType = HeadingBarTypes.Level;
+		[SerializeField] Button _infoButton = null;
+		[SerializeField] Button _nextButton = null;
+		[SerializeField] HeadingBarTypes _headingType = HeadingBarTypes.None;
 
-		[SerializeField] GameObject _exitPanel = null;
+		[SerializeField] GameObject _infoPanelObj = null;
 
 		public HeadingBarTypes HeadingType => _headingType;
+
+		PuzzlePlayedInfo _nextPlayedInfo;
 
 
 		// Use this for initialization
 		void Start()
 		{
 			_backButton.onClick.AddListener(BackButtonClick);
-			_rightButton.onClick.AddListener(RightButtonClick);
+			_infoButton.onClick.AddListener(InfoButtonClick);
+			_nextButton.onClick.AddListener(NextButtonClick);
 
 			if (_headingType == HeadingBarTypes.Level)
 			{
@@ -51,14 +55,33 @@ namespace Equation
 				var playedInfo = DataHelper.Instance.LastPlayedInfo;
 				string title = $"{playedInfo.Stage + 1} {Translator.GetString("Stage")}  {playedInfo.Level + 1} {Translator.GetString("Level")}";
 				SetData(title);
+				
+				_nextPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
+				_nextPlayedInfo.Stage++;
+				if (_nextPlayedInfo.Stage == Board.Instance.StagesCount)
+				{
+					_nextPlayedInfo.Stage = 0;
+					if (_nextPlayedInfo.Level < DataHelper.Instance.LevelsCount)
+						_nextPlayedInfo.Level++;
+				}
+
+				bool nextIsUnlock = GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && GameSaveData.IsStageUnlocked(_nextPlayedInfo.Level, _nextPlayedInfo.Stage);
+				_nextButton.gameObject.SetActive(nextIsUnlock);
+				_infoButton.gameObject.SetActive(!nextIsUnlock);
+			}
+			else
+			{
+				_nextButton.gameObject.SetActive(false);
 			}
 		}
 
-		void RightButtonClick()
+
+		void InfoButtonClick()
 		{
-			if (_headingType == HeadingBarTypes.Game)
-			{
-			}
+			var obj = Instantiate(_infoPanelObj, transform.parent);
+			var popup = obj.GetComponent<PopupScreen>();
+			popup.HideEvent = () => Destroy(obj);
+			popup.Show();
 		}
 
 		void BackButtonClick()
@@ -80,6 +103,14 @@ namespace Equation
 			}
 		}
 
+		void NextButtonClick()
+		{
+			DataHelper.Instance.LastPlayedInfo.Level = _nextPlayedInfo.Level;
+			DataHelper.Instance.LastPlayedInfo.Stage = _nextPlayedInfo.Stage;
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+		}
+		
+		
 		// Update is called once per frame
 		void Update()
 		{
