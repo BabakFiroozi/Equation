@@ -37,7 +37,6 @@ namespace Equation
 			{
 				string title = $"{Translator.GetString("Levels")}";
 				SetData(title);
-
 			}
 
 			if (_headingType == HeadingBarTypes.Stage)

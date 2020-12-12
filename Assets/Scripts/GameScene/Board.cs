@@ -22,6 +22,7 @@ namespace Equation
         [SerializeField] float _tableBorder = 10;
         [SerializeField] CoinBox _coinBox;
         [SerializeField] GameObject _solvedBadge;
+        [SerializeField] Text _shufflesCountText;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -135,6 +136,7 @@ namespace Equation
                 pawn.SetCell(Cells[cell], false);
             }
 
+            _shufflesCountText.text = $"{_puzzle.shuffle} :{Translator.GetString("Needed_Moves")}";
 
             ProcessTable();
         }
@@ -324,8 +326,18 @@ namespace Equation
             
             if(hints.Count == 0)
                 return;
+            
             var hint = hints[Random.Range(0, hints.Count)];
             hint.Reveal(true);
+
+            var pawn = Pawns.Find(p => p.Cell.index == hint.Cell.index);
+            if (pawn)
+            {
+                var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
+                var emptyCell = emptyCells[Random.Range(0, emptyCells.Count)];
+                pawn.SetCell(emptyCell); 
+                ProcessTable();
+            }
         }
 
         public Coroutine DoHelp()
