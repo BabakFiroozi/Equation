@@ -6,6 +6,7 @@ namespace Equation
 {
     public class GameWord : MonoBehaviour
     {
+        [SerializeField] Button _gridButton;
         [SerializeField] Button _fontButton;
         [SerializeField] GameObject _solvedBadge;
 
@@ -13,13 +14,17 @@ namespace Equation
         void Start()
         {
             FontButtonClick(false);
+            GridButtonClick(false);
+            
             _fontButton.onClick.AddListener(() => FontButtonClick());
+            _gridButton.onClick.AddListener(() => GridButtonClick());
+            
             _solvedBadge.SetActive(GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo));
         }
 
         void FontButtonClick(bool change = true)
         {
-            bool isEng = GameSaveData.GetNumberFontEng();
+            bool isEng = GameSaveData.IsNumberFontEng();
             if (change)
                 isEng = !isEng;
             GameSaveData.SetNumberFontEng(isEng);
@@ -28,6 +33,19 @@ namespace Equation
             tr.Find("fa").gameObject.SetActive(!isEng);
 
             Board.Instance.SetPawnsFont(isEng);
+        }
+
+        void GridButtonClick(bool change = true)
+        {
+            bool visible = GameSaveData.IsGridVisible();
+            if (change)
+                visible = !visible;
+            GameSaveData.SetGridVisible(visible);
+            var tr = _gridButton.transform;
+            tr.Find("on").gameObject.SetActive(visible);
+            tr.Find("off").gameObject.SetActive(!visible);
+
+            Board.Instance.SetGridVisible(visible);
         }
     }
 }

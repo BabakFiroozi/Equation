@@ -148,6 +148,14 @@ namespace Equation
                 pawn.SetFontEng(eng);
             }
         }
+        
+        public void SetGridVisible(bool on)
+        {
+            foreach (var cell in Cells)
+            {
+                cell.rectTr.gameObject.SetActive(on);
+            }
+        }
 
 
         public void SetDraggingPawn(Pawn pawn)

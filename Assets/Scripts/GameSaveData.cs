@@ -565,9 +565,21 @@ namespace Equation
 			SetBool(key, eng);
 		}
 		
-		public static bool GetNumberFontEng()
+		public static bool IsNumberFontEng()
 		{
 			string key = "NumberFont_Eng";
+			return GetBool(key);
+		}
+		
+		public static void SetGridVisible(bool eng)
+		{
+			string key = "Grid_Visisble";
+			SetBool(key, eng);
+		}
+		
+		public static bool IsGridVisible()
+		{
+			string key = "Grid_Visisble";
 			return GetBool(key);
 		}
 
