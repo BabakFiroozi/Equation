@@ -43,7 +43,6 @@ namespace Equation
             GameSaveData.SetGridVisible(visible);
             var tr = _gridButton.transform;
             tr.Find("on").gameObject.SetActive(visible);
-            tr.Find("off").gameObject.SetActive(!visible);
 
             Board.Instance.SetGridVisible(visible);
         }

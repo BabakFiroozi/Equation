@@ -11,6 +11,8 @@ namespace DefaultNamespace
         [SerializeField] Text _stageText;
         [SerializeField] GameObject _lockObject;
 
+        [SerializeField] GameObject[] _stars;
+
         int _stage;
         int _level;
         
@@ -35,6 +37,10 @@ namespace DefaultNamespace
             bool unlcoked = GameSaveData.IsStageUnlocked(_level, _stage) || GameConfig.Instance.GameIsUnlock;
             _lockObject.SetActive(!unlcoked);
             _stageText.gameObject.SetActive(unlcoked);
+
+            int rank = 1;
+            for (int i = 0; i < 3; ++i)
+                _stars[i].SetActive(i + 1 <= rank);
         }
     }
 }
