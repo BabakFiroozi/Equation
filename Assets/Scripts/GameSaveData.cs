@@ -202,19 +202,19 @@ namespace Equation
 
 		public static void SavePawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
 			PlayerPrefs.SetInt(keyName, cell);
 		}
 
 		public static int LoadPawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
 			return PlayerPrefs.GetInt(keyName, cell);
 		}
 		
 		public static void ResetPawnCell(PuzzlePlayedInfo info, int pawn)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_{pawn}_PawnCell";
+			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
 			PlayerPrefs.DeleteKey(keyName);
 		}
 
