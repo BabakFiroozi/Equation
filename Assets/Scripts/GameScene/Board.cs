@@ -43,6 +43,9 @@ namespace Equation
 
         int _stagesCount;
         
+        public int StageRank { get; set; }
+        public int MovesCount { get; set; }
+        
 
         void Awake()
         {
@@ -412,24 +415,8 @@ namespace Equation
             GameSaveData.SolveStage(DataHelper.Instance.LastPlayedInfo);
             DoResetBoard();
             GameFinishedEvent?.Invoke();
-
-            UnlockNextPuzzle();
         }
 
-        void UnlockNextPuzzle()
-        {
-            DataHelper.Instance.LastPlayedInfo.Stage++;
-            if (DataHelper.Instance.LastPlayedInfo.Stage == _stagesCount)
-            {
-                DataHelper.Instance.LastPlayedInfo.Stage = 0;
-                if (DataHelper.Instance.LastPlayedInfo.Level < DataHelper.Instance.LevelsCount)
-                    DataHelper.Instance.LastPlayedInfo.Level++;
-            }
-
-            GameSaveData.UnlockLevel(DataHelper.Instance.LastPlayedInfo.Level);
-            GameSaveData.UnlockStage(DataHelper.Instance.LastPlayedInfo.Level, DataHelper.Instance.LastPlayedInfo.Stage);
-        }
-        
         void OnDestroy()
         {
             if (Instance == this)

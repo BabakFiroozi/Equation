@@ -24,5 +24,10 @@ namespace Equation
             
             _levelItemObj.SetActive(false);
         }
+
+        public static void ResetStageHistoryScroll()
+        {
+            //TODO - scroll
+        }
     }
 }

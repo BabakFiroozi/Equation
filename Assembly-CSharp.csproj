@@ -116,6 +116,7 @@
      <Compile Include="Assets\Scripts\GameScene\GameWord.cs" />
      <Compile Include="Assets\Scripts\GameScene\Hint.cs" />
      <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
+     <Compile Include="Assets\Scripts\GameScene\ResultPanel.cs" />
      <Compile Include="Assets\Scripts\General.cs" />
      <Compile Include="Assets\Scripts\HeadingBar.cs" />
      <Compile Include="Assets\Scripts\ImageShineEffect.cs" />
