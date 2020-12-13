@@ -16,7 +16,7 @@ MonoBehaviour:
     url: 
     field: 
   _tutorialIsActive: 0
-  _gameIsUnlock: 0
+  _gameIsUnlock: 1
   _playerInitialCoin: 10000
   _hintCost: 30
   _helpCost: 90
