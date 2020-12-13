@@ -34,6 +34,7 @@ namespace DefaultNamespace
             _stageText.text = $"{stage + 1}";
             bool unlcoked = GameSaveData.IsStageUnlocked(_level, _stage) || GameConfig.Instance.GameIsUnlock;
             _lockObject.SetActive(!unlcoked);
+            _stageText.gameObject.SetActive(unlcoked);
         }
     }
 }

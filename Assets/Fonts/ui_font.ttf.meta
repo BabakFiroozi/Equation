@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 338454304eb7a5e498b8ca9ab1ff4125
+guid: 7916f9250c9d3f349bbdee7124a2d47a
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Times New Roman
+  fontName: B Kourosh
   fontNames:
-  - Times New Roman
+  - B Kourosh
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

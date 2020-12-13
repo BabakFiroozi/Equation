@@ -30,6 +30,8 @@ namespace Equation
 
         float _initWidth;
         float _initFontSize;
+
+        int _fontSize;
         
 
         public void SetState(PawnStates state)
@@ -61,6 +63,7 @@ namespace Equation
             {
                 RectTr.anchoredPosition = cell.pos;
                 _valueText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
+                _fontSize = _valueText.fontSize;
             }
 
             if (anim)
@@ -83,6 +86,7 @@ namespace Equation
         public void SetFontEng(bool eng)
         {
             _valueText.font = !eng ? _fonts[0] : _fonts[1];
+            _valueText.fontSize = eng ? _fontSize - 6 : _fontSize;
         }
 
         void Awake()
