@@ -113,6 +113,7 @@
      <Compile Include="Assets\Scripts\GameSaveData.cs" />
      <Compile Include="Assets\Scripts\GameScene\Board.cs" />
      <Compile Include="Assets\Scripts\GameScene\CoinBox.cs" />
+     <Compile Include="Assets\Scripts\GameScene\GameWord.cs" />
      <Compile Include="Assets\Scripts\GameScene\Hint.cs" />
      <Compile Include="Assets\Scripts\GameScene\Pawn.cs" />
      <Compile Include="Assets\Scripts\General.cs" />

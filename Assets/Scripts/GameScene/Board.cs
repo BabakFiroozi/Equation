@@ -21,7 +21,6 @@ namespace Equation
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
         [SerializeField] CoinBox _coinBox;
-        [SerializeField] GameObject _solvedBadge;
         [SerializeField] Text _shufflesCountText;
 
         public List<Pawn> Pawns { get; } = new List<Pawn>();
@@ -51,8 +50,6 @@ namespace Equation
             _tr = transform;
             
             MakePuzzleUI();
-            
-            _solvedBadge.SetActive(GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo));
         }
 
 
@@ -141,6 +138,15 @@ namespace Equation
             _shufflesCountText.text = $"{_puzzle.shuffle} :{Translator.GetString("Needed_Moves")}";
 
             ProcessTable();
+        }
+
+
+        public void SetPawnsFont(bool eng)
+        {
+            foreach (var pawn in Pawns)
+            {
+                pawn.SetFontEng(eng);
+            }
         }
 
 

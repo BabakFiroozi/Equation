@@ -559,6 +559,18 @@ namespace Equation
 			SetBool(key, true);
 		}
 
+		public static void SetNumberFontEng(bool eng)
+		{
+			string key = "NumberFont_Eng";
+			SetBool(key, eng);
+		}
+		
+		public static bool GetNumberFontEng()
+		{
+			string key = "NumberFont_Eng";
+			return GetBool(key);
+		}
+
 		public static void Reset()
 		{
 			PlayerPrefs.DeleteAll();

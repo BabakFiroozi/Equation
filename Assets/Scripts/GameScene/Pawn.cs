@@ -12,6 +12,7 @@ namespace Equation
         [SerializeField] Image _frameImage;
         [SerializeField] Image _fixedBadge;
         [SerializeField] Color[] _stateColors;
+        [SerializeField] Font[] _fonts;
 
         public RectTransform RectTr => _rectTr;
 
@@ -77,6 +78,11 @@ namespace Equation
             _valueText.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
             _fixedBadge.enabled = !movable;
+        }
+
+        public void SetFontEng(bool eng)
+        {
+            _valueText.font = !eng ? _fonts[0] : _fonts[1];
         }
 
         void Awake()
