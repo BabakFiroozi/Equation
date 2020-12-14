@@ -9,6 +9,9 @@ namespace Equation
     {
         [SerializeField] RectTransform _rectTr;
         [SerializeField] Text _contentText;
+        [SerializeField] RectTransform _lightEffect;
+        [SerializeField] RectTransform _badgeEffect;
+        [SerializeField] AudioSource _revealSound;
 
         public RectTransform RectTr => _rectTr;
         
@@ -25,6 +28,12 @@ namespace Equation
         {
             _initWidth = RectTr.rect.width;
             _initFontSize = _contentText.fontSize;
+
+            _lightEffect.DORotate(new Vector3(0, 0, 180), 32, RotateMode.WorldAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
+            var seq = DOTween.Sequence();
+            seq.Append(_lightEffect.DOScale(1.2f, 1).SetEase(Ease.Linear));
+            seq.Append(_lightEffect.DOScale(1.0f, 1).SetEase(Ease.Linear));
+            seq.SetLoops(-1);
         }
         
         public void SetData(string content, BoardCell cell)
@@ -47,9 +56,11 @@ namespace Equation
             if (anim)
             {
                 GameSaveData.SaveUsedHints(DataHelper.Instance.LastPlayedInfo, Cell.index);
-                RectTr.localScale = Vector3.one * .1f;
+                _badgeEffect.localScale = Vector3.one * .01f;
                 time = .3f;
+                _badgeEffect.DOScale(1, time);
                 RectTr.DOScale(1, time);
+                _revealSound.Play();
             }
 
             return time;

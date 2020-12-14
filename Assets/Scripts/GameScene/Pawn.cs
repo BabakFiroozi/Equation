@@ -13,6 +13,7 @@ namespace Equation
         [SerializeField] Image _fixedBadge;
         [SerializeField] Color[] _stateColors;
         [SerializeField] Font[] _fonts;
+        [SerializeField] AudioSource _helpSound;
 
         public RectTransform RectTr => _rectTr;
 
@@ -57,7 +58,8 @@ namespace Equation
                 float dist = (cell.pos - RectTr.anchoredPosition).magnitude;
                 moveTime = Mathf.Clamp(dist / 720, .01f, .5f);
                 RectTr.DOAnchorPos(cell.pos, moveTime).OnComplete(() => { });
-                //if help
+                if (help)
+                    _helpSound.Play();
             }
             else
             {

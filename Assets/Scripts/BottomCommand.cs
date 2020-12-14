@@ -27,7 +27,7 @@ namespace Equation
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
-                GameSaveData.SubCoin(GameConfig.Instance.HintCost, true);
+                GameSaveData.SubCoin(GameConfig.Instance.HintCost, true, .2f);
             
             GameWord.Instance.Board.DoHint();
         }
@@ -38,7 +38,7 @@ namespace Equation
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
-                GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true);
+                GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true, .2f);
 
             GameWord.Instance.Board.DoHelp();
         }

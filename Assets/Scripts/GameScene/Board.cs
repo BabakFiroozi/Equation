@@ -338,13 +338,7 @@ namespace Equation
 
         public bool RestAnyHint()
         {
-            foreach (var hint in Hints)
-            {
-                if (!hint.Revealed)
-                    return true;
-            }
-
-            return false;
+            return Hints.Where(h => !h.Revealed).Any(h => h.Cell.Pawn == null || h.Cell.Pawn.Content != h.Content);
         }
 
         public Coroutine DoHint()
