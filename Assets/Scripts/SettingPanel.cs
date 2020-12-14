@@ -18,7 +18,7 @@ namespace Equation
 		[SerializeField] GameObject _soundOffBadge = null;
 		[SerializeField] Text _versionText;
 
-		static string _bundleId = "com.babgames.ganjyab";
+		static string _bundleId = "com.babgames.tablemath";
 
 		PopupScreen _popupScreen;
 

@@ -26,7 +26,6 @@ namespace Equation
 
 		public HeadingBarTypes HeadingType => _headingType;
 
-		PuzzlePlayedInfo _nextPlayedInfo;
 
 
 		// Use this for initialization
@@ -54,17 +53,10 @@ namespace Equation
 				var playedInfo = DataHelper.Instance.LastPlayedInfo;
 				string title = $"{playedInfo.Stage + 1} {Translator.GetString("Stage")}  {playedInfo.Level + 1} {Translator.GetString("Level")}";
 				SetData(title);
-				
-				_nextPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
-				_nextPlayedInfo.Stage++;
-				if (_nextPlayedInfo.Stage == GameWord.Instance.Board.StagesCount)
-				{
-					_nextPlayedInfo.Stage = 0;
-					if (_nextPlayedInfo.Level < DataHelper.Instance.LevelsCount)
-						_nextPlayedInfo.Level++;
-				}
 
-				bool nextIsUnlock = GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && GameSaveData.IsStageUnlocked(_nextPlayedInfo.Level, _nextPlayedInfo.Stage);
+				var nextPlayedInfo = GameWord.Instance.NextPlayedInfo;
+				var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
+				bool nextIsUnlock = GameSaveData.IsStageSolved(currentPlayedInfo) && GameSaveData.IsStageUnlocked(nextPlayedInfo.Level, nextPlayedInfo.Stage);
 				_nextButton.gameObject.SetActive(nextIsUnlock);
 				_infoButton.gameObject.SetActive(!nextIsUnlock);
 			}
@@ -104,16 +96,11 @@ namespace Equation
 
 		void NextButtonClick()
 		{
-			DataHelper.Instance.LastPlayedInfo.Level = _nextPlayedInfo.Level;
-			DataHelper.Instance.LastPlayedInfo.Stage = _nextPlayedInfo.Stage;
+			DataHelper.Instance.LastPlayedInfo.Level = GameWord.Instance.NextPlayedInfo.Level;
+			DataHelper.Instance.LastPlayedInfo.Stage = GameWord.Instance.NextPlayedInfo.Stage;
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
 		}
 		
-		
-		// Update is called once per frame
-		void Update()
-		{
-		}
 
 		public void SetData(string title)
 		{

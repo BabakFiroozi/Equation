@@ -1,37 +1,4 @@
 *Puzzle Modes*
-Easy=آسان
-Normal=متوسط
-Hard=سخت
-Extreme=بغرنج
-Nightmare=کابوس
-Daily=روزانه
-
-*Puzzle Levels*
-Beginner=مبتدی
-Moderate=زرنگ
-Skillfull=ماهر
-Genious=نابغه
-Professional=حرفه ای
-Veteran=کهنه کار
-Expert=متخصص
-Master=استاد
-Advanced=پیشرفته
-Talented=بااستعداد
-
-*Puzzle Subjects*
-Animal=حیوان
-Car=ماشین
-Body=اعضای بدن
-Fruit=میوه
-Bird=پرنده
-Color=رنگ
-Dried=خشکبار
-Job=شغل
-FLower=گل
-Month=ماه
-Natural=طبیعت
-Province=استان
-Tool=ابزار
 
 *Encourage*
 Superb1=معرکه بود
@@ -64,13 +31,14 @@ With=با
 Old_Record=رکورد قبلی
 Entrance=ورودی
 You_Have=انقدر داری
-Medal=مدال
 
 Ok=باشه
 Ready=آماده ام
 Enter=ورود
+Start=شروع
+Continue=ادامه
+Become=شدید
 
-More_Quests_Comming_Soon=بقیه ماموریت ها به زودی
 You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
 You_Already_Signed_Up=شما قبلا ثبت نام کردید
 You_Need_To_Register=برای درج رکورد باید ثبت نام کنید
@@ -84,3 +52,5 @@ Level=فصل
 Stage=مرحله
 Needed_Moves=جابجایی
 Moves_You_Did=تعداد حرکاتی که رفتی
+You_Entered_Level=شما وارد فصل
+You_Finished_Levels=شما همه فصل رو رفتید منتظر آپدیت باشد

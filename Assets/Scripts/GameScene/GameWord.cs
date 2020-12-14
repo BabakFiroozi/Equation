@@ -19,28 +19,47 @@ namespace Equation
 
         public Board Board => _board;
 
-        public PuzzlePlayedInfo CurrentPlayedInfo;
+        public PuzzlePlayedInfo CurrentPlayedInfo { get; private set; }
+
+        public PuzzlePlayedInfo NextPlayedInfo;
+
 
         void Awake()
         {
             Instance = this;
+            
+            Board.Init();
+            
+            CurrentPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
+            NextPlayedInfo = CurrentPlayedInfo.Copy();
+            
+            if (CurrentPlayedInfo.Stage < Board.StagesCount - 1)
+            {
+                NextPlayedInfo.Stage++;
+            }
+            else
+            {
+                if (CurrentPlayedInfo.Level < DataHelper.Instance.LevelsCount - 1)
+                {
+                    NextPlayedInfo.Stage = 0;
+                    NextPlayedInfo.Level++;
+                }
+            }
         }
 
 
         void Start()
         {
-            CurrentPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
-            
             FontButtonClick(false);
             GridButtonClick(false);
             
             _fontButton.onClick.AddListener(() => FontButtonClick());
             _gridButton.onClick.AddListener(() => GridButtonClick());
             
-            _solvedBadge.SetActive(GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo));
-            
+            _solvedBadge.SetActive(GameSaveData.IsStageSolved(CurrentPlayedInfo));
             _board.GameFinishedEvent += GameFinishedHandler;
         }
+        
 
         void GameFinishedHandler(bool alreadySolved, int stageRank)
         {
@@ -74,6 +93,8 @@ namespace Equation
 
         void OnDestroy()
         {
+            _board.GameFinishedEvent -= GameFinishedHandler;
+            
             if (Instance == this)
                 Instance = null;
         }

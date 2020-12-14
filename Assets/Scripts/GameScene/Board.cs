@@ -39,16 +39,16 @@ namespace Equation
 
         float _cellSize;
 
-        
-        
 
-        void Awake()
+        void Start()
         {
-            MakePuzzleUI();
-            
             _touchBlockObj.SetActive(false);
         }
 
+        public void Init()
+        {
+            MakePuzzleUI();
+        }
 
         void MakePuzzleUI()
         {

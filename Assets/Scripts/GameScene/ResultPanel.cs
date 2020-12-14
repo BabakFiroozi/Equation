@@ -21,7 +21,7 @@ namespace Equation
 		[SerializeField] GameObject _alreadySolvedText;
 		[SerializeField] RectTransform[] _stars;
 
-		[SerializeField] GameObject _gotNextLevelPageObj;
+		[SerializeField] Text _nextLevelText;
 		[SerializeField] GameObject _dailyRewardObj;
 		[SerializeField] GameObject _rateAskPageObj;
 
@@ -50,7 +50,7 @@ namespace Equation
 
 			gameObject.SetActive(true);
 
-			if (DataHelper.Instance.LastPlayedInfo.Daily)
+			if (GameWord.Instance.CurrentPlayedInfo.Daily)
 			{
 				_stageSelButton.gameObject.SetActive(false);
 			}
@@ -60,6 +60,8 @@ namespace Equation
 
 		IEnumerator _ShowFrame()
 		{
+			_nextLevelText.gameObject.SetActive(false);
+			
 			var buttonsObj = _replayButton.transform.parent.gameObject;
 			buttonsObj.SetActive(false);
 
@@ -77,7 +79,7 @@ namespace Equation
 			yield return new WaitForSeconds(.5f);
 			
 			_backgOverlay.DOFade(.7f, .5f);
-			_frameRectTr.DOAnchorPosY(100, .5f).SetEase(Ease.OutCubic);
+			_frameRectTr.DOAnchorPosY(0, .5f).SetEase(Ease.OutCubic);
 			
 			yield return new WaitForSeconds(.5f);
 
@@ -102,10 +104,10 @@ namespace Equation
 			
 			yield return new WaitForSeconds(delay + .15f);
 
-			var info = DataHelper.Instance.LastPlayedInfo;
+			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
 			const int reward_per_level = 50;
 			const int reward_per_stage = 2;
-			int reward = (info.Level + 1) * reward_per_level + (info.Stage + 1) * reward_per_stage;
+			int reward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage;
 			
 			_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{reward}";
 			rewardGroup.DOFade(1, .3f);
@@ -122,18 +124,22 @@ namespace Equation
 
 			yield return new WaitForSeconds(.3f);
 
-			_preventTouchObj.SetActive(false);
-		}
-
-		void ShowReachedNextLevel(PuzzlePlayedInfo info, bool levelUnlocked, bool modeUnlocked)
-		{
-			LevelsPanel.ResetStageHistoryScroll();
+			if (currentPlayedInfo.Stage == GameWord.Instance.Board.StagesCount - 1)
+			{
+				_nextLevelText.gameObject.SetActive(true);
+				if(currentPlayedInfo.Level < DataHelper.Instance.LevelsCount - 1)
+				{
+					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";
+					LevelsPanel.ResetStageHistoryScroll();
+				}
+				else
+				{
+					_nextLevelText.text = $"{Translator.GetString("You_Finished_Levels")}";
+				}
+				yield return new WaitForSeconds(.3f);
+			}
 			
-			//TODO - next level
-
-			// var obj = Instantiate(_gotNextLevelPagePrefab, transform.parent);
-			// var page = obj.GetComponent<NextLevelReachedPage>();
-			// page.Show(info.Stage, info.Level, info.Mode, levelUnlocked, modeUnlocked, () => { page.Hide(); });
+			_preventTouchObj.SetActive(false);
 		}
 
 		void ReplayGame()
@@ -151,25 +157,22 @@ namespace Equation
 
 		void GoStageSel()
 		{
-			// DataHelper.Instance.LastPlayedInfo.Level = GameBoard.Instance.CurrentPlayedInfo.Level;
-			// DataHelper.Instance.LastPlayedInfo.Stage = GameBoard.Instance.CurrentPlayedInfo.Stage;
-
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
 		}
 
 		void NextStage()
 		{
-			var lastPlayedInfo = DataHelper.Instance.LastPlayedInfo;
+			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
 
-			if (lastPlayedInfo.Daily)
+			if (currentPlayedInfo.Daily)
 			{
-				if (GameSaveData.IsDailyPuzzleRewarded(lastPlayedInfo))
+				if (GameSaveData.IsDailyPuzzleRewarded(currentPlayedInfo))
 				{
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
 				}
 				else
 				{
-					var obj = Instantiate(_dailyRewardObj, transform.parent);
+					// var obj = Instantiate(_dailyRewardObj, transform.parent);
 					// obj.GetComponent<DailyRewardPage>().ShowPage();
 					// GameSaveData.SetDailyPuzzleRewarded(lastPlayedInfo);
 				}
@@ -180,7 +183,7 @@ namespace Equation
 
 			if (!_ratePageAsked && !GameSaveData.IsGameRated())
 			{
-				if (DataHelper.Instance.LastPlayedInfo.Stage == GameWord.Instance.Board.StagesCount - 1)
+				if (currentPlayedInfo.Stage == 1)
 				{
 					_ratePageAsked = true;
 					var obj = Instantiate(_rateAskPageObj, transform.parent);
@@ -198,24 +201,18 @@ namespace Equation
 					return;
 				}
 			}
-
-			//TODO - handle game end
 			
+			var nextPlayedInfo = GameWord.Instance.NextPlayedInfo;
+			DataHelper.Instance.LastPlayedInfo.Level = nextPlayedInfo.Level;
+			DataHelper.Instance.LastPlayedInfo.Stage = nextPlayedInfo.Stage;
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
 		}
 
 		void UnlockNextPuzzle()
 		{
-			DataHelper.Instance.LastPlayedInfo.Stage++;
-			if (DataHelper.Instance.LastPlayedInfo.Stage == GameWord.Instance.Board.StagesCount)
-			{
-				DataHelper.Instance.LastPlayedInfo.Stage = 0;
-				if (DataHelper.Instance.LastPlayedInfo.Level < DataHelper.Instance.LevelsCount)
-					DataHelper.Instance.LastPlayedInfo.Level++;
-			}
-
-			GameSaveData.UnlockLevel(DataHelper.Instance.LastPlayedInfo.Level);
-			GameSaveData.UnlockStage(DataHelper.Instance.LastPlayedInfo.Level, DataHelper.Instance.LastPlayedInfo.Stage);
+			var info = GameWord.Instance.NextPlayedInfo;
+			GameSaveData.UnlockLevel(info.Level);
+			GameSaveData.UnlockStage(info.Level, info.Stage);
 		}
 	}
 }
