@@ -20,29 +20,29 @@ namespace Equation
 
         void HintButtonClick()
         {
-            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !GameWord.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
                 GameSaveData.SubCoin(GameConfig.Instance.HintCost, true);
             
-            Board.Instance.DoHint();
+            GameWord.Instance.Board.DoHint();
         }
 
         void HelpButtonClick()
         {
-            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !Board.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HelpCost))
+            if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !GameWord.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HelpCost))
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
                 GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true);
 
-            Board.Instance.DoHelp();
+            GameWord.Instance.Board.DoHelp();
         }
 
         void ResetButtonClick()
         {
-            Board.Instance.DoResetBoard();
+            GameWord.Instance.Board.DoResetBoard();
             SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
         }
     }

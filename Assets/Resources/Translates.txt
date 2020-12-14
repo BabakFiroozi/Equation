@@ -83,3 +83,4 @@ Levels=فصل ها
 Level=فصل
 Stage=مرحله
 Needed_Moves=جابجایی
+Moves_You_Did=تعداد حرکاتی که رفتی

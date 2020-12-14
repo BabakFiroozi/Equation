@@ -12,46 +12,39 @@ namespace Equation
 {
     public class Board : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public static Board Instance { get; private set; }
-        
         [SerializeField] RectTransform _tableRectTr;
         [SerializeField] GameObject _cellObj;
         [SerializeField] GameObject _pawnObj;
         [SerializeField] GameObject _hintObj;
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
-        [SerializeField] CoinBox _coinBox;
-        [SerializeField] Text _shufflesCountText;
-
+        [SerializeField] ResultPanel _resultPanel;
+        
+        
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
 
         public List<BoardCell> Cells { get; } = new List<BoardCell>();
         
-        public Action GameFinishedEvent { get; set; }
+        public Action<bool, int> GameFinishedEvent { get; set; }
 
-        public CoinBox CoinBox => _coinBox;
-
-        public int StagesCount => _stagesCount;
+        public int StagesCount { get; private set; }
       
+        public int MovesCount { get; private set; }
+
+        int _shufflesCount;
+
         Pawn _draggingPawn;
 
         Puzzle _puzzle;
 
-        Transform _tr;
         float _cellSize;
 
-        int _stagesCount;
         
-        public int StageRank { get; set; }
-        public int MovesCount { get; set; }
         
 
         void Awake()
         {
-            Instance = this;
-            _tr = transform;
-            
             MakePuzzleUI();
         }
 
@@ -61,7 +54,9 @@ namespace Equation
             var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{DataHelper.Instance.LastPlayedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[DataHelper.Instance.LastPlayedInfo.Stage];
-            _stagesCount = puzzlesPack.puzzles.Count;
+            StagesCount = puzzlesPack.puzzles.Count;
+
+            _shufflesCount = _puzzle.shuffle;
 
             float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
@@ -138,8 +133,6 @@ namespace Equation
                 pawn.SetCell(Cells[cell], false);
             }
 
-            _shufflesCountText.text = $"{_puzzle.shuffle} :{Translator.GetString("Needed_Moves")}";
-
             ProcessTable();
         }
 
@@ -163,16 +156,16 @@ namespace Equation
 
         public void SetDraggingPawn(Pawn pawn)
         {
-            var draggedPawn = _draggingPawn;
+            var prevDragging = _draggingPawn;
 
             if (pawn == null)
             {
                 BoardCell nearestCell = null;
-                bool isInTable = _tableRectTr.rect.Contains(draggedPawn.RectTr.anchoredPosition);
+                bool isInTable = _tableRectTr.rect.Contains(prevDragging.RectTr.anchoredPosition);
                 if (isInTable)
                 {
                     float minDist = 1000;
-                    Vector3 pos = draggedPawn.RectTr.anchoredPosition;
+                    Vector3 pos = prevDragging.RectTr.anchoredPosition;
                     var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                     foreach (var cell in emptyCells)
                     {
@@ -188,20 +181,22 @@ namespace Equation
                 }
                 else
                 {
-                    nearestCell = draggedPawn.Cell;
+                    nearestCell = prevDragging.Cell;
                 }
 
-                draggedPawn.SetCell(nearestCell);
+                prevDragging.SetCell(nearestCell);
+            }
+            else
+            {
+                pawn.RectTr.SetAsLastSibling();
+                MovesCount++;
             }
 
             _draggingPawn = pawn;
 
-            if (_draggingPawn != null)
-                _draggingPawn.RectTr.SetAsLastSibling();
-
             ProcessTable();
 
-            if (draggedPawn != null && draggedPawn.State == PawnStates.Right)
+            if (prevDragging != null && prevDragging.State == PawnStates.Right)
                 OnRightMove();
         }
 
@@ -400,6 +395,8 @@ namespace Equation
             
             yield return new WaitForSeconds(time);
 
+            MovesCount++;
+
             ProcessTable();
         }
 
@@ -412,15 +409,23 @@ namespace Equation
         void FinishGame()
         {
             Debug.Log("<color=green>Game Finished!!!</color>");
+
+            bool alreadySolved = GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo);
+            
             GameSaveData.SolveStage(DataHelper.Instance.LastPlayedInfo);
             DoResetBoard();
-            GameFinishedEvent?.Invoke();
-        }
 
-        void OnDestroy()
-        {
-            if (Instance == this)
-                Instance = null;
+            int diff = MovesCount - _shufflesCount;
+
+            int rank = 1;
+            if (diff < 3)
+                rank = 3;
+            else if (diff < 6)
+                rank = 2;
+
+            GameSaveData.SetStageRank(DataHelper.Instance.LastPlayedInfo, rank);
+            
+            GameFinishedEvent?.Invoke(alreadySolved, rank);
         }
 
         public void OnBeginDrag(PointerEventData eventData)

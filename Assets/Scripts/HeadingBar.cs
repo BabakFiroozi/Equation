@@ -11,7 +11,6 @@ namespace Equation
 		Level,
 		Stage,
 		Game,
-		
 		Count
 	}
 
@@ -58,7 +57,7 @@ namespace Equation
 				
 				_nextPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
 				_nextPlayedInfo.Stage++;
-				if (_nextPlayedInfo.Stage == Board.Instance.StagesCount)
+				if (_nextPlayedInfo.Stage == GameWord.Instance.Board.StagesCount)
 				{
 					_nextPlayedInfo.Stage = 0;
 					if (_nextPlayedInfo.Level < DataHelper.Instance.LevelsCount)
