@@ -36,18 +36,23 @@ namespace Equation
             _contentText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
         }
 
-        public void Reveal(bool anim)
+        public float Reveal(bool anim)
         {
             Revealed = true;
             _contentText.text = "?";
             gameObject.SetActive(true);
 
+            float time = 0;
+
             if (anim)
             {
                 GameSaveData.SaveUsedHints(DataHelper.Instance.LastPlayedInfo, Cell.index);
                 RectTr.localScale = Vector3.one * .1f;
-                RectTr.DOScale(1, .3f);
+                time = .3f;
+                RectTr.DOScale(1, time);
             }
+
+            return time;
         }
     }
 }

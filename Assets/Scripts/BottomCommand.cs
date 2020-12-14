@@ -20,6 +20,9 @@ namespace Equation
 
         void HintButtonClick()
         {
+            if (!GameWord.Instance.Board.RestAnyHint())
+                return;
+            
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo) && !GameWord.Instance.CoinBox.CheckEnoughCoin(GameConfig.Instance.HintCost))
                 return;
 

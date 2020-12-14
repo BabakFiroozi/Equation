@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -42,7 +43,7 @@ namespace Equation
 
         void Start()
         {
-            _touchBlockObj.SetActive(false);
+            UnBlobkTouch();
         }
 
         public void Init()
@@ -326,7 +327,33 @@ namespace Equation
             }
         }
 
-        public void DoHint()
+        void BlobkTouch()
+        {
+            _touchBlockObj.SetActive(true);
+        }
+        void UnBlobkTouch()
+        {
+            _touchBlockObj.SetActive(false);
+        }
+
+        public bool RestAnyHint()
+        {
+            foreach (var hint in Hints)
+            {
+                if (!hint.Revealed)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public Coroutine DoHint()
+        {
+            var c = StartCoroutine(_DoHint());
+            return c;
+        }
+        
+        IEnumerator<WaitForSeconds> _DoHint()
         {
             var hints = new List<Hint>();
 
@@ -340,10 +367,12 @@ namespace Equation
             }
             
             if(hints.Count == 0)
-                return;
+                yield break;
+
+            BlobkTouch();
             
             var hint = hints[Random.Range(0, hints.Count)];
-            hint.Reveal(true);
+            float ainmTime = hint.Reveal(true);
 
             var pawn = Pawns.Find(p => p.Cell.index == hint.Cell.index);
             if (pawn)
@@ -353,6 +382,10 @@ namespace Equation
                 pawn.SetCell(emptyCell); 
                 ProcessTable();
             }
+
+            yield return new WaitForSeconds(ainmTime);
+            
+            UnBlobkTouch();
         }
 
         public Coroutine DoHelp()
@@ -385,7 +418,7 @@ namespace Equation
                 return (hint == null || hint.Content != p.Content) && p.Content == selectedHint.Content;
             });
 
-            _touchBlockObj.SetActive(true);
+            BlobkTouch();
 
             if (selectedHint.Cell.Pawn != null)
             {
@@ -395,11 +428,11 @@ namespace Equation
             }
 
             selectedPawn.RectTr.SetAsLastSibling();
-            float time = selectedPawn.SetCell(selectedHint.Cell, true, true);
+            float animTime = selectedPawn.SetCell(selectedHint.Cell, true, true);
 
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSeconds(animTime);
 
-            _touchBlockObj.SetActive(false);
+            UnBlobkTouch();
             
             MovesCount++;
 

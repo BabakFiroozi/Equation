@@ -105,14 +105,12 @@ namespace Equation
 			yield return new WaitForSeconds(delay + .15f);
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
-			const int reward_per_level = 50;
+			const int reward_per_level = 10;
 			const int reward_per_stage = 2;
-			int reward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage;
+			int stageReward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage;
 			
-			_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{reward}";
 			rewardGroup.DOFade(1, .3f);
-			_rewardText.gameObject.GetComponent<AudioSource>().Play();
-			GameSaveData.AddCoin(reward, false, 0);
+			GiveReward(stageReward);
 
 			yield return new WaitForSeconds(.5f);
 
@@ -127,10 +125,13 @@ namespace Equation
 			if (currentPlayedInfo.Stage == GameWord.Instance.Board.StagesCount - 1)
 			{
 				_nextLevelText.gameObject.SetActive(true);
+				_nextLevelText.gameObject.GetComponent<AudioSource>().Play();
 				if(currentPlayedInfo.Level < DataHelper.Instance.LevelsCount - 1)
 				{
 					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";
 					LevelsPanel.ResetStageHistoryScroll();
+					int levelReward = (currentPlayedInfo.Level + 1) * 100;
+					GiveReward(levelReward, stageReward);
 				}
 				else
 				{
@@ -140,6 +141,13 @@ namespace Equation
 			}
 			
 			_preventTouchObj.SetActive(false);
+		}
+
+		void GiveReward(int reward, int oldReward = 0)
+		{
+			_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{reward + oldReward}";
+			_rewardText.gameObject.GetComponent<AudioSource>().Play();
+			GameSaveData.AddCoin(reward, false, 0);
 		}
 
 		void ReplayGame()
@@ -183,7 +191,7 @@ namespace Equation
 
 			if (!_ratePageAsked && !GameSaveData.IsGameRated())
 			{
-				if (currentPlayedInfo.Stage == 1)
+				if (currentPlayedInfo.Stage > 0 && currentPlayedInfo.Stage % 10 == 0)
 				{
 					_ratePageAsked = true;
 					var obj = Instantiate(_rateAskPageObj, transform.parent);
