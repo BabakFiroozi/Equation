@@ -19,6 +19,8 @@ namespace Equation
 
         public Board Board => _board;
 
+        public PuzzlePlayedInfo CurrentPlayedInfo;
+
         void Awake()
         {
             Instance = this;
@@ -27,6 +29,8 @@ namespace Equation
 
         void Start()
         {
+            CurrentPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
+            
             FontButtonClick(false);
             GridButtonClick(false);
             

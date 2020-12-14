@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fadeBackg: {fileID: 5797973843370835434}
-  _transitTime: 0.5
+  _transitTime: 0.3
   _canvas: {fileID: 223078950497518708}
   _tipsText: {fileID: 7516203313508956944}
   _tipsTextAsset: {fileID: 4900000, guid: c8fd3c7fba0f2594d8182580c8d4214f, type: 3}

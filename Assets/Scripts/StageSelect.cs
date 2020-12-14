@@ -12,6 +12,8 @@ namespace DefaultNamespace
         [SerializeField] GameObject _lockObject;
 
         [SerializeField] GameObject[] _stars;
+        
+        [SerializeField] GameObject _starsObj;
 
         int _stage;
         int _level;
@@ -38,7 +40,10 @@ namespace DefaultNamespace
             _lockObject.SetActive(!unlcoked);
             _stageText.gameObject.SetActive(unlcoked);
 
-            int rank = 1;
+            _starsObj.SetActive(unlcoked);
+            
+            var info = new PuzzlePlayedInfo {Level = _level, Stage = _stage};
+            int rank = GameSaveData.GetStageRank(info);
             for (int i = 0; i < 3; ++i)
                 _stars[i].SetActive(i + 1 <= rank);
         }

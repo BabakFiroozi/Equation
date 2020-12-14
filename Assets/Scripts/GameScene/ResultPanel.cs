@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Equation.Models;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -17,6 +18,7 @@ namespace Equation
 		[SerializeField] GameObject _preventTouchObj = null;
 		[SerializeField] Text _movesCountText = null;
 		[SerializeField] Text _rewardText;
+		[SerializeField] GameObject _alreadySolvedText;
 		[SerializeField] RectTransform[] _stars;
 
 		[SerializeField] GameObject _gotNextLevelPageObj;
@@ -42,6 +44,7 @@ namespace Equation
 		public void ShowResult(bool alreadySolved, int stageRank)
 		{
 			_alreadySolved = alreadySolved;
+			_stageRank = stageRank;
 			
 			UnlockNextPuzzle();
 
@@ -60,24 +63,44 @@ namespace Equation
 			var buttonsObj = _replayButton.transform.parent.gameObject;
 			buttonsObj.SetActive(false);
 
+			foreach (var star in _stars)
+				star.gameObject.SetActive(false);
+
+			_alreadySolvedText.SetActive(_alreadySolved);
+
 			_rewardText.gameObject.SetActive(!_alreadySolved);
 			var rewardGroup = _rewardText.gameObject.GetComponent<CanvasGroup>();
 			rewardGroup.alpha = 0;
 
 			_movesCountText.text = $"<color=yellow>{GameWord.Instance.Board.MovesCount}</color> :{Translator.GetString("Moves_You_Did")}";
 
-			yield return new WaitForSeconds(.8f);
-
-			for (int i = 0; i < _stars.Length; i++)
-			{
-				var star = _stars[i];
-				star.gameObject.SetActive(i + 1 > _stageRank);
-			}
-
+			yield return new WaitForSeconds(.5f);
+			
 			_backgOverlay.DOFade(.7f, .5f);
 			_frameRectTr.DOAnchorPosY(100, .5f).SetEase(Ease.OutCubic);
 			
 			yield return new WaitForSeconds(.5f);
+
+
+			float delay = 0;
+			for (int i = 0; i < _stars.Length; i++)
+			{
+				var star = _stars[i];
+				if (i + 1 <= _stageRank)
+				{
+					star.gameObject.SetActive(true);
+					star.localScale = new Vector3(0, 0, 1);
+					star.DOScale(1, .25f).SetEase(Ease.OutBounce).SetDelay(delay);
+					star.GetComponent<AudioSource>().PlayDelayed(delay);
+					delay += .25f;
+				}
+				else
+				{
+					star.gameObject.SetActive(false);
+				}
+			}
+			
+			yield return new WaitForSeconds(delay + .15f);
 
 			var info = DataHelper.Instance.LastPlayedInfo;
 			const int reward_per_level = 50;
@@ -88,7 +111,7 @@ namespace Equation
 			rewardGroup.DOFade(1, .3f);
 			_rewardText.gameObject.GetComponent<AudioSource>().Play();
 			GameSaveData.AddCoin(reward, false, 0);
-			
+
 			yield return new WaitForSeconds(.5f);
 
 			buttonsObj.SetActive(true);
@@ -115,9 +138,9 @@ namespace Equation
 
 		void ReplayGame()
 		{
-			if (!DataHelper.Instance.LastPlayedInfo.Daily)
+			if (!GameWord.Instance.CurrentPlayedInfo.Daily)
 			{
-				var currInfo = DataHelper.Instance.LastPlayedInfo;
+				var currInfo = GameWord.Instance.CurrentPlayedInfo;
 				DataHelper.Instance.LastPlayedInfo.Level = currInfo.Level;
 				DataHelper.Instance.LastPlayedInfo.Stage = currInfo.Stage;
 			}

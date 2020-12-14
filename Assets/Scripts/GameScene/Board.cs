@@ -18,8 +18,7 @@ namespace Equation
         [SerializeField] GameObject _hintObj;
         [SerializeField] float _tableMargin = 20;
         [SerializeField] float _tableBorder = 10;
-        [SerializeField] ResultPanel _resultPanel;
-        
+        [SerializeField] GameObject _touchBlockObj;
         
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -46,6 +45,8 @@ namespace Equation
         void Awake()
         {
             MakePuzzleUI();
+            
+            _touchBlockObj.SetActive(false);
         }
 
 
@@ -370,7 +371,7 @@ namespace Equation
                 hintsList = Hints.Where(h => h.Revealed).ToList();
                 hintsList = hintsList.Where(h => h.Cell.Pawn == null || h.Content != h.Cell.Pawn.Content).ToList();
             }
-            
+
             if (hintsList.Count == 0)
                 yield break;
 
@@ -383,18 +384,23 @@ namespace Equation
                 var hint = Hints.Find(h => h.Cell == p.Cell);
                 return (hint == null || hint.Content != p.Content) && p.Content == selectedHint.Content;
             });
-            
+
+            _touchBlockObj.SetActive(true);
+
             if (selectedHint.Cell.Pawn != null)
             {
                 var emptyCells = Cells.Where(c => c.Pawn == null).ToList();
                 var emptyCell = emptyCells[Random.Range(0, emptyCells.Count)];
                 selectedHint.Cell.Pawn.SetCell(emptyCell);
             }
+
             selectedPawn.RectTr.SetAsLastSibling();
             float time = selectedPawn.SetCell(selectedHint.Cell, true, true);
-            
+
             yield return new WaitForSeconds(time);
 
+            _touchBlockObj.SetActive(false);
+            
             MovesCount++;
 
             ProcessTable();
@@ -402,12 +408,15 @@ namespace Equation
 
         public void DoResetBoard()
         {
+            GameSaveData.ResetUsedHints(DataHelper.Instance.LastPlayedInfo);
             foreach (var pawn in Pawns)
                 GameSaveData.ResetPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id);
         }
 
         void FinishGame()
         {
+            _touchBlockObj.SetActive(true);
+            
             Debug.Log("<color=green>Game Finished!!!</color>");
 
             bool alreadySolved = GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo);

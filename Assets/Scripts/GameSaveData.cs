@@ -148,29 +148,6 @@ namespace Equation
 			info.Stage = (int) obj.GetField("stage").i;
 		}*/
 
-		public static void SaveSolvedWord(bool hidden, List<string> wordsList, PuzzlePlayedInfo info)
-		{
-			string keyName = $"{info.Level}_{info.Stage}_{(hidden ? "Hidden" : "Main")}";
-			JSONObject obj = JSONObject.Create();
-			foreach (var s in wordsList)
-				obj.Add(s);
-			string str = obj.Print();
-			PlayerPrefs.SetString(keyName, str);
-		}
-
-		public static void LoadSolvedWords(bool hidden, List<string> wordsList, PuzzlePlayedInfo info)
-		{
-			string keyName = $"{info.Level}_{info.Stage}_{(hidden ? "Hidden" : "Main")}";
-			string str = PlayerPrefs.GetString(keyName);
-
-			if (str == "null" || string.IsNullOrEmpty(str))
-				return;
-
-			var objsList = JSONObject.Create(str).list;
-			foreach (var s in objsList)
-				wordsList.Add(s.str);
-		}
-
 		public static void SaveUsedHints(PuzzlePlayedInfo info, int cell)
 		{
 			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
@@ -198,6 +175,12 @@ namespace Equation
 			}
 
 			return cellsList;
+		}
+		
+		public static void ResetUsedHints(PuzzlePlayedInfo info)
+		{
+			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
+			PlayerPrefs.DeleteKey(keyName);
 		}
 
 		public static void SavePawnCell(PuzzlePlayedInfo info, int pawn, int cell)
