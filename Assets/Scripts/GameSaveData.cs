@@ -563,7 +563,7 @@ namespace Equation
 		public static bool IsGridVisible()
 		{
 			string key = "Grid_Visisble";
-			return GetBool(key);
+			return GetBool(key, true);
 		}
 
 		public static void Reset()

@@ -76,7 +76,7 @@ namespace Equation
 
 			_movesCountText.text = $"<color=yellow>{GameWord.Instance.Board.MovesCount}</color> :{Translator.GetString("Moves_You_Did")}";
 
-			yield return new WaitForSeconds(.5f);
+			yield return new WaitForSeconds(1.0f);
 			
 			_backgOverlay.DOFade(.7f, .5f);
 			_frameRectTr.DOAnchorPosY(0, .5f).SetEase(Ease.OutCubic);

@@ -13,6 +13,7 @@ namespace Equation
         [SerializeField] Image _fixedBadge;
         [SerializeField] Color[] _stateColors;
         [SerializeField] Font[] _fonts;
+        
         [SerializeField] AudioSource _helpSound;
 
         public RectTransform RectTr => _rectTr;

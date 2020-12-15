@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,12 @@ namespace Equation
     {
         [SerializeField] Button _gridButton;
         [SerializeField] Button _fontButton;
-        [SerializeField] GameObject _solvedBadge;
+        [SerializeField] Image _solvedBadge;
         [SerializeField] CoinBox _coinBox;
         [SerializeField] Board _board;
         [SerializeField] GameObject _resultPanel;
-        
+        [SerializeField] AudioSource _solvSound;
+
         public static GameWord Instance { get; private set; }
         
         public CoinBox CoinBox => _coinBox;
@@ -56,13 +58,17 @@ namespace Equation
             _fontButton.onClick.AddListener(() => FontButtonClick());
             _gridButton.onClick.AddListener(() => GridButtonClick());
             
-            _solvedBadge.SetActive(GameSaveData.IsStageSolved(CurrentPlayedInfo));
             _board.GameFinishedEvent += GameFinishedHandler;
+
+            _solvedBadge.fillAmount = 0;
         }
         
 
         void GameFinishedHandler(bool alreadySolved, int stageRank)
         {
+            _solvSound.PlayDelayed(.2f);
+            _solvedBadge.DOFillAmount(1, .4f).SetDelay(.3f);
+
             _resultPanel.GetComponent<ResultPanel>().ShowResult(alreadySolved, stageRank);
         }
 

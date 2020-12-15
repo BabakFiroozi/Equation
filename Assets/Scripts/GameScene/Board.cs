@@ -21,6 +21,9 @@ namespace Equation
         [SerializeField] float _tableBorder = 10;
         [SerializeField] GameObject _touchBlockObj;
         
+        [SerializeField] AudioSource _putSound;
+        
+        
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
 
@@ -180,6 +183,8 @@ namespace Equation
                             nearestCell = cell;
                         }
                     }
+
+                    _putSound.Play();
                 }
                 else
                 {
