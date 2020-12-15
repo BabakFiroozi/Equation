@@ -60,19 +60,6 @@ namespace Equation
 			return GetBool(key);
 		}
 		
-
-		public static void SetStageRecord(PuzzlePlayedInfo info, int record)
-		{
-			string key = $"{info.Level}_{info.Stage}_Record";
-			PlayerPrefs.SetInt(key, record);
-		}
-		
-		public static int GetStageRecord(PuzzlePlayedInfo info)
-		{
-			string key = $"{info.Level}_{info.Stage}_Record";
-			return PlayerPrefs.GetInt(key, -1);
-		}
-
 		public static void SetStageRank(PuzzlePlayedInfo info, int rank)
 		{
 			int oldRank = GetStageRank(info);
@@ -87,7 +74,7 @@ namespace Equation
 		public static int GetStageRank(PuzzlePlayedInfo info)
 		{
 			string key = $"{info.Level}_{info.Stage}_Rank";
-			return PlayerPrefs.GetInt(key, -1);
+			return PlayerPrefs.GetInt(key, 0);
 		}
 		
 		public static int GetStageOldRank(PuzzlePlayedInfo info)
@@ -401,28 +388,6 @@ namespace Equation
 			SetBool(key, visit);
 		}
 
-		public static void IncConsumeHint()
-		{
-			int c = GetConsumeHint();
-			PlayerPrefs.SetInt("ConsumedHint", c + 1);
-		}
-
-		public static int GetConsumeHint()
-		{
-			return PlayerPrefs.GetInt("ConsumedHint", 0);
-		}
-		
-		public static void IncConsumeHelp()
-		{
-			int c = GetConsumeHelp();
-			PlayerPrefs.SetInt("ConsumedGuide", c + 1);
-		}
-
-		public static int GetConsumeHelp()
-		{
-			return PlayerPrefs.GetInt("ConsumedGuide", 0);
-		}
-
 		public static void IncLevelUp()
 		{
 			int c = GetLevelUp();
@@ -563,7 +528,7 @@ namespace Equation
 		public static bool IsGridVisible()
 		{
 			string key = "Grid_Visisble";
-			return GetBool(key, true);
+			return GetBool(key, false);
 		}
 
 		public static void Reset()

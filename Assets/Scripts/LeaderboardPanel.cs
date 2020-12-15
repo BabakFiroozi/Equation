@@ -14,10 +14,9 @@ namespace Equation
         [SerializeField] GameObject _scoreItemObj;
         [SerializeField] GameObject _betweenObj;
         [SerializeField] Transform _content;
-        [SerializeField] int _maxShow = 100;
+        [SerializeField] int _maxShow = 10;
         [SerializeField] Button _infoButton;
         [SerializeField] Button _infoPaper;
-        [SerializeField] SwitchButton _switchButton;
         [SerializeField] GameObject _loadingOverlay;
         [SerializeField] Button _editButton;
         [SerializeField] GameObject _editProfilePrefab;
@@ -35,8 +34,6 @@ namespace Equation
             _infoPaper.gameObject.SetActive(false);
 
             GetComponent<PopupScreen>().HideEvent = InfoPaperClick;
-            
-            _switchButton.SwitchedEvent += SwitchedHandler;
             
             _editButton.onClick.AddListener(ShowEdit);
         }

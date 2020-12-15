@@ -39,10 +39,13 @@ Start=شروع
 Continue=ادامه
 Become=شدید
 
-You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
-You_Already_Signed_Up=شما قبلا ثبت نام کردید
-You_Need_To_Register=برای درج رکورد باید ثبت نام کنید
 
+You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
+You_Already_Signed_Up=شما قبلا ثبت نام کرده اید ورود را بزنید
+You_Need_To_Register=برای ثبت رکورد اول باید ثبت نام کنید
+Enter_Your_Name=برای ثبت رکورد نام خود را وارد کنید
+Name_Is_Invalid=نامی که وارد کردید نامعتبر است
+Email_Or_Password_Is_Wrong=ایمیل یا رمزعبور نامعتبر است
 
 No_Internet_Access=دستگاه شما به نت وصل نیست
 Receveing_Data=در حال دریافت...

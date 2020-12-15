@@ -154,8 +154,6 @@
      <Compile Include="Assets\Scripts\SplashGame.cs" />
      <Compile Include="Assets\Scripts\StageSelect.cs" />
      <Compile Include="Assets\Scripts\StagesPanel.cs" />
-     <Compile Include="Assets\Scripts\StatsHelper.cs" />
-     <Compile Include="Assets\Scripts\StatsPanel.cs" />
      <Compile Include="Assets\Scripts\StoreNames.cs" />
      <Compile Include="Assets\Scripts\SwitchButton.cs" />
      <Compile Include="Assets\Scripts\TaskEx.cs" />
@@ -165,6 +163,7 @@
      <None Include="Assets\Resources\Translates.txt" />
      <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\TipsAndTricks.txt" />
+     <None Include="Assets\Texts\ForbiddenWords.txt" />
      <None Include="Assets\Shaders\SpriteShine.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/MyJobProjects/Equation/Equation_unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

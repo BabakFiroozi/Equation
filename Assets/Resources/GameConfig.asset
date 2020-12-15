@@ -21,7 +21,7 @@ MonoBehaviour:
   _hintCost: 30
   _helpCost: 90
   _storeName: 0
-  _leaderboardId: 
+  _leaderboardId: rankleaderboard
   _freeCoinAmount: 100
   _timeScale: 1
   _dailyIsLocal: 0

@@ -151,7 +151,7 @@ namespace Equation
             string emailAddress = _emailInput.text;
             string password = _passwordInput.text;
 
-            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@ganj.ir";
+            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
             password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
 
             var forbiddens = _forbiddenWords.text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);

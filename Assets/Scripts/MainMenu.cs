@@ -1,6 +1,8 @@
 ﻿using System;
+using DG.Tweening;
 using Equation.Models;
 using FiroozehGameService.Core;
+using FiroozehGameService.Models;
 using TapsellSDK;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,12 +17,17 @@ namespace Equation
         [SerializeField] Text _startText;
         [SerializeField] Text _continueText;
         [SerializeField] Button _shopButton;
+        [SerializeField] Button _leaderboardButton;
         [SerializeField] GameObject _shopPanelObj;
+        [SerializeField] SignUpPanel _signupPanel;
+        [SerializeField] LeaderboardPanel _leaderboardPanel;
         [SerializeField] ConfirmScreen _quitPopup;
         [SerializeField] NativeBannerLayout _nativeBannerLayout;
 
         static TapsellNativeBannerAd _nativeBannerAd;
         static bool _nativeBannerSeen;
+
+        int _totalStarsCount;
 
 
         void Start()
@@ -28,6 +35,7 @@ namespace Equation
             _playButton.onClick.AddListener(PlayButtonClick);
             _continueButton.onClick.AddListener(ContinueButtonClick);
             _shopButton.onClick.AddListener(ShopButtonClick);
+            _leaderboardButton.onClick.AddListener(LeaderboardButtonClick);
 
             CalcLastPlayed();
 
@@ -44,8 +52,6 @@ namespace Equation
                 _continueText.text = $"{info.Stage + 1} {Translator.GetString("Stage")} - {info.Level + 1} {Translator.GetString("Level")}";
             }
 
-            SubmitScoreAsync();
-
             if (Random.Range(0, 100) < GameConfig.Instance.ExitAdChance && _nativeBannerAd == null)
             {
                 MyTapsellAds.Instance.ReqNativeBannerAd(this, MyTapsellAds.GameExit,
@@ -55,6 +61,65 @@ namespace Equation
                     onNoNetworkEvent => { }
                 );
             }
+
+            _totalStarsCount = 1;
+            var playedInfo = new PuzzlePlayedInfo();
+            for (int i = 0; i < DataHelper.Instance.LevelsCount; ++i)
+            {
+                var level = Resources.Load<TextAsset>($"Puzzles/level_{i:000}");
+                var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
+                foreach (var puzzle in puzzlesPack.puzzles)
+                {
+                    playedInfo.Level = puzzlesPack.level;
+                    playedInfo.Stage = puzzle.stage;
+                    int rank = GameSaveData.GetStageRank(playedInfo);
+                    _totalStarsCount += rank;
+                }
+            }
+            
+            SubmitScoreAsync();
+        }
+
+        void LeaderboardButtonClick()
+        {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                var tr = _leaderboardButton.transform.Find("popup");
+                if (tr.gameObject.activeSelf)
+                    return;
+                tr.gameObject.SetActive(true);
+                tr.DOKill();
+                tr.localScale = new Vector3(.2f, .2f, 1);
+                tr.DOScale(new Vector3(1, 1, 1), .3f);
+                tr.DOScale(new Vector3(.2f, .2f, 1), .3f).SetDelay(1).onComplete = () => tr.gameObject.SetActive(false);
+                return;
+            }
+			
+            ShowLeaderboardAsync();
+            MyAnalytics.SendEvent(MyAnalytics.leaderboard_button_clicked);
+        }
+
+        async void ShowLeaderboardAsync()
+        {
+            if (GameService.IsAuthenticated())
+            {
+                _leaderboardPanel.Show();
+                return;
+            }
+
+            _signupPanel.ShowPanel(async isLogin =>
+            {
+                try
+                {
+                    _signupPanel.HidePanel();
+                    await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _totalStarsCount);
+                    _leaderboardPanel.GetComponent<LeaderboardPanel>().Show();
+                }
+                catch (GameServiceException e)
+                {
+                    Debug.LogError(e.Message);
+                }
+            });
         }
 
 
@@ -65,7 +130,7 @@ namespace Equation
                 await GameService.Login(token);
             if (GameService.IsAuthenticated())
             {
-                await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, StatsHelper.Instance.TotalStagesRank);
+                await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _totalStarsCount);
             }
         }
 
