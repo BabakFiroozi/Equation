@@ -8,7 +8,7 @@ namespace Equation
     {
         public const string FreeHint = "5fd395f44442e20001a9f63b";
         public const string FreeCoin = "5fd8ee868132f30001fedc81";
-        public const string GameExit = "";
+        public const string GameExit = "5fd8fe42ab770c000118d5fd";
         
         const string TapsellKey = "rgmifjqllkmjhjntghegqqljfgcriqqhgjpcigqkjgibotajtdchlpgcjrrrpnjlpaorrm";
         

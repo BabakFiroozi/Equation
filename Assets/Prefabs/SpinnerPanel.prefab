@@ -843,7 +843,7 @@ MonoBehaviour:
   _moveHor: 0
   _moveDir: 1
   _avtiveWhenHidden: 0
-  _animTime: 0.3
+  _animTime: 0.5
   _animAudio: {fileID: 8514139869663060069}
 --- !u!114 &2815417403408414523
 MonoBehaviour:
