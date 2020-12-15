@@ -22,6 +22,7 @@ namespace Equation
         [SerializeField] GameObject _touchBlockObj;
         
         [SerializeField] AudioSource _putSound;
+        [SerializeField] AudioSource _rightSound;
         
         
         public List<Pawn> Pawns { get; } = new List<Pawn>();
@@ -209,6 +210,7 @@ namespace Equation
 
         void OnRightMove()
         {
+            _rightSound.PlayDelayed(.15f);
         }
 
         void ProcessTable()
