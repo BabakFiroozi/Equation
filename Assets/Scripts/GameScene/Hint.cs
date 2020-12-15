@@ -31,8 +31,8 @@ namespace Equation
 
             _lightEffect.DORotate(new Vector3(0, 0, 180), 32, RotateMode.WorldAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
             var seq = DOTween.Sequence();
-            seq.Append(_lightEffect.DOScale(1.2f, 2).SetEase(Ease.Linear));
-            seq.Append(_lightEffect.DOScale(1.0f, 2).SetEase(Ease.Linear));
+            seq.Append(_lightEffect.DOScale(1.2f, 1).SetEase(Ease.Linear));
+            seq.Append(_lightEffect.DOScale(1.0f, 1).SetEase(Ease.Linear));
             seq.SetLoops(-1);
         }
         
