@@ -35,6 +35,7 @@ namespace Equation
         public int StagesCount { get; private set; }
       
         public int MovesCount { get; private set; }
+        public bool GameFinished { get; private set; }
 
         int _shufflesCount;
 
@@ -449,6 +450,8 @@ namespace Equation
 
         void FinishGame()
         {
+            GameFinished = true;
+            
             _touchBlockObj.SetActive(true);
             
             Debug.Log("<color=green>Game Finished!!!</color>");
