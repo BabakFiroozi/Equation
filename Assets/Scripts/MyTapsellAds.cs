@@ -7,7 +7,7 @@ namespace Equation
     public class MyTapsellAds : MonoBehaviour
     {
         public const string FreeHint = "5fd395f44442e20001a9f63b";
-        public const string FreeCoin = "";
+        public const string FreeCoin = "5fd8ee868132f30001fedc81";
         public const string GameExit = "";
         
         const string TapsellKey = "rgmifjqllkmjhjntghegqqljfgcriqqhgjpcigqkjgibotajtdchlpgcjrrrpnjlpaorrm";

@@ -32,8 +32,6 @@ namespace Equation
 
 		int _selectedProductIndex;
 		
-		static ShopPanel _instance;
-
 		void Awake()
 		{
 			PrepareAd();
@@ -173,8 +171,6 @@ namespace Equation
 
 		public void ShowPanel(bool notEnoughCoin = false)
 		{
-			_instance = this;
-			
 			if (_popupScreen == null)
 				_popupScreen = gameObject.GetComponent<PopupScreen>();
 
@@ -191,15 +187,15 @@ namespace Equation
 
 		void PrepareAd()
 		{
-			_instance._adButton.gameObject.SetActive(false);
+			_adButton.gameObject.SetActive(false);
 
 			if (!GameSaveData.HasDailyFreeCoin(GameConfig.Instance.FreeCoinDayCap))
 				return;
 			
 			MyTapsellAds.Instance.ReqAd(MyTapsellAds.FreeCoin, false, ad =>
 			{
-				_instance._freeCoinAd = ad;
-				_instance._adButton.gameObject.SetActive(true);
+				_freeCoinAd = ad;
+				_adButton.gameObject.SetActive(true);
 			}, s => { }, error => { }, s => { }, ad => { });
 		}
 		

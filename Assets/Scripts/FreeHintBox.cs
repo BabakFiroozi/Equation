@@ -80,7 +80,8 @@ namespace Equation
         {
             if (_freeHintAd == null)
                 return;
-            _rectTr.DOAnchorPosY(_initPos.y, .3f);
+            
+            _rectTr.DOAnchorPosY(-_initPos.y, .3f);
             
             if(onlyHide)
                 return;
