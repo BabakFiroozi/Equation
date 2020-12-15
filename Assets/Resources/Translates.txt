@@ -43,6 +43,16 @@ You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
 You_Already_Signed_Up=شما قبلا ثبت نام کردید
 You_Need_To_Register=برای درج رکورد باید ثبت نام کنید
 
+
+No_Internet_Access=دستگاه شما به نت وصل نیست
+Receveing_Data=در حال دریافت...
+You_May_Be_Lucky=بخت و اقبال یارت
+You_Need_To_Wait=فردا بیا دوباره شانستو امتحان کن
+Damn_The_Luck=ای بخشکی شانس
+You_Fair_lucky=شانست خوب بود
+You_Very_Lucky=خیلی خوش شانسی
+Unable_To_Get_Time=مشکل در هنگام دریافت لطفا بعدا امتحان کنید
+
 Yor_Purchase_Failed=خرید شما ناموفق بود
 Thanks_For_Your_Purchase=ممنون از خرید شما
 Cross_Sign=×

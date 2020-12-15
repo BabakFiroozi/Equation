@@ -12,11 +12,13 @@ namespace Equation
         [SerializeField] Text _startText;
         [SerializeField] Text _continueText;
         [SerializeField] Button _shopButton;
+        [SerializeField] GameObject _shopPanelObj;
 
         void Start()
         {
             _playButton.onClick.AddListener(PlayButtonClick);
             _continueButton.onClick.AddListener(ContinueButtonClick);
+            _shopButton.onClick.AddListener(ShopButtonClick);
 
             CalcLastPlayed();
 
@@ -32,6 +34,11 @@ namespace Equation
                 _startText.text = Translator.GetString("Continue");
                 _continueText.text = $"{info.Stage + 1} {Translator.GetString("Stage")} - {info.Level + 1} {Translator.GetString("Level")}";
             }
+        }
+
+        void ShopButtonClick()
+        {
+            _shopPanelObj.GetComponent<ShopPanel>().ShowPanel();
         }
 
         void CalcLastPlayed()

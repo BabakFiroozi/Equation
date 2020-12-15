@@ -18,22 +18,27 @@ namespace Equation
         [SerializeField] Text _messageText;
         [SerializeField] Text _receiveingText;
         [SerializeField] AudioSource _spinAudio;
-        [SerializeField] RectTransform _needleTr;
         [SerializeField] int[] _trackValues;
-        [SerializeField] Transform _lamps;
         [SerializeField] AudioSource _coinSound;
         [SerializeField] AudioSource _gainedSound;
 
         List<int> _valuesList = new List<int>();
         List<Transform> _trackObjsList = new List<Transform>();
         
-        const int tracks_count = 8;
-
         PopupScreen _popupScreen;
 
         Vector3 _lastDir;
 
         float _timer = 0;
+
+        int _tracksCount = 8;
+        float _trackAngle = 450;
+
+        void Awake()
+        {
+            _tracksCount = _trackValues.Length;
+            _trackAngle = 360f / _tracksCount;
+        }
 
 
         public void Show()
@@ -46,8 +51,6 @@ namespace Equation
             ValidateSpinner();
             
             _rewardText.gameObject.SetActive(false);
-
-            _lamps.gameObject.SetActive(false);
         }
         
         Coroutine ValidateSpinner()
@@ -139,7 +142,7 @@ namespace Equation
         {
             _lastDir = _spinnerRectTr.rotation * _xAxis;
 
-            for (int i = 0; i < tracks_count; ++i)
+            for (int i = 0; i < _tracksCount; ++i)
             {
                 var obj = _trackObj;
                 var tr = _trackObj.transform;
@@ -149,7 +152,7 @@ namespace Equation
                 _valuesList.Add(reward);
                 _trackObjsList.Add(tr);
                 tr.Find("amount").GetComponent<Text>().text = $"{reward}";
-                tr.Rotate(0, 0, i * 45);
+                tr.Rotate(0, 0, i * _trackAngle);
             }
             
             _rotateButton.onClick.AddListener(() => StartCoroutine(RotateSpinnerCoroutine()));
@@ -167,20 +170,18 @@ namespace Equation
             _popupScreen.AllowHide(false);
             GameSaveData.VisitSpinner(GameSaveData.GetDailyEntranceNumber(), true);
 
-            float step = 360f / tracks_count;
-            int track = Random.Range(0, tracks_count);
-            float spinsAngle = 8 * 360 + track * step;
+            float step = 360f / _tracksCount;
+            int track = Random.Range(0, _tracksCount);
+            float spinsAngle = (_trackValues.Length - 3) * 360 + track * step;
             int reward = _valuesList[track];
 
             print("spinner reward: " + reward);
-            
-            yield return StartCoroutine(BlickLamps());
 
             const float spin_duration = 10;
 
             _spinAudio.PlayDelayed(.2f);
 
-            _spinnerRectTr.DORotate(new Vector3(0, 0, -spinsAngle), spin_duration, RotateMode.WorldAxisAdd).SetEase(Ease.InOutBack);
+            _spinnerRectTr.DORotate(new Vector3(0, 0, -spinsAngle), spin_duration, RotateMode.WorldAxisAdd).SetEase(Ease.InOutQuart);
 
             yield return new WaitForSeconds(spin_duration);
 
@@ -238,53 +239,6 @@ namespace Equation
         }
 
 
-        IEnumerator<WaitForSeconds> BlickLamps()
-        {
-            _lamps.gameObject.SetActive(true);
-
-            List<AudioSource> _audios = new List<AudioSource>();
-            _lamps.GetComponents<AudioSource>(_audios);
-            
-            var lampGroup1 = new List<GameObject>();
-            var lampGroup2 = new List<GameObject>();
-            for (int i = 0; i < _lamps.childCount; ++i)
-            {
-                if (i % 2 == 0)
-                    lampGroup1.Add(_lamps.GetChild(i).gameObject);
-                else
-                    lampGroup2.Add(_lamps.GetChild(i).gameObject);
-            }
-
-            lampGroup1.ForEach(l => l.SetActive(false));
-            lampGroup2.ForEach(l => l.SetActive(false));
-
-            yield return new WaitForSeconds(.5f);
-            
-            _audios[0].Play();
-            lampGroup1.ForEach(l => l.SetActive(true));
-            lampGroup2.ForEach(l => l.SetActive(false));
-            
-            yield return new WaitForSeconds(1);
-            
-            _audios[0].Play();
-            lampGroup1.ForEach(l => l.SetActive(false));
-            lampGroup2.ForEach(l => l.SetActive(true));
-            
-            yield return new WaitForSeconds(1);
-            
-            lampGroup1.ForEach(l => l.SetActive(false));
-            lampGroup2.ForEach(l => l.SetActive(false));
-            
-            yield return new WaitForSeconds(.5f);
-            
-            _audios[1].Play();
-            lampGroup1.ForEach(l => l.SetActive(true));
-            lampGroup2.ForEach(l => l.SetActive(true));
-            
-            yield return new WaitForSeconds(1.5f);
-        }
-
-
         readonly Vector3 _xAxis = new Vector3(1, 0, 0);
 
         void Update()
@@ -292,7 +246,7 @@ namespace Equation
             Vector3 dir = _spinnerRectTr.rotation * _xAxis;
             float diff = Vector3.Angle(dir, _lastDir);
 
-            if (diff >= 45)
+            if (diff >= _trackAngle)
             {
                 _spinAudio.Play();
                 _lastDir = dir;
