@@ -17,6 +17,7 @@ namespace Equation
 		[SerializeField] RectTransform _popupTr;
 		[SerializeField] Button _settingButton;
 		[SerializeField] SettingPanel _settingPanel;
+		[SerializeField] float _animTime = .4f;
 		
 		static string _bundleId = "com.babgames.tablemath";
 
@@ -35,9 +36,10 @@ namespace Equation
 			_shareButton.onClick.AddListener(ShareGame);
 			
 			_settingButton.onClick.AddListener(SettingButtonClick);
-
-
+			
 			_versionText.text = $"{Application.version}";
+
+			_popupTr.DOAnchorPosY(-_popupTr.rect.height, 0);
 		}
 		
 		void SettingButtonClick()
@@ -73,7 +75,7 @@ namespace Equation
 			float posY = _showState == 1 ? 0 : -_popupTr.rect.height;
 			
 			_gearIcon.DORotate(new Vector3(0, 0, _showState * 180), .5f, RotateMode.WorldAxisAdd);
-			_popupTr.DOAnchorPosY(posY, .5f).onComplete = () =>
+			_popupTr.DOAnchorPosY(posY, _animTime).onComplete = () =>
 			{
 				_isShowing = false;
 			};
