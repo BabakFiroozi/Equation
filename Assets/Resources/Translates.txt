@@ -61,6 +61,10 @@ You_Fair_lucky=شانست خوب بود
 You_Very_Lucky=خیلی خوش شانسی
 Unable_To_Get_Time=مشکل در هنگام دریافت لطفا بعدا امتحان کنید
 
+You_Got_Some_Coin=تا سکه گرفتی
+Thanks_For_See=ممنون از تماشای شما
+Thanks_For_Buy=ممنون از خرید شما
+
 Yor_Purchase_Failed=خرید شما ناموفق بود
 Thanks_For_Your_Purchase=ممنون از خرید شما
 Cross_Sign=×
