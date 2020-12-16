@@ -39,6 +39,7 @@ Start=شروع
 Continue=ادامه
 Become=شدید
 
+Toman=تومان
 
 You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
 You_Already_Signed_Up=شما قبلا ثبت نام کرده اید ورود را بزنید
@@ -46,6 +47,10 @@ You_Need_To_Register=برای ثبت رکورد اول باید ثبت نام ک
 Enter_Your_Name=برای ثبت رکورد نام خود را وارد کنید
 Name_Is_Invalid=نامی که وارد کردید نامعتبر است
 Email_Or_Password_Is_Wrong=ایمیل یا رمزعبور نامعتبر است
+
+Email_Is_Wrong=ایمیلی که زدید نامعتبر است
+Name_Is_Forbidden=اسم حاوی کلمه غیرمجاز است
+Your_Leaderboard_Info=مشخصات شما در جدول امتیازات
 
 No_Internet_Access=دستگاه شما به نت وصل نیست
 Receveing_Data=در حال دریافت...
