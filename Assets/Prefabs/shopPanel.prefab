@@ -2220,13 +2220,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.6313726}
+  m_Color: {r: 1, g: 0.42556292, b: 0.1462264, a: 0.21960784}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0ffad79f333b184594df0d69c56aa26, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7d6764d66237acc42af00a5f46a78388, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3098,7 +3098,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 54
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4

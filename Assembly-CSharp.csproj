@@ -108,7 +108,6 @@
      <Compile Include="Assets\Scripts\Common\Translator.cs" />
      <Compile Include="Assets\Scripts\ConfirmScreen.cs" />
      <Compile Include="Assets\Scripts\EditProfilePanel.cs" />
-     <Compile Include="Assets\Scripts\ExitPanel.cs" />
      <Compile Include="Assets\Scripts\FreeHintBox.cs" />
      <Compile Include="Assets\Scripts\GameConfig.cs" />
      <Compile Include="Assets\Scripts\GameSaveData.cs" />

@@ -7,56 +7,44 @@ namespace Equation
 {
 	public class SettingPanel : MonoBehaviour
 	{
-		[SerializeField] Button _musicButton = null;
 		[SerializeField] Button _soundButton = null;
 		[SerializeField] Button _rateButton = null;
 		[SerializeField] Button _shareButton = null;
-		[SerializeField] Button _contactButton = null;
-		[SerializeField] GameObject _musicOnBadge = null;
-		[SerializeField] GameObject _musicOffBadge = null;
 		[SerializeField] GameObject _soundOnBadge = null;
 		[SerializeField] GameObject _soundOffBadge = null;
 		[SerializeField] Text _versionText;
-
+		[SerializeField] RectTransform _gearIcon;
+		[SerializeField] RectTransform _popupTr;
+		[SerializeField] Button _settingButton;
+		[SerializeField] SettingPanel _settingPanel;
+		
 		static string _bundleId = "com.babgames.tablemath";
 
-		PopupScreen _popupScreen;
+		int _showState;
+		bool _isShowing;
 
+		
 		// Use this for initialization
 		void Start()
 		{
-			_musicOnBadge.SetActive(GameSaveData.IsGameMusicOn());
-			_musicOffBadge.SetActive(!GameSaveData.IsGameMusicOn());
 			_soundOnBadge.SetActive(GameSaveData.IsGameSoundOn());
 			_soundOffBadge.SetActive(!GameSaveData.IsGameSoundOn());
 			
-			
-			_musicButton.onClick.AddListener(MusicClick);
 			_soundButton.onClick.AddListener(SoundClick);
 			_rateButton.onClick.AddListener(GoRatePage);
 			_shareButton.onClick.AddListener(ShareGame);
-			_contactButton.onClick.AddListener(SendEmail);
+			
+			_settingButton.onClick.AddListener(SettingButtonClick);
 
-			_versionText.text = $"{Application.version} {Translator.GetString("Version")}";
-		}
 
-		void MusicClick()
-		{
-			GameSaveData.SetGameMusicOn(!GameSaveData.IsGameMusicOn());
-
-			if (GameSaveData.IsGameMusicOn())
-			{
-				SoundManager.Instance.UnMuteMusics();
-			}
-			else
-			{
-				SoundManager.Instance.MuteMusics();
-			}
-
-			_musicOnBadge.SetActive(GameSaveData.IsGameMusicOn());
-			_musicOffBadge.SetActive(!GameSaveData.IsGameMusicOn());
+			_versionText.text = $"{Application.version}";
 		}
 		
+		void SettingButtonClick()
+		{
+			_settingPanel.ShowSetting();
+		}
+
 		void SoundClick()
 		{
 			GameSaveData.SetGameSoundOn(!GameSaveData.IsGameSoundOn());
@@ -74,17 +62,21 @@ namespace Equation
 			_soundOffBadge.SetActive(!GameSaveData.IsGameSoundOn());
 		}
 
-		// Update is called once per frame
-		void Update()
-		{
-		}
-
 		public void ShowSetting()
 		{
-			if (_popupScreen == null)
-				_popupScreen = gameObject.GetComponent<PopupScreen>();
-			_popupScreen.Show();
-
+			if (_isShowing)
+				return;
+			_isShowing = true;
+			
+			_showState = _showState == 1 ? -1 : 1;
+			
+			float posY = _showState == 1 ? 0 : -_popupTr.rect.height;
+			
+			_gearIcon.DORotate(new Vector3(0, 0, _showState * 180), .5f, RotateMode.WorldAxisAdd);
+			_popupTr.DOAnchorPosY(posY, .5f).onComplete = () =>
+			{
+				_isShowing = false;
+			};
 		}
 
 

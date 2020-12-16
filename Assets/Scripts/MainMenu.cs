@@ -80,6 +80,7 @@ namespace Equation
             SubmitScoreAsync();
         }
 
+
         void LeaderboardButtonClick()
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)

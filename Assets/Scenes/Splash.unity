@@ -979,8 +979,8 @@ MonoBehaviour:
     type: 2}
   _musicsGroup: {fileID: -4401034995628550727, guid: 25fe369d14cd73045873787405fa40c6,
     type: 2}
-  _soundsGroupVolumeParam: .8
-  _musicsGroupVolumeParam: .8
+  _soundsGroupVolumeParam: SoundsVolume
+  _musicsGroupVolumeParam: MusicsVolume
   _musicAudio: {fileID: 0}
 --- !u!4 &838599760
 Transform:
