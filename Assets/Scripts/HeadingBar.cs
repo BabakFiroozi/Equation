@@ -37,14 +37,14 @@ namespace Equation
 
 			if (_headingType == HeadingBarTypes.Level)
 			{
-				string title = $"{Translator.GetString("Levels")}";
+				string title = $"<color=#F0FF00>{Translator.GetString("Levels")}</color>";
 				SetData(title);
 			}
 
 			if (_headingType == HeadingBarTypes.Stage)
 			{
 				var playedInfo = DataHelper.Instance.LastPlayedInfo;
-				string title = $"{playedInfo.Level + 1} {Translator.GetString("Level")}";
+				string title = $"<color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Level")}</color>";
 				SetData(title);
 			}
 			

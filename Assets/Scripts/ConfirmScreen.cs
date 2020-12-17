@@ -26,14 +26,13 @@ namespace Equation
 
         [SerializeField] bool _notInteractableWhenPressed = false;
 
-        [SerializeField] float _animTime = .25f;
-        
         [SerializeField] float _okDelay = 0;
         
         [SerializeField] Image _backgImage = null;
         
         [SerializeField] bool _allowHideWithEsc = true;
 
+        const float _animTime = .4f;
 
         Action<ConfirmTypes> ConfirmedEvent { get; set; }
         
@@ -139,10 +138,10 @@ namespace Equation
             if (withAnim)
             {
                 _framRectTr.localScale = Vector3.one * .1f;
-                _framRectTr.DOScale(Vector3.one, _animTime).SetEase(Ease.OutSine);
+                _framRectTr.DOScale(Vector3.one, _animTime).SetEase(Ease.OutBack);
                 var color = _backgImage.color;
                 _backgImage.color = new Color(color.r, color.g, color.b, 0);
-                _backgImage.DOFade(.75f, _animTime).SetEase(Ease.OutSine).onComplete = () =>
+                _backgImage.DOFade(.75f, _animTime).SetEase(Ease.Linear).onComplete = () =>
                 {
                     IsOpening = false;
                 };
@@ -159,8 +158,8 @@ namespace Equation
         
         public void CloseConfirm()
         {
-            _framRectTr.DOScale(Vector3.one * .1f, _animTime).SetEase(Ease.InSine);
-            _backgImage.DOFade(0, _animTime).SetEase(Ease.InSine).onComplete = () =>
+            _framRectTr.DOScale(Vector3.one * .1f, _animTime).SetEase(Ease.InBack);
+            _backgImage.DOFade(0, _animTime).SetEase(Ease.Linear).onComplete = () =>
             {
                 IsBusy = false;
                 gameObject.SetActive(false);

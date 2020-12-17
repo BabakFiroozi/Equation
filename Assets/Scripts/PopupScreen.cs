@@ -26,7 +26,7 @@ namespace Equation
         [SerializeField] int _moveDir = 1;
         [SerializeField] bool _avtiveWhenHidden = false;
 
-        [SerializeField] float _animTime = .3f;
+        const float _animTime = .4f;
 
         [SerializeField] AudioSource _animAudio;
 
@@ -102,12 +102,12 @@ namespace Equation
                     pos.x += _moveDir * _backCloseRect.width;
 
                 _frameRectTr.anchoredPosition = pos;
-                _frameRectTr.DOAnchorPos(_initPos, _animTime).SetEase(Ease.OutQuad);
+                _frameRectTr.DOAnchorPos(_initPos, _animTime).SetEase(Ease.OutBack);
             }
             if (_animType == PopupAnimTypes.Scale)
             {
                 _frameRectTr.localScale = Vector3.one * .1f;
-                _frameRectTr.DOScale(Vector3.one, _animTime).SetEase(Ease.OutBounce);
+                _frameRectTr.DOScale(Vector3.one, _animTime).SetEase(Ease.OutBack);
             }
 
             var col = _backCloseImage.color;
@@ -149,7 +149,7 @@ namespace Equation
                     pos.x += _moveDir * _backCloseRect.height;
 
                 if (!fast)
-                    _frameRectTr.DOAnchorPos(pos, _animTime).SetEase(Ease.InQuad);
+                    _frameRectTr.DOAnchorPos(pos, _animTime).SetEase(Ease.InBack);
                 else
                     _frameRectTr.anchoredPosition = pos;
             }
@@ -157,7 +157,7 @@ namespace Equation
             if (_animType == PopupAnimTypes.Scale)
             {
                 _frameRectTr.localScale = Vector3.one;
-                _frameRectTr.DOScale(Vector3.one * .1f, _animTime).SetEase(Ease.InBounce);
+                _frameRectTr.DOScale(Vector3.one * .1f, _animTime).SetEase(Ease.InBack);
             }
 
             _backCloseImage.DOFade(0, !fast ? _animTime : 0).SetEase(Ease.Linear);
