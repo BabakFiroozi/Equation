@@ -89,12 +89,12 @@ namespace Equation
 
 		IEnumerator<WaitForSeconds> _GoToMenu()
 		{
-			// yield return new WaitForSeconds(1.5f);
-			// _splashImage.fillOrigin = 1;
-			// _splashImage.DOFillAmount(0, 1);
-			// MyAnalytics.Init("");
-			// yield return new WaitForSeconds(1);
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, true);
+			yield return new WaitForSeconds(1.5f);
+			_splashImage.fillOrigin = 1;
+			_splashImage.DOFillAmount(0, 1);
+			MyAnalytics.Init("");
+			yield return new WaitForSeconds(1);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
 			MyAnalytics.SendEvent(MyAnalytics.game_entrance);
 			yield break;
 		}

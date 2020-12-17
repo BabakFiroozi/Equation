@@ -3892,7 +3892,7 @@ MonoBehaviour:
   _scoreItemObj: {fileID: 3018547603186140859}
   _betweenObj: {fileID: 9204280544060730767}
   _content: {fileID: 9204280542987806581}
-  _maxShow: 10
+  _maxShow: 20
   _infoButton: {fileID: 9204280543600621960}
   _infoPaper: {fileID: 9204280544166770900}
   _loadingOverlay: {fileID: 8851043168578124558}

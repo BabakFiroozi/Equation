@@ -45,6 +45,7 @@ namespace Equation
 			{
 				Instance = this;
 				DontDestroyOnLoad(gameObject);
+				_fadeBackg.gameObject.SetActive(false);
 				SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
 			}
 			else if (Instance != this)
@@ -61,12 +62,18 @@ namespace Equation
 				var share = gameObject.GetComponent<TakeAndShareScreenshot>();
 				share.ShareScreenshotWithText("");
 			}
-			
 		}
 
 		void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
 			_canvas.worldCamera = Camera.main;
+		}
+
+		public void TransitScene(int sceneIndex)
+		{
+			PreviousScene = CurrentScene;
+			CurrentScene = sceneIndex;
+			SceneManager.LoadScene(sceneIndex);
 		}
 
 		public void TransitScene(int sceneIndex, bool forward, float delay = 0)
