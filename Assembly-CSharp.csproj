@@ -109,6 +109,7 @@
      <Compile Include="Assets\Scripts\ConfirmScreen.cs" />
      <Compile Include="Assets\Scripts\DailyPuzzleItem.cs" />
      <Compile Include="Assets\Scripts\DailyPuzzlePanel.cs" />
+     <Compile Include="Assets\Scripts\DailyRewardPage.cs" />
      <Compile Include="Assets\Scripts\EditProfilePanel.cs" />
      <Compile Include="Assets\Scripts\FreeHintBox.cs" />
      <Compile Include="Assets\Scripts\GameConfig.cs" />

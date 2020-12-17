@@ -1204,7 +1204,8 @@ MonoBehaviour:
   - {fileID: 796887248}
   - {fileID: 1628794033}
   _nextLevelText: {fileID: 363119723}
-  _dailyRewardObj: {fileID: 0}
+  _dailyRewardObj: {fileID: 801129340268319991, guid: bc155e5dc7e92604690b8a8271a670c0,
+    type: 3}
   _rateAskPageObj: {fileID: 2630470634623731152, guid: ee84c7cedc5482a4590e52b192e60b2c,
     type: 3}
 --- !u!114 &378738653

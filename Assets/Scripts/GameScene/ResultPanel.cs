@@ -174,17 +174,15 @@ namespace Equation
 
 			if (currentPlayedInfo.Daily)
 			{
-				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
-				return;
 				if (GameSaveData.IsDailyPuzzleRewarded(currentPlayedInfo))
 				{
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
 				}
 				else
 				{
-					// var obj = Instantiate(_dailyRewardObj, transform.parent);
-					// obj.GetComponent<DailyRewardPage>().ShowPage();
-					// GameSaveData.SetDailyPuzzleRewarded(lastPlayedInfo);
+					var obj = Instantiate(_dailyRewardObj, transform.parent);
+					obj.GetComponent<DailyRewardPage>().ShowPage();
+					GameSaveData.SetDailyPuzzleRewarded(currentPlayedInfo);
 				}
 
 				return;

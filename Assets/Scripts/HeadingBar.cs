@@ -51,7 +51,7 @@ namespace Equation
 			if (_headingType == HeadingBarTypes.Game)
 			{
 				var playedInfo = DataHelper.Instance.LastPlayedInfo;
-				string title = $"{playedInfo.Stage + 1} {Translator.GetString("Stage")}  {playedInfo.Level + 1} {Translator.GetString("Level")}";
+				string title = $"<color=#73D6FF>{playedInfo.Stage + 1}</color> <color=#F0FF00>{Translator.GetString("Stage")}</color>  <color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Level")}</color>";
 				SetData(title);
 
 				var nextPlayedInfo = GameWord.Instance.NextPlayedInfo;
