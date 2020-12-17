@@ -23,13 +23,10 @@ namespace Equation
 		public const int SCENE_GAME = 4;
 
 
-		[SerializeField] CanvasGroup _fadeBackg = null;
+		[SerializeField] RectTransform _fadeBackg = null;
 		[SerializeField] float _transitTime = .5f;
 
 		[SerializeField] Canvas _canvas;
-
-		[SerializeField] Text _tipsText;
-		[SerializeField] TextAsset _tipsTextAsset;
 
 		public static SceneTransitor Instance { get; private set; }
 
@@ -48,7 +45,6 @@ namespace Equation
 			{
 				Instance = this;
 				DontDestroyOnLoad(gameObject);
-				_fadeBackg.alpha = 0;
 				SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
 			}
 			else if (Instance != this)
@@ -73,33 +69,24 @@ namespace Equation
 			_canvas.worldCamera = Camera.main;
 		}
 
-		public void TransitScene(int sceneIndex, float delay = 0, bool fade = true, bool showTrick = true)
+		public void TransitScene(int sceneIndex, bool forward, float delay = 0)
 		{
-			StartCoroutine(_TransitScene(sceneIndex, delay, fade, showTrick));
+			StartCoroutine(_TransitScene(sceneIndex, forward, delay));
 		}
 
-		IEnumerator _TransitScene(int sceneIndex, float delay, bool fade, bool showTrick)
+		IEnumerator _TransitScene(int sceneIndex, bool forward, float delay)
 		{
 			Transiting = true;
 			
 			Time.timeScale = GameConfig.Instance.TimeScale;
 
-			_tipsText.gameObject.SetActive(showTrick);
-			if (showTrick)
-			{
-				var strsArr = _tipsTextAsset.text.Split('\n');
-				string tip = strsArr[Random.Range(0, strsArr.Length)];
-				_tipsText.text = Translator.FixFarsi(tip);
-			}
-
 			_fadeBackg.gameObject.SetActive(true);
 
 			yield return new WaitForSeconds(delay);
-			
-			_fadeBackg.gameObject.SetActive(fade);
 
-			if (fade)
-				_fadeBackg.DOFade(1, _transitTime).SetEase(Ease.OutSine);
+			const float back_offset = 930;
+			_fadeBackg.DOAnchorPosX(forward ? -back_offset : back_offset, 0).SetEase(Ease.Linear);
+			_fadeBackg.DOAnchorPosX(0, _transitTime).SetEase(Ease.Linear);
 
 			yield return new WaitForSeconds(_transitTime);
 
@@ -110,7 +97,7 @@ namespace Equation
 
 			SceneManager.LoadScene(sceneIndex);
 
-			_fadeBackg.DOFade(0, _transitTime);
+			_fadeBackg.DOAnchorPosX(forward ? back_offset : -back_offset, _transitTime).SetEase(Ease.Linear);
 
 			yield return new WaitForSeconds(_transitTime);
 
@@ -118,6 +105,8 @@ namespace Equation
 			Transiting = false;
 		}
 
+		
+		
 		public async void GetLiveDateTime(Action<DateTime?> onGetTime)
 		{
 			try

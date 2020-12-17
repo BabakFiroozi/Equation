@@ -160,12 +160,12 @@ namespace Equation
 			}
 
 			MyAnalytics.SendEvent(MyAnalytics.replay_button_clicked_result);
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
 		}
 
 		void GoStageSel()
 		{
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
 		}
 
 		void NextStage()
@@ -176,7 +176,7 @@ namespace Equation
 			{
 				if (GameSaveData.IsDailyPuzzleRewarded(currentPlayedInfo))
 				{
-					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, true);
 				}
 				else
 				{
@@ -213,7 +213,7 @@ namespace Equation
 			var nextPlayedInfo = GameWord.Instance.NextPlayedInfo;
 			DataHelper.Instance.LastPlayedInfo.Level = nextPlayedInfo.Level;
 			DataHelper.Instance.LastPlayedInfo.Stage = nextPlayedInfo.Stage;
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
 		}
 
 		void UnlockNextPuzzle()

@@ -49,7 +49,7 @@ namespace Equation
         void ResetButtonClick()
         {
             GameWord.Instance.Board.DoResetBoard();
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, false);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Equation
             DataHelper.Instance.LastPlayedInfo.Level = puzzleInfo.Level;
             DataHelper.Instance.LastPlayedInfo.Stage = puzzleInfo.Stage;
 
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
         }
 
         public void FillData(int level, int stage, int day)

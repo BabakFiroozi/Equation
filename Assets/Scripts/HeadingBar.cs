@@ -79,20 +79,20 @@ namespace Equation
 		{
 			if (_headingType == HeadingBarTypes.Level)
 			{
-				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
 			}
 
 			if (_headingType == HeadingBarTypes.Stage)
 			{
-				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU);
+				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU, false);
 			}
 
 			if (_headingType == HeadingBarTypes.Game)
 			{
 				if (GameWord.Instance.CurrentPlayedInfo.Daily)
-					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
 				else
-					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace Equation
 		{
 			DataHelper.Instance.LastPlayedInfo.Level = GameWord.Instance.NextPlayedInfo.Level;
 			DataHelper.Instance.LastPlayedInfo.Stage = GameWord.Instance.NextPlayedInfo.Stage;
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
 		}
 		
 

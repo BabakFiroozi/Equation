@@ -94,7 +94,7 @@ namespace Equation
 			// _splashImage.DOFillAmount(0, 1);
 			// MyAnalytics.Init("");
 			// yield return new WaitForSeconds(1);
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, 0, true, false);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, true);
 			MyAnalytics.SendEvent(MyAnalytics.game_entrance);
 			yield break;
 		}

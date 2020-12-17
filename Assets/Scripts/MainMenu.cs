@@ -217,12 +217,12 @@ namespace Equation
 
         void PlayButtonClick()
         {
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU, true);
         }
 
         void ContinueButtonClick()
         {
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
         }
 
     }

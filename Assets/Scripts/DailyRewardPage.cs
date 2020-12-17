@@ -92,7 +92,7 @@ namespace Equation
 
         void GoToMainMenu()
         {
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
         }
 
         void SelectChest(int c)

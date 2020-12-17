@@ -23,7 +23,7 @@ namespace Equation
         void GoButtonClick()
         {
             DataHelper.Instance.LastPlayedInfo.Level = _level;
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, true);
         }
 
         public void FillData(int level, int count)

@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 380, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222081967932279820
 CanvasRenderer:
@@ -60,13 +60,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.07116663, g: 0, b: 0.122641504, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5f0ca1442e78c4f4498d1b1e5d5af455, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30ee36cc95f579747bf9cb6e84b8617e, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -84,7 +84,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399828976548612}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -201,11 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2804ab2ca07fb4daf6069b6ef717f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeBackg: {fileID: 5797973843370835434}
+  _fadeBackg: {fileID: 224926926444600234}
   _transitTime: 0.3
   _canvas: {fileID: 223078950497518708}
-  _tipsText: {fileID: 7516203313508956944}
-  _tipsTextAsset: {fileID: 4900000, guid: c8fd3c7fba0f2594d8182580c8d4214f, type: 3}
 --- !u!114 &8982968110298068216
 MonoBehaviour:
   m_ObjectHideFlags: 0

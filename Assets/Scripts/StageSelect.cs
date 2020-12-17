@@ -27,7 +27,7 @@ namespace DefaultNamespace
         void StageButtonClick()
         {
             DataHelper.Instance.LastPlayedInfo.Stage = _stage;
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME);
+            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
         }
 
         public void FillData(int level, int stage)
