@@ -25,12 +25,16 @@ namespace Equation
 		[SerializeField] GameObject _dailyRewardObj;
 		[SerializeField] GameObject _rateAskPageObj;
 
+		[SerializeField] Button _holdButton;
+		[SerializeField] Text _holdText;
+		
 		bool _ratePageAsked;
 
 		bool _alreadySolved;
 
 		int _stageRank;
 
+		bool _holded = true;
 
 		// Use this for initialization
 		void Start()
@@ -38,6 +42,16 @@ namespace Equation
 			_nextButton.onClick.AddListener(NextStage);
 			_stageSelButton.onClick.AddListener(GoStageSel);
 			_replayButton.onClick.AddListener(ReplayGame);
+			_holdButton.onClick.AddListener(HoldButtonClick);
+
+			_holdButton.enabled = false;
+			var color = _holdText.color;
+			_holdText.color = new Color(color.r, color.g, color.b, 0);
+		}
+
+		void HoldButtonClick()
+		{
+			_holded = false;
 		}
 		
 		
@@ -78,7 +92,15 @@ namespace Equation
 
 			yield return new WaitForSeconds(1.0f);
 
-			_backgOverlay.DOFade(.7f, .5f).SetEase(Ease.Linear);
+			_backgOverlay.DOFade(.6f, .3f).SetEase(Ease.Linear);
+			
+			yield return new WaitForSeconds(.5f);
+
+			_holdButton.enabled = true;
+			_holdText.DOFade(1, .3f);
+			yield return new WaitWhile(() => _holded);
+			_holdText.DOFade(0, .3f);
+			
 			_frameRectTr.DOAnchorPosY(0, .5f).SetEase(Ease.OutBack);
 			
 			yield return new WaitForSeconds(.5f);

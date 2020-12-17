@@ -24,6 +24,8 @@ namespace Equation
         [SerializeField] AudioSource _putSound;
         [SerializeField] AudioSource _rightSound;
         
+        [SerializeField] Text _wrongDragMessage;
+
         
         public List<Pawn> Pawns { get; } = new List<Pawn>();
         public List<Hint> Hints { get; } = new List<Hint>();
@@ -49,6 +51,8 @@ namespace Equation
         void Start()
         {
             UnBlobkTouch();
+
+            _wrongDragMessage.DOFade(0, 0);
         }
 
         public void Init()
@@ -489,9 +493,14 @@ namespace Equation
             var pawn = dragObj.GetComponent<Pawn>();
             if (pawn == null)
                 return;
-            
-            if(!pawn.Movable)
+
+            if (!pawn.Movable)
+            {
+                _wrongDragMessage.DOKill();
+                _wrongDragMessage.DOFade(1, .2f);
+                _wrongDragMessage.DOFade(0, .2f).SetDelay(.6f);
                 return;
+            }
 
             SetDraggingPawn(pawn);
             // Debug.Log(dragObj.name);
