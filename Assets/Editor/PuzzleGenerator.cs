@@ -302,25 +302,30 @@ namespace Equation.Tools
 
             _isGenerating = true;
 
-            for (int i = 0; i < _generateCount; ++i)
+            int loopIter = 0;
+            do
             {
                 GeneratePattern();
                 await Task.Delay(200);
                 Repaint();
-                if (!GenerateSegments(i))
+                if (!GenerateSegments(loopIter))
                 {
                     Debug.LogWarning("<color=yellow>GenerateSegments failed in GeneratePuzzles.</color>");
                     continue;
                 }
+
                 await Task.Delay(200);
                 ShuffleSegments();
-                _selectedStage = i;
+                _selectedStage = loopIter;
                 Repaint();
                 await Task.Delay(200);
 
-                if (i > 20)
+                loopIter++;
+                
+                if (loopIter > 20)
                     _stagesScrollPos.y += 20;
-            }
+
+            } while (loopIter < _generateCount);
 
             _isGenerating = false;
 
@@ -671,17 +676,19 @@ namespace Equation.Tools
         void ShuffleSegments()
         {
             int totalShuffle = 0;
-            int loopIter = 0;
+            int shuffleIter = 0;
             do
             {
-                int shuffledCount;
-                while (!TryShuffleSegments(loopIter, out shuffledCount))
+                int shuffledCount = 0;
+                int loopIter = 0;
+                do
                 {
-
-                }
+                    if (loopIter++ > 1000)
+                        break;
+                } while (!TryShuffleSegments(shuffleIter, ref shuffledCount));
 
                 totalShuffle += shuffledCount;
-            } while (++loopIter < _shuffleCount);
+            } while (++shuffleIter < _shuffleCount);
 
             // if (_puzzlesPack.puzzles.Exists(p => p.id == _puzzle.id))
             //     return;
@@ -690,10 +697,8 @@ namespace Equation.Tools
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments(int shuffleIter, out int shuffledCount)
+        bool TryShuffleSegments(int shuffleIter, ref int shuffledCount)
         {
-            shuffledCount = 0;
-            
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
@@ -736,8 +741,6 @@ namespace Equation.Tools
                 return false;
             }
 
-            shuffledCount = heldsList.Count;
-
             if(shuffleIter == 0)
             {
                 bool failed = false;
@@ -763,6 +766,7 @@ namespace Equation.Tools
                     return false;
             }
             
+            shuffledCount = heldsList.Count;
 
             do
             {
@@ -777,7 +781,7 @@ namespace Equation.Tools
                 // _puzzle.segments[held].content = "";
                 
             } while (holdsList.Count > 0);
-
+            
             return true;
         }
         
