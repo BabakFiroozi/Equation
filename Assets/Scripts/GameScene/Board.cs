@@ -58,7 +58,8 @@ namespace Equation
 
         void MakePuzzleUI()
         {
-            var textAsset = Resources.Load<TextAsset>($"Puzzles/level_{DataHelper.Instance.LastPlayedInfo.Level:000}");
+            string filePath = $"{(DataHelper.Instance.LastPlayedInfo.Daily ? "DailyPuzzles" : "Puzzles")}/level_{DataHelper.Instance.LastPlayedInfo.Level:000}";
+            var textAsset = Resources.Load<TextAsset>(filePath);
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[DataHelper.Instance.LastPlayedInfo.Stage];
             StagesCount = puzzlesPack.puzzles.Count;
@@ -141,6 +142,10 @@ namespace Equation
             }
 
             ProcessTable();
+
+            if(DataHelper.Instance.LastPlayedInfo.Daily)
+                foreach (var hint in Hints)
+                    hint.Reveal(false);
         }
 
 

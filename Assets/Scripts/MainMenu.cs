@@ -17,8 +17,10 @@ namespace Equation
         [SerializeField] Text _startText;
         [SerializeField] Text _continueText;
         [SerializeField] Button _shopButton;
+        [SerializeField] Button _dailyButton;
         [SerializeField] Button _leaderboardButton;
-        [SerializeField] GameObject _shopPanelObj;
+        [SerializeField] ShopPanel _shopPanel;
+        [SerializeField] DailyPuzzlePanel _dailyPuzzlePanel;
         [SerializeField] SignUpPanel _signupPanel;
         [SerializeField] LeaderboardPanel _leaderboardPanel;
         [SerializeField] ConfirmScreen _quitPopup;
@@ -36,6 +38,7 @@ namespace Equation
             _continueButton.onClick.AddListener(ContinueButtonClick);
             _shopButton.onClick.AddListener(ShopButtonClick);
             _leaderboardButton.onClick.AddListener(LeaderboardButtonClick);
+            _dailyButton.onClick.AddListener(DailyButtonClick);
 
             CalcLastPlayed();
 
@@ -78,6 +81,12 @@ namespace Equation
             }
             
             SubmitScoreAsync();
+        }
+
+        void DailyButtonClick()
+        {
+            int day = GameSaveData.GetDailyEntranceNumber();
+            _dailyPuzzlePanel.Show(day);
         }
 
 
@@ -175,7 +184,7 @@ namespace Equation
 
         void ShopButtonClick()
         {
-            _shopPanelObj.GetComponent<ShopPanel>().ShowPanel();
+            _shopPanel.ShowPanel();
         }
 
         void CalcLastPlayed()
@@ -198,12 +207,10 @@ namespace Equation
             {
                 playedInfo.Stage = s;
                 if (GameSaveData.IsStageUnlocked(lastUnlockedLevel, s) && !GameSaveData.IsStageSolved(playedInfo))
-                {
-                    playedInfo.Stage = s;
                     break;
-                }
             }
 
+            DataHelper.Instance.LastPlayedInfo.Daily = false;
             DataHelper.Instance.LastPlayedInfo.Level = playedInfo.Level;
             DataHelper.Instance.LastPlayedInfo.Stage = playedInfo.Stage;
         }

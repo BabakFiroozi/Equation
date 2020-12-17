@@ -16,6 +16,9 @@ namespace Equation
             _hintButton.onClick.AddListener(HintButtonClick);
             _helpButton.onClick.AddListener(HelpButtonClick);
             _resetButton.onClick.AddListener(ResetButtonClick);
+
+            if (GameWord.Instance.CurrentPlayedInfo.Daily)
+                _hintButton.gameObject.SetActive(false);
         }
 
         void HintButtonClick()

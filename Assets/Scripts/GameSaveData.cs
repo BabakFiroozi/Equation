@@ -13,131 +13,78 @@ namespace Equation
 		public bool Daily { get; set; }
 		public int Stage { get; set; }
 
-		// public string Subject { get; set; }
-
-		public string InfoString()
-		{
-			string str = (Stage + 1) + " - " + Translator.GetString(Level.ToString()) + " - ";
-			return str;
-		}
-
-
 		public PuzzlePlayedInfo Copy()
 		{
-			var info = new PuzzlePlayedInfo {Level = Level, Stage = Stage};
+			var info = new PuzzlePlayedInfo {Level = Level, Stage = Stage, Daily = Daily};
 			return info;
 		}
 	}
 
 	public static class GameSaveData
 	{
-
-		public static void UnlockLevel(int level, bool del = false)
+		public static void UnlockLevel(int level, bool daily = false)
 		{
-			string key = $"{level}_Unlocked";
+			string key = $"Level_Unlocked_{level}_{daily}";
 			SetBool(key, true);
-			if(del)
-				PlayerPrefs.DeleteKey(key);
 		}
 
-		public static bool IsLevelUnlocked(int level)
+		public static bool IsLevelUnlocked(int level, bool daily = false)
 		{
-			string key = $"{level}_Unlocked";
+			string key = $"Level_Unlocked_{level}_{daily}";
 			return GetBool(key);
 		}
 
-		public static void UnlockStage(int level, int stage, bool del = false)
+		public static void DelUnlockedLevel(int level, bool daily = false)
 		{
-			string key = $"{level}_{stage}_Unlocked";
-			SetBool(key, true);
-			if(del)
-				PlayerPrefs.DeleteKey(key);
+			string key = $"Level_Unlocked_{level}_{daily}";
+			PlayerPrefs.DeleteKey(key);
 		}
 
-		public static bool IsStageUnlocked(int level, int stage)
+		public static void UnlockStage(int level, int stage, bool daily = false)
 		{
-			string key = $"{level}_{stage}_Unlocked";
+			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
+			SetBool(key, true);
+		}
+
+		public static bool IsStageUnlocked(int level, int stage, bool daily = false)
+		{
+			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
 			return GetBool(key);
 		}
-		
+
+		public static void DelUnlockedStage(int level, int stage, bool daily = false)
+		{
+			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
+			PlayerPrefs.DeleteKey(key);
+		}
+
 		public static void SetStageRank(PuzzlePlayedInfo info, int rank)
 		{
-			int oldRank = GetStageRank(info);
-			SetStageOldRank(info, oldRank);
-			if (oldRank != -1 && oldRank < rank)
-				return;
-
-			string key = $"{info.Level}_{info.Stage}_Rank";
+			string key = $"Stage_Rank_{info.Level}_{info.Stage}_{info.Daily}";
 			PlayerPrefs.SetInt(key, rank);
 		}
 
 		public static int GetStageRank(PuzzlePlayedInfo info)
 		{
-			string key = $"{info.Level}_{info.Stage}_Rank";
+			string key = $"Stage_Rank_{info.Level}_{info.Stage}_{info.Daily}";
 			return PlayerPrefs.GetInt(key, 0);
 		}
 		
-		public static int GetStageOldRank(PuzzlePlayedInfo info)
-		{
-			string key = $"{info.Level}_{info.Stage}_Old_Rank";
-			return PlayerPrefs.GetInt(key, -1);
-		}
-		
-		static void SetStageOldRank(PuzzlePlayedInfo info, int rank)
-		{
-			string key = $"{info.Level}_{info.Stage}_Old_Rank";
-			PlayerPrefs.SetInt(key, rank);
-		}
-
 		public static bool IsStageSolved(PuzzlePlayedInfo info)
 		{
-			string key = $"{info.Level}_{info.Stage}_Solved";
+			string key = $"Stage_Solved_{info.Level}_{info.Stage}_{info.Daily}";
 			return GetBool(key);
 		}
 
 		public static void SolveStage(PuzzlePlayedInfo info)
 		{
-			string key = $"{info.Level}_{info.Stage}_Solved";
+			string key = $"Stage_Solved_{info.Level}_{info.Stage}_{info.Daily}";
 			SetBool(key, true);
-
-			key = "Level_Stages_Count_Solved_" + info.Level;
-			PlayerPrefs.SetInt(key, GetLevelSolvedStagesCount(info.Level) + 1);
 		}
-
-		public static int GetLevelSolvedStagesCount(int level)
-		{
-			string key = "Level_Stages_Count_Solved_" + level;
-			int count = PlayerPrefs.GetInt(key, 0);
-			return count;
-		}
-
-		/*public static void SaveLastPlayedInfo(PuzzlePlayedInfo info)
-		{
-			JSONObject obj = JSONObject.Create();
-			obj.AddField("level", (int) info.Level);
-			obj.AddField("stage", info.Stage);
-			string infoStr = obj.Print();
-			PlayerPrefs.SetString("LastPlayedInfo", infoStr);
-		}
-
-		public static void LoadLastPlayedInfo(PuzzlePlayedInfo info)
-		{
-			string str = PlayerPrefs.GetString("LastPlayedInfo", "");
-			if (str == "null" || string.IsNullOrEmpty(str))
-			{
-				info.Level = 0;
-				info.Stage = 0;
-				return;
-			}
-			
-			JSONObject obj = JSONObject.Create(str);
-			info.Level = (int) obj.GetField("level").i;
-			info.Stage = (int) obj.GetField("stage").i;
-		}*/
 
 		public static void SaveUsedHints(PuzzlePlayedInfo info, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
+			string keyName = $"UsedHints_{info.Level}_{info.Stage}_{info.Daily}";
 
 			var list = LoadUsedHints(info);
 			list.Add(cell);
@@ -150,7 +97,7 @@ namespace Equation
 
 		public static List<int> LoadUsedHints(PuzzlePlayedInfo info)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
+			string keyName = $"UsedHints_{info.Level}_{info.Stage}_{info.Daily}";
 
 			var str = PlayerPrefs.GetString(keyName);
 
@@ -166,26 +113,50 @@ namespace Equation
 		
 		public static void ResetUsedHints(PuzzlePlayedInfo info)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_UsedHints";
+			string keyName = $"UsedHints_{info.Level}_{info.Stage}_{info.Daily}";
 			PlayerPrefs.DeleteKey(keyName);
 		}
 
 		public static void SavePawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
+			string keyName = $"PawnCell_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
 			PlayerPrefs.SetInt(keyName, cell);
 		}
 
 		public static int LoadPawnCell(PuzzlePlayedInfo info, int pawn, int cell)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
+			string keyName = $"PawnCell_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
 			return PlayerPrefs.GetInt(keyName, cell);
 		}
 		
 		public static void ResetPawnCell(PuzzlePlayedInfo info, int pawn)
 		{
-			string keyName = $"{info.Level}_{info.Stage}_PawnCell_{pawn}";
+			string keyName = $"PawnCell_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
 			PlayerPrefs.DeleteKey(keyName);
+		}
+		
+		public static bool IsDailyPuzzleRewarded(PuzzlePlayedInfo info)
+		{
+			string keyName = $"DailyPuzzleRewarded_{info.Level}_{info.Stage}_{info.Daily}";
+			return GetBool(keyName, false);
+		}
+		
+		public static void SetDailyPuzzleRewarded(PuzzlePlayedInfo info)
+		{
+			string keyName = $"DailyPuzzleRewarded_{info.Level}_{info.Stage}_{info.Daily}";
+			SetBool(keyName, true);
+		}
+
+		public static bool IsNextLevelReachedRewarded(int level)
+		{
+			string keyName = $"NextLevelReachedRewarded_{level}";
+			return GetBool(keyName, false);
+		}
+		
+		public static void RewardNextLevelReached(int level)
+		{
+			string keyName = $"NextLevelReachedRewarded_{level}";
+			SetBool(keyName, true);
 		}
 
 		public static void SavePrefs()
@@ -417,30 +388,6 @@ namespace Equation
 		public static string GetSignupEmail()
 		{
 			return PlayerPrefs.GetString("Signup_Email");
-		}
-
-		public static bool IsDailyPuzzleRewarded(PuzzlePlayedInfo info)
-		{
-			string keyName = $"DailyPuzzleRewarded_{info.Level}_{info.Stage}";
-			return GetBool(keyName, false);
-		}
-		
-		public static void SetDailyPuzzleRewarded(PuzzlePlayedInfo info)
-		{
-			string keyName = $"DailyPuzzleRewarded_{info.Level}_{info.Stage}";
-			SetBool(keyName, true);
-		}
-
-		public static bool IsNextLevelReachedRewarded(int level)
-		{
-			string keyName = $"NextLevelReachedRewarded_{level}";
-			return GetBool(keyName, false);
-		}
-		
-		public static void RewardNextLevelReached(int level)
-		{
-			string keyName = $"NextLevelReachedRewarded_{level}";
-			SetBool(keyName, true);
 		}
 
 		public static bool HasDailyFreeGuide(int cap)

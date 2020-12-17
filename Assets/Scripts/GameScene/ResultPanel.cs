@@ -174,6 +174,8 @@ namespace Equation
 
 			if (currentPlayedInfo.Daily)
 			{
+				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+				return;
 				if (GameSaveData.IsDailyPuzzleRewarded(currentPlayedInfo))
 				{
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);

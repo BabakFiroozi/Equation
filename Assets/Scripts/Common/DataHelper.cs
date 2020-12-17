@@ -12,6 +12,8 @@ namespace Equation
 		
 		public const int STAGE_RANK_MAX = 3;
 		
+		public const int MAX_DAILY_STAGES_COUNT = 90;
+		
 		public int LevelsCount { get; private set; }
 
 		public void CalcLevelsCount()

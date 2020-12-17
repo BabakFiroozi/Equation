@@ -89,8 +89,10 @@ namespace Equation
 
 			if (_headingType == HeadingBarTypes.Game)
 			{
-				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
-				// _exitPanel.GetComponent<PopupScreen>().Show();
+				if (GameWord.Instance.CurrentPlayedInfo.Daily)
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU);
+				else
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU);
 			}
 		}
 
