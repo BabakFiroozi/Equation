@@ -23,6 +23,7 @@ namespace Equation
 		public const int SCENE_GAME = 4;
 
 
+		[SerializeField] GameObject _blockTouch;
 		[SerializeField] RectTransform _fadeBackg = null;
 		[SerializeField] float _transitTime = .5f;
 
@@ -45,7 +46,8 @@ namespace Equation
 			{
 				Instance = this;
 				DontDestroyOnLoad(gameObject);
-				_fadeBackg.gameObject.SetActive(false);
+				_fadeBackg.anchoredPosition = new Vector2(3000, 0);
+				_blockTouch.SetActive(false);
 				SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
 			}
 			else if (Instance != this)
@@ -87,12 +89,13 @@ namespace Equation
 			
 			Time.timeScale = GameConfig.Instance.TimeScale;
 
-			_fadeBackg.gameObject.SetActive(true);
+			_blockTouch.SetActive(true);
 
 			yield return new WaitForSeconds(delay);
+			
+			float fadeBackOffset = _fadeBackg.rect.width - _fadeBackg.rect.width * .154f;
 
-			const float back_offset = 930;
-			_fadeBackg.DOAnchorPosX(forward ? -back_offset : back_offset, 0).SetEase(Ease.Linear);
+			_fadeBackg.DOAnchorPosX(forward ? -fadeBackOffset : fadeBackOffset, 0).SetEase(Ease.Linear);
 			_fadeBackg.DOAnchorPosX(0, _transitTime).SetEase(Ease.Linear);
 
 			yield return new WaitForSeconds(_transitTime);
@@ -104,11 +107,11 @@ namespace Equation
 
 			SceneManager.LoadScene(sceneIndex);
 
-			_fadeBackg.DOAnchorPosX(forward ? back_offset : -back_offset, _transitTime).SetEase(Ease.Linear);
+			_fadeBackg.DOAnchorPosX(forward ? fadeBackOffset : -fadeBackOffset, _transitTime).SetEase(Ease.Linear);
 
 			yield return new WaitForSeconds(_transitTime);
 
-			_fadeBackg.gameObject.SetActive(false);
+			_blockTouch.SetActive(false);
 			Transiting = false;
 		}
 

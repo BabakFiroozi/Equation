@@ -42,7 +42,7 @@ namespace Equation
 
             CalcLastPlayed();
 
-            if (GameSaveData.GetSessionNumber() == 1)
+            if (DataHelper.Instance.LastPlayedInfo.Level == 0 && DataHelper.Instance.LastPlayedInfo.Stage == 0)
             {
                 _startText.rectTransform.anchoredPosition = Vector2.zero;
                 _startText.text = Translator.GetString("Start");
