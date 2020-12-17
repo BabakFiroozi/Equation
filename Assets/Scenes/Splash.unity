@@ -369,6 +369,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneTransitor
       objectReference: {fileID: 0}
+    - target: {fileID: 3878443613259842, guid: cd4a097156d54d445a3ad16a09899336, type: 3}
+      propertyPath: _transitTime
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 223078950497518708, guid: cd4a097156d54d445a3ad16a09899336,
         type: 3}
       propertyPath: m_Camera
