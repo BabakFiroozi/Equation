@@ -374,6 +374,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 646860230}
+    - target: {fileID: 224926926444600234, guid: cd4a097156d54d445a3ad16a09899336,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1219
+      objectReference: {fileID: 0}
     - target: {fileID: 224990793052207380, guid: cd4a097156d54d445a3ad16a09899336,
         type: 3}
       propertyPath: m_LocalPosition.x

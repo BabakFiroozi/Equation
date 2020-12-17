@@ -60,7 +60,7 @@ namespace Equation
                 _confirmScreen = GetComponent<ConfirmScreen>();
             _confirmScreen.OpenConfirm(ConfirmedHandler);
             SignedUpEvent = signedUpEvent;
-            ShowMessage(Translator.GetString("Enter_Your_Name"), false);
+            ShowMessage(Translator.GetString("You_Need_To_Register"), false);
         }
 
         public void HidePanel()
@@ -89,8 +89,8 @@ namespace Equation
             string emailAddress = _emailInput.text;
             string password = _passwordInput.text;
             
-            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@ganj.ir";
-            password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
+            // emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@ganj.ir";
+            // password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
 
             if (emailAddress.Length < MIN_EMAIL_LEN || !emailAddress.Contains("@") || password.Length < MIN_PASSW_LEN)
             {

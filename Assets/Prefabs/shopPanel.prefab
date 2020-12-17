@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 8957273694990332595}
   - component: {fileID: 3159058673462222628}
   m_Layer: 5
-  m_Name: close
+  m_Name: closeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -10}
+  m_AnchoredPosition: {x: -5, y: -5}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &751893215787735415
@@ -2808,7 +2808,6 @@ MonoBehaviour:
   _moveHor: 0
   _moveDir: 1
   _avtiveWhenHidden: 0
-  _animTime: 0.3
   _animAudio: {fileID: 3163664485104681476}
 --- !u!114 &9055568089789566949
 MonoBehaviour:
