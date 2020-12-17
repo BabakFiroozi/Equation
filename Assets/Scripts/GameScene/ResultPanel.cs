@@ -102,6 +102,8 @@ namespace Equation
 			_holdText.DOFade(0, .3f);
 			
 			_frameRectTr.DOAnchorPosY(0, .5f).SetEase(Ease.OutBack);
+
+			_frameRectTr.GetComponent<AudioSource>().Play();
 			
 			yield return new WaitForSeconds(.5f);
 
