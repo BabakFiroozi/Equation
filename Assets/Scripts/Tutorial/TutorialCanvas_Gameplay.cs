@@ -174,7 +174,7 @@ namespace Equation
                 _tutorialCanvasGroup.alpha = 0;
                 yield return new WaitForSeconds(1);
                 _tutorialCanvasGroup.DOFade(1, 1);
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(5);
                 var tr = Introduce_Message.GetComponent<RectTransform>();
                 ShowNextButton(tr.anchoredPosition + new Vector2(0, -tr.rect.height / 2));
             }
