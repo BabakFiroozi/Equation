@@ -427,7 +427,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 240}
-  m_SizeDelta: {x: 560, y: 140}
+  m_SizeDelta: {x: 540, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647078742700310
 CanvasRenderer:
@@ -545,8 +545,8 @@ MonoBehaviour:
     m_LineSpacing: 1.4
   m_Text: "\uFEEA\uFEF3 \uFEEE\uFE97 \uFEED\uFEAD \uFEE9\uFEAE\uFEEC\uFEE3 \uFEEA\uFEF3
     \uFEF2\uFEE7\uFEEE\uFE98\uFEF4\uFEE3 <color=#78FF00>\uFB8F\uFEE4\uFB90</color>
-    \uFEEA\uFEE4\uFB90\uFEA9 \uFEE5\uFEA9\uFEAF \uFE8E\uFE91\n                             
-    .\uFEF1\uFEAD\uFE8D\uFEB0\uFE91 \uFEDD\uFEED\uFEAA\uFE9F \uFE96\uFEB3\uFEAD\uFEA9
+    \uFEEA\uFEE4\uFB90\uFEA9 \uFEE5\uFEA9\uFEAF \uFE8E\uFE91\n                              
+    \uFEF1\uFEAD\uFE8D\uFEB0\uFE91 \uFEDD\uFEED\uFEAA\uFE9F \uFE96\uFEB3\uFEAD\uFEA9
     \uFEEA\uFEE7\uFEEE\uFEA7"
 --- !u!1 &6420647079147604274
 GameObject:
@@ -659,7 +659,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -254}
-  m_SizeDelta: {x: 600, y: 100}
+  m_SizeDelta: {x: 560, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647079509113202
 CanvasRenderer:
@@ -775,11 +775,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1.4
-  m_Text: " \uFEDD\uFEEE\uFEEC\uFEA0\uFEE3 \uFEEA\uFEE7\uFEEE\uFEA7 \uFEEA\uFEF3
-    \uFEF2\uFEE7\uFEEE\uFE98\uFEF4\uFEE3 <color=#FFBB00>\uFEF2\uFEF3\uFE8E\uFEE4\uFEE8\uFEEB\uFE8D\uFEAD</color>
-    \uFEEA\uFEE4\uFB90\uFEA9 \uFEAF\uFE8E\uFE91\n                           .\uFEF2\uFEE8\uFB90
-    \uFEF2\uFEF3\uFE8E\uFEB3\uFE8E\uFEE8\uFEB7 \uFEED\uFEAD \uFEDD\uFEED\uFEAA\uFE9F
-    \uFEAF\uFE8D"
+  m_Text: "\uFEEA\uFEE7\uFEEE\uFEA7 \uFEEA\uFEF3 \uFEF2\uFEE7\uFEEE\uFE98\uFEF4\uFEE3
+    <color=#FFBB00>\uFEF2\uFEF3\uFE8E\uFEE4\uFEE8\uFEEB\uFE8D\uFEAD</color> \uFEEA\uFEE4\uFB90\uFEA9
+    \uFEE5\uFEA9\uFEAF \uFE8E\uFE91\n         \uFEF2\uFEE8\uFB90 \uFEF2\uFEF3\uFE8E\uFEB3\uFE8E\uFEE8\uFEB7
+    \uFEED\uFEAD \uFEDD\uFEED\uFEAA\uFE9F \uFEAF\uFE8D \uFEDD\uFEEE\uFEEC\uFEA0\uFEE3 "
 --- !u!1 &6420647079800957620
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,13 +952,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1.4
-  m_Text: "\uFEDD\uFEED\uFEAA\uFE9F \uFE8E\uFE97 \uFEF2\uFEE8\uFB90 \uFE8E\uFEA0\uFE91\uFE8E\uFE9F
-    \uFEED\uFEAD  \uFEE2\uFE8B\uFEFC\uFECB \uFEED \uFEA9\uFE8D\uFEAA\uFECB\uFE8D
-    \uFEAA\uFEF3\uFE8E\uFE91\n<color=yellow>\uFE96\uFEB3\uFE8D\uFEAD \uFEEA\uFE91
-    \uFB57\uFB7C</color>  \uFEAF\uFE8D  \uFE8E\uFEEB \uFE95\uFEAD\uFE8E\uFE92\uFECB
-    .\uFEEA\uFEB3\uFEAE\uFE91 \uFE8F\uFE8D\uFEEE\uFE9F \uFEEA\uFE91\n                   
-    .\uFEEA\uFEB8\uFEF4\uFEE3 \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3 <color=yellow>\uFEE6\uFEF4\uFEF3\uFE8E\uFB58
-    \uFEEA\uFE91 \uFEFB\uFE8E\uFE91</color> \uFEAF\uFE8D \uFEED"
+  m_Text: "\uFE96\uFB90\uFEAE\uFEA3 \uFEED\uFEAD <color=#00A5FF>\uFEF2\uFEBF\uFE8E\uFEF3\uFEAD
+    \uFEF1\uFE8E\uFEEB \uFEE9\uFEAE\uFEEC\uFEE3</color> \uFEAA\uFEF3\uFE8E\uFE91
+    \uFEF1\uFEAF\uFE8E\uFE91 \uFEE6\uFEF3\uFE8D \uFEEE\uFE97\n   \uFEAF\uFE8D  \uFE8E\uFEEB
+    \uFE95\uFEAD\uFE8E\uFE92\uFECB .\uFEEA\uFEB3\uFEAE\uFE91 \uFE8F\uFE8D\uFEEE\uFE9F
+    \uFEEA\uFE91 \uFEDD\uFEED\uFEAA\uFE9F \uFE8E\uFE97 \uFEF1\uFEAA\uFE91\n  \uFEEA\uFEB8\uFEF4\uFEE3
+    \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3 <color=yellow>\uFEE6\uFEF4\uFEF3\uFE8E\uFB58
+    \uFEEA\uFE91 \uFEFB\uFE8E\uFE91</color> \uFEAF\uFE8D \uFEED <color=yellow>\uFE96\uFEB3\uFE8D\uFEAD
+    \uFEEA\uFE91 \uFB57\uFB7C</color>"
 --- !u!1 &6420647079983137358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,9 +1131,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1.4
-  m_Text: "\uFE96\uFEB3\uFEAD\uFEA9 \uFEF1\uFE8E\uFE9F \uFEB5\uFEAD\uFE8D\uFEB0\uFE91
-    \uFEED \uFEB6\uFB91\uFE91 \uFEED\uFEAD \uFEE9\uFEAE\uFEEC\uFEE3 \uFE96\uFE98\uFEB8\uFB95\uFEE7\uFE8D
-    \uFE8E\uFE91"
+  m_Text: "\uFEB6\uFE98\uFEB3\uFEAD\uFEA9 \uFEF1\uFE8E\uFE9F \uFEAE\uFEB3 \uFEAD\uFE8D\uFEB0\uFE91
+    \uFEED \uFEB6\uFB91\uFE91 \uFEED\uFEAD <color=#00A5FF>\uFEE9\uFEAE\uFEEC\uFEE3</color>
+    \uFEFB\uFE8E\uFEA3"
 --- !u!1 &6420647080381607586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,7 +1652,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 240}
-  m_SizeDelta: {x: 520, y: 130}
+  m_SizeDelta: {x: 540, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647080433555244
 CanvasRenderer:
