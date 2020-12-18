@@ -843,7 +843,6 @@ MonoBehaviour:
   _moveHor: 0
   _moveDir: 1
   _avtiveWhenHidden: 0
-  _animTime: 0.5
   _animAudio: {fileID: 8514139869663060069}
 --- !u!114 &2815417403408414523
 MonoBehaviour:
@@ -6843,7 +6842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -35, y: 4}
+  m_AnchoredPosition: {x: -30, y: 6}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8725202894249034144
@@ -7018,7 +7017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35.49, y: 291.90002}
+  m_AnchoredPosition: {x: 26, y: 290}
   m_SizeDelta: {x: 123.7666, y: 63.3244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1427959281820396818
@@ -7042,7 +7041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7075472, b: 0.0049747387, a: 1}
+  m_Color: {r: 0, g: 0.9056604, b: 0.005031514, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7050,7 +7049,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 50
+    m_FontSize: 44
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1

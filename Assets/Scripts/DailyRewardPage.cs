@@ -123,7 +123,7 @@ namespace Equation
 
             int reward = _rewards[c];
             _gotMessageText.gameObject.SetActive(true);
-            _gotMessageText.text = $"{Translator.GetString("You_Got_Some_Coin")} <color=#15F845>{reward}</color>";
+            _gotMessageText.text = $"{Translator.GetString("You_Got_Some_Coin")} <color=#00E701>{reward}</color>";
 
             GameSaveData.AddCoin(reward, true);
 
