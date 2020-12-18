@@ -95,7 +95,7 @@ namespace Equation
 
 			yield return new WaitForSeconds(1.0f);
 
-			_backgOverlay.DOFade(.6f, .3f).SetEase(Ease.Linear);
+			_backgOverlay.DOFade(.65f, .3f).SetEase(Ease.Linear);
 			
 			yield return new WaitForSeconds(.5f);
 
