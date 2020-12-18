@@ -77,3 +77,7 @@ Needed_Moves=جابجایی
 Moves_You_Did=تعداد حرکاتی که رفتی
 You_Entered_Level=شما وارد فصل
 You_Finished_Levels=شما همه فصل رو رفتید منتظر آپدیت باشد
+
+RankTitle_1=بد نبود
+RankTitle_2=خوب بود
+RankTitle_3=عالی بود

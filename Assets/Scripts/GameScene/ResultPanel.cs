@@ -18,6 +18,7 @@ namespace Equation
 		[SerializeField] GameObject _preventTouchObj = null;
 		[SerializeField] Text _movesCountText = null;
 		[SerializeField] Text _rewardText;
+		[SerializeField] Text _titleText;
 		[SerializeField] GameObject _alreadySolvedText;
 		[SerializeField] RectTransform[] _stars;
 
@@ -90,6 +91,8 @@ namespace Equation
 
 			_movesCountText.text = $"<color=yellow>{GameWord.Instance.Board.MovesCount}</color> :{Translator.GetString("Moves_You_Did")}";
 
+			_titleText.text = Translator.GetString($"RankTitle_{_stageRank}");
+
 			yield return new WaitForSeconds(1.0f);
 
 			_backgOverlay.DOFade(.6f, .3f).SetEase(Ease.Linear);
@@ -149,7 +152,7 @@ namespace Equation
 			if (currentPlayedInfo.Stage == GameWord.Instance.Board.StagesCount - 1)
 			{
 				_nextLevelText.gameObject.SetActive(true);
-				_nextLevelText.gameObject.GetComponent<AudioSource>().Play();
+				_nextLevelText.gameObject.GetComponent<AudioSource>().PlayDelayed(.1f);
 				if(currentPlayedInfo.Level < DataHelper.Instance.LevelsCount - 1)
 				{
 					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";

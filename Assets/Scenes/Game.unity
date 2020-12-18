@@ -1242,7 +1242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 457}
+  m_AnchoredPosition: {x: 0, y: 395}
   m_SizeDelta: {x: 440, y: 44.665527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &378738650
@@ -1308,6 +1308,7 @@ MonoBehaviour:
   _preventTouchObj: {fileID: 1474807498}
   _movesCountText: {fileID: 2102167521}
   _rewardText: {fileID: 1525916994}
+  _titleText: {fileID: 1410504477}
   _alreadySolvedText: {fileID: 1725890539}
   _stars:
   - {fileID: 1486391101}
@@ -1547,8 +1548,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEAA\uFEF4\uFEE8\uFB90 \uFEB2\uFEE4\uFEDF \uFEEA\uFEE3\uFE8D\uFEA9\uFE8D
-    \uFEF1\uFE8D\uFEAE\uFE91"
+  m_Text: "\uFEE6\uFB90 \uFEB2\uFEE4\uFEDF \uFEEA\uFEE3\uFE8D\uFEA9\uFE8D \uFEF1\uFE8D\uFEAE\uFE91 
+    \uFEAA\uFEB7 \uFEDE\uFEA3"
 --- !u!222 &414586667
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3796,9 +3797,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -8938532440770186878, guid: 25fe369d14cd73045873787405fa40c6,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 14e7bef86e506034c96898e5bbc91f34, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 867b81d8f93b8dd4b985c21f70aae119, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.677
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4494,7 +4495,7 @@ GameObject:
   - component: {fileID: 1410504476}
   - component: {fileID: 1410504475}
   m_Layer: 5
-  m_Name: text
+  m_Name: title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6604,7 +6605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.9584457, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
