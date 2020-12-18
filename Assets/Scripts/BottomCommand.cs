@@ -10,6 +10,7 @@ namespace Equation
         [SerializeField] Button _hintButton;
         [SerializeField] Button _helpButton;
         [SerializeField] Button _resetButton;
+        [SerializeField] GameObject _resetAskConfirmObj;
 
         void Start()
         {
@@ -30,7 +31,7 @@ namespace Equation
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
-                GameSaveData.SubCoin(GameConfig.Instance.HintCost, true, .2f);
+                GameSaveData.SubCoin(GameConfig.Instance.HintCost, true, .1f);
             
             GameWord.Instance.Board.DoHint();
         }
@@ -41,15 +42,24 @@ namespace Equation
                 return;
 
             if (!GameSaveData.IsStageSolved(DataHelper.Instance.LastPlayedInfo))
-                GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true, .2f);
+                GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true, .1f);
 
             GameWord.Instance.Board.DoHelp();
         }
 
         void ResetButtonClick()
         {
-            GameWord.Instance.Board.DoResetBoard();
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, false);
+            var obj = Instantiate(_resetAskConfirmObj, transform.parent);
+            var confirm = obj.GetComponent<ConfirmScreen>();
+            confirm.ClosedEvent = () => Destroy(obj);
+            confirm.OpenConfirm(type =>
+            {
+                if (type == ConfirmScreen.ConfirmTypes.Ok)
+                {
+                    GameWord.Instance.Board.DoResetBoard();
+                    SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, false);
+                }
+            });
         }
     }
 }

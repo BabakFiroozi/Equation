@@ -1035,6 +1035,8 @@ MonoBehaviour:
   _hintButton: {fileID: 235274998}
   _helpButton: {fileID: 868661913}
   _resetButton: {fileID: 104874256}
+  _resetAskConfirmObj: {fileID: 2630470634623731152, guid: dde6d12684829a446a92006cfab27eae,
+    type: 3}
 --- !u!1 &363119722
 GameObject:
   m_ObjectHideFlags: 0
