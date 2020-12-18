@@ -10,8 +10,8 @@ namespace Equation
 {
     public class FreeHintBox : MonoBehaviour
     {
-        [SerializeField] CanvasGroup _canvasGroup;
-        [SerializeField] Text _messageText;
+        [SerializeField] CanvasGroup _canvasGroupFree;
+        [SerializeField] CanvasGroup _canvasGroupHint;
         [SerializeField] Button _continueButton;
 
         Vector2 _initPos;
@@ -44,19 +44,19 @@ namespace Equation
         {
             _rectTr = gameObject.GetComponent<RectTransform>();
 
-            _canvasGroup.DOFade(0, 0);
-            _messageText.DOFade(0, 0);
+            _canvasGroupHint.DOFade(0, 0);
+            _canvasGroupFree.DOFade(0, 0);
 
             const float fade_time = .2f;
             const float interval_time = .5f;
 
             var seq = DOTween.Sequence();
             seq.SetLoops(-1);
-            seq.Append(_canvasGroup.DOFade(0, fade_time).SetEase(Ease.Linear));
-            seq.Append(_messageText.DOFade(1, fade_time).SetEase(Ease.Linear));
+            seq.Append(_canvasGroupHint.DOFade(0, fade_time).SetEase(Ease.Linear));
+            seq.Append(_canvasGroupFree.DOFade(1, fade_time).SetEase(Ease.Linear));
             seq.AppendInterval(interval_time);
-            seq.Append(_messageText.DOFade(0, fade_time).SetEase(Ease.Linear));
-            seq.Append(_canvasGroup.DOFade(1, fade_time).SetEase(Ease.Linear));
+            seq.Append(_canvasGroupFree.DOFade(0, fade_time).SetEase(Ease.Linear));
+            seq.Append(_canvasGroupHint.DOFade(1, fade_time).SetEase(Ease.Linear));
             seq.AppendInterval(interval_time);
 
             _continueButton.onClick.AddListener(OnClickContinue);
