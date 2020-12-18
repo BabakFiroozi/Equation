@@ -11,12 +11,18 @@ namespace Equation
         [SerializeField] Button _helpButton;
         [SerializeField] Button _resetButton;
         [SerializeField] GameObject _resetAskConfirmObj;
-
+        [SerializeField] Text _hintCost;
+        [SerializeField] Text _helpCost;
+        
+        
         void Start()
         {
             _hintButton.onClick.AddListener(HintButtonClick);
             _helpButton.onClick.AddListener(HelpButtonClick);
             _resetButton.onClick.AddListener(ResetButtonClick);
+
+            _hintCost.text = $"({GameConfig.Instance.HintCost})";
+            _helpCost.text = $"({GameConfig.Instance.HelpCost})";
 
             if (GameWord.Instance.CurrentPlayedInfo.Daily)
                 _hintButton.gameObject.SetActive(false);

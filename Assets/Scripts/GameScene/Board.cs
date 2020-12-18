@@ -32,6 +32,7 @@ namespace Equation
 
         public List<BoardCell> Cells { get; } = new List<BoardCell>();
         
+        public Action<bool> PawnMovedEvent { get; set; }
         public Action<bool, int> GameFinishedEvent { get; set; }
 
         public int StagesCount { get; private set; }
@@ -46,6 +47,8 @@ namespace Equation
         Puzzle _puzzle;
 
         float _cellSize;
+
+        public Pawn DraggingPawn => _draggingPawn;
 
 
         void Start()
@@ -90,6 +93,7 @@ namespace Equation
                 Cells.Add(cell);
 
                 var cellObj = Instantiate(_cellObj, _tableRectTr);
+                cellObj.name = $"Cell_{cell.index + 1}";
                 var cellRectTr = cellObj.GetComponent<RectTransform>();
                 cellRectTr.sizeDelta = new Vector2(cellSize, cellSize);
                 cellRectTr.anchoredPosition = cell.pos;
@@ -214,13 +218,15 @@ namespace Equation
 
             ProcessTable();
 
-            if (prevDragging != null && prevDragging.State == PawnStates.Right)
-                OnRightMove();
+            if (prevDragging != null)
+                OnRightMove(prevDragging.State == PawnStates.Right);
         }
 
-        void OnRightMove()
+        void OnRightMove(bool right)
         {
-            _rightSound.PlayDelayed(.15f);
+            if (right)
+                _rightSound.PlayDelayed(.15f);
+            PawnMovedEvent?.Invoke(right);
         }
 
         void ProcessTable()

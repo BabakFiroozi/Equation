@@ -159,6 +159,9 @@
      <Compile Include="Assets\Scripts\StoreNames.cs" />
      <Compile Include="Assets\Scripts\SwitchButton.cs" />
      <Compile Include="Assets\Scripts\TaskEx.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\QuotePoint.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\TutMgr.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\TutorialCanvas_Gameplay.cs" />
      <Compile Include="Assets\Tapsell\Tapsell.cs" />
      <Compile Include="Assets\Tapsell\TapsellMessageHandler.cs" />
      <None Include="Assets\GameAnalytics\Readme.txt" />

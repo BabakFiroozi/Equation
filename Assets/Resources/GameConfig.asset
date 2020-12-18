@@ -15,7 +15,7 @@ MonoBehaviour:
   _worldTimeAPI:
     url: 
     field: 
-  _tutorialIsActive: 0
+  _tutorialIsActive: 1
   _gameIsUnlock: 0
   _playerInitialCoin: 1000
   _hintCost: 30

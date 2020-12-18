@@ -163,6 +163,11 @@ namespace Equation.Tools
                 SortGeneratedPuzzles();
             }
             
+            if (GUI.Button(new Rect(640, 20, 60, 20), "Clear"))
+            {
+                ClearPuzzles();
+            }
+            
             GUI.Label(new Rect(400, 47, 50, 20), "Range");
 
             _numMinRange = EditorGUI.IntField(new Rect(450, 45, 45, 20), _numMinRange);
@@ -276,6 +281,13 @@ namespace Equation.Tools
             {
                 GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), "Generating puzzles...");
             }
+        }
+
+
+        void ClearPuzzles()
+        {
+            _puzzlesPack = null;
+            _puzzle = null;
         }
 
 

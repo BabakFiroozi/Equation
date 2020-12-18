@@ -41,6 +41,9 @@ namespace Equation
             _dailyButton.onClick.AddListener(DailyButtonClick);
 
             CalcLastPlayed();
+            
+            if (TutorialCanvas_Gameplay.Instance != null)
+                TutorialCanvas_Gameplay.Instance.GoToCurrentStep();
 
             if (DataHelper.Instance.LastPlayedInfo.Level == 0 && DataHelper.Instance.LastPlayedInfo.Stage == 0)
             {
