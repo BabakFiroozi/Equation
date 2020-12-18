@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5071970d8b890e54d832220f6bf0e36d, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _worldTimeAPI:
-    url: 
-    field: 
   _tutorialIsActive: 1
   _gameIsUnlock: 0
   _playerInitialCoin: 1000
@@ -28,3 +25,6 @@ MonoBehaviour:
   _freeCoinDayCap: 5
   _freeGuideDayCap: 7
   _exitAdChance: 50
+  _worldTimeAPI:
+    url: 
+    field: 

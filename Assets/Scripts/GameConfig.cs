@@ -13,8 +13,6 @@ namespace Equation
 			public string field;
 		}
 		
-		[SerializeField] WorldTimeAPIInfo _worldTimeAPI;
-		
 		[SerializeField] bool _tutorialIsActive = true;
 		[SerializeField] bool _gameIsUnlock = false;
 
@@ -37,9 +35,8 @@ namespace Equation
 		[SerializeField] int _freeGuideDayCap = 7;
 		[SerializeField] int _exitAdChance = 50;
 		
-		
-		public WorldTimeAPIInfo WorldTimeAPI => _worldTimeAPI;
-		
+		[SerializeField] WorldTimeAPIInfo _worldTimeAPI;
+
 		public bool TutorialIsActive => _tutorialIsActive;
 		public bool GameIsUnlock => _gameIsUnlock;
 
@@ -61,6 +58,9 @@ namespace Equation
 		public int FreeGuideDayCap => _freeGuideDayCap;
 		public int FreeCoinDayCap => _freeCoinDayCap;
 		public int ExitAdChance => _exitAdChance;
+		
+		public WorldTimeAPIInfo WorldTimeAPI => _worldTimeAPI;
+
 
 		static GameConfig _instance;
 
