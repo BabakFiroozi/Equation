@@ -37,9 +37,7 @@ namespace Equation.Tools
         int _numMinRange = 1;
         int _numMaxRange = 20;
 
-        bool _hasTime = true;
-        bool _hasDevide = true;
-
+        string _opperators = "t,d";
 
         List<Group> _horGroups = new List<Group>();
         List<Group> _verGroups = new List<Group>();
@@ -50,22 +48,29 @@ namespace Equation.Tools
         Puzzle _puzzle;
         PuzzlesPackModel _puzzlesPack;
 
+        PuzzlesPackModel _culledPuzzlePack;
+
+        const string SAVE_PATH = "Resources/Puzzles";
+        int _saveGameLevel;
+        int _trimSaveGameLevel;
+        
         int _loadedLevel = 0;
         int _selectedStage = -1;
 
         Font _fontPersian;
         Font _fontEnglish;
         
-        public const string SAVE_PATH = "Resources/Puzzles";
-        int _saveGameLevel;
-
         Vector2 _stagesScrollPos;
         
-        int _generateCount = 30;
+        int _generateCount = 1;
 
         bool _isGenerating;
 
         bool _singleGenerated;
+
+        int _cullGroupsCount = 2;
+        int _cullShuffleCount = 1;
+        
 
         void Awake()
         {
@@ -96,16 +101,16 @@ namespace Equation.Tools
                 _fontEnglish = GUI.skin.label.font;
             }
 
-            GUI.Label(new Rect(160, 20, 30, 20), "Row");
-            _rowsCount = EditorGUI.IntField(new Rect(160 + 30, 20, 30, 20), _rowsCount);
-            GUI.Label(new Rect(240 - 5, 20, 35, 20), "Colm");
-            _colsCount = EditorGUI.IntField(new Rect(240 + 30, 20, 30, 20), _colsCount);
+            GUI.Label(new Rect(20, 20, 50, 20), "Row");
+            _rowsCount = EditorGUI.IntField(new Rect(20 + 50, 20, 30, 20), _rowsCount);
+            GUI.Label(new Rect(20, 45, 50, 20), "Column");
+            _colsCount = EditorGUI.IntField(new Rect(20 + 50, 45, 30, 20), _colsCount);
 
             _rowsCount = Mathf.Clamp(_rowsCount, 6, 21);
             _colsCount = Mathf.Clamp(_colsCount, 5, 18);
 
-            GUI.Label(new Rect(320, 20, 50, 20), "Groups");
-            _groupsCount = EditorGUI.IntField(new Rect(320 + 50, 20, 30, 20), _groupsCount);
+            GUI.Label(new Rect(20, 70, 50, 20), "Groups");
+            _groupsCount = EditorGUI.IntField(new Rect(20 + 50, 70, 30, 20), _groupsCount);
 
             const float width_ref = 340;
             const float cell_margine = 4;
@@ -135,50 +140,59 @@ namespace Equation.Tools
                 }
             }
 
-            if (GUI.Button(new Rect(20, 20, 100, 20), "Patterns"))
+            /*
+            if (GUI.Button(new Rect(20, 600 + 20, 100, 20), "Patterns"))
             {
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
                 _singleGenerated = true; 
                 GeneratePattern();
             }
-
-            if (GUI.Button(new Rect(20, 45, 100, 20), "Segments"))
+            
+            if (GUI.Button(new Rect(20, 600 + 45, 100, 20), "Segments"))
             {
                 GenerateSegments(0);
             }
-
-            if (GUI.Button(new Rect(20, 70, 100, 20), "Shuffle"))
+            
+            if (GUI.Button(new Rect(20, 600 + 70, 100, 20), "Shuffle"))
             {
                 ShuffleSegments();
             }
-
-            _generateCount = EditorGUI.IntField(new Rect(520, 20, 30, 20), _generateCount);
-            if (GUI.Button(new Rect(450, 20, 65, 20), "Generate"))
+            */
+            
+            _generateCount = EditorGUI.IntField(new Rect(520 - 250, 20, 30, 20), _generateCount);
+            if (GUI.Button(new Rect(450 - 250, 20, 65, 20), "Generate"))
             {
                 GeneratePuzzles();
             }
             
-            if (GUI.Button(new Rect(560, 20, 60, 20), "Sort"))
+            if (GUI.Button(new Rect(560 - 250, 20, 50, 20), "Clear"))
             {
-                SortGeneratedPuzzles();
+                if (EditorUtility.DisplayDialog("Clear", "Are you sure to clear loaded or generated puzzles?", "yes", "no"))
+                    ClearPuzzles();
             }
             
-            if (GUI.Button(new Rect(640, 20, 60, 20), "Clear"))
+            GUI.Label(new Rect(400 - 250, 47, 50, 20), "Range");
+
+            _numMinRange = EditorGUI.IntField(new Rect(450 - 250, 45, 45, 20), _numMinRange);
+            _numMaxRange = EditorGUI.IntField(new Rect(505 - 250, 45, 45, 20), _numMaxRange);
+
+            GUI.Label(new Rect(400 - 250, 70, 50, 20), "Oppers");
+            _opperators = GUI.TextField(new Rect(450 - 250, 70, 45, 20), _opperators);
+            
+            GUI.Label(new Rect(400 - 250, 95, 60, 20), "Shuffle");
+            _shuffleCount = EditorGUI.IntField(new Rect(450 - 250, 95, 30, 20), _shuffleCount);
+
+            
+            if (GUI.Button(new Rect(450, 20, 60, 20), "Cull"))
             {
-                ClearPuzzles();
+                CullGeneratedPuzzles();
             }
-            
-            GUI.Label(new Rect(400, 47, 50, 20), "Range");
 
-            _numMinRange = EditorGUI.IntField(new Rect(450, 45, 45, 20), _numMinRange);
-            _numMaxRange = EditorGUI.IntField(new Rect(505, 45, 45, 20), _numMaxRange);
+            _cullGroupsCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullGroupsCount);
+            GUI.Label(new Rect(450 - 50, 45, 50, 20), "Groups");
 
-            _hasTime = GUI.Toggle(new Rect(450, 70, 45, 20), _hasTime, "Time");
-            _hasDevide = GUI.Toggle(new Rect(505, 70, 45, 20), _hasDevide, "Devide");
-            
-            GUI.Label(new Rect(400, 95, 60, 20), "Shuffle");
-            _shuffleCount = EditorGUI.IntField(new Rect(450, 95, 40, 20), _shuffleCount);
-
+            _shuffleCount = EditorGUI.IntField(new Rect(450, 70, 60, 20), _shuffleCount);
+            GUI.Label(new Rect(450 - 50, 70, 50, 20), "Shuffle");
             
             if(_singleGenerated)
             {
@@ -199,21 +213,25 @@ namespace Equation.Tools
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
 
-            _saveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _saveGameLevel);
-            if (GUI.Button(new Rect(720, 20, 50, 20), "Save"))
+            _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
+            if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
+                TrimSavePuzzles();
+            
+            _saveGameLevel = EditorGUI.IntField(new Rect(780, 50, 40, 20), _saveGameLevel);
+            if (GUI.Button(new Rect(720, 50, 50, 20), "Save"))
                 SavePuzzles();
             
-            _loadedLevel = EditorGUI.IntField(new Rect(780, 50, 40, 20), _loadedLevel);
-            if (GUI.Button(new Rect(720, 50, 50, 20), "Load"))
+            _loadedLevel = EditorGUI.IntField(new Rect(780, 80, 40, 20), _loadedLevel);
+            if (GUI.Button(new Rect(720, 80, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
-
+            
             if (_puzzlesPack != null)
             {
                 int stagesCount = _puzzlesPack.puzzles.Count;
                 
-                EditorGUI.DrawRect(new Rect(600, tableRect.y, 100, 400), new Color(1, .5f, .9f));
+                EditorGUI.DrawRect(new Rect(540, tableRect.y, 100, 400), new Color(1, .5f, .9f));
 
-                _stagesScrollPos = GUI.BeginScrollView(new Rect(600, tableRect.y, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
+                _stagesScrollPos = GUI.BeginScrollView(new Rect(540, tableRect.y, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
 
                 for (int i = 0; i < stagesCount; ++i)
                 {
@@ -340,12 +358,18 @@ namespace Equation.Tools
             } while (loopIter < _generateCount);
 
             _isGenerating = false;
-
         }
 
-        void SortGeneratedPuzzles()
+        void CullGeneratedPuzzles()
         {
+            if (_culledPuzzlePack == null)
+                _culledPuzzlePack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
+            _culledPuzzlePack.puzzles = _puzzlesPack.puzzles.Where(p =>
+            {
+                bool ret1 = p.rows + p.columns == _cullGroupsCount && p.shuffle == _cullShuffleCount;
+                return ret1;
+            }).ToList();
         }
 
         void GeneratePattern()
@@ -538,9 +562,9 @@ namespace Equation.Tools
             } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
 
             var oppsList = new List<string> {"p", "m"};
-            if (_hasTime)
+            if (_opperators.Contains("t"))
                 oppsList.Add("t");
-            if (_hasDevide)
+            if (_opperators.Contains("d"))
                 oppsList.Add("d");
 
             int numberMin = _numMinRange;
@@ -821,6 +845,10 @@ namespace Equation.Tools
             return key;
         }
 
+        void TrimSavePuzzles()
+        {
+            
+        }
 
         void SavePuzzles()
         {
