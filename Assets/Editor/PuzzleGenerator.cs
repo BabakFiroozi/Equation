@@ -56,17 +56,17 @@ namespace Equation.Tools
         
         int _loadedLevel = 0;
         int _selectedStage = -1;
+        int _culledSelectedStage = -1;
 
         Font _fontPersian;
         Font _fontEnglish;
         
         Vector2 _stagesScrollPos;
+        Vector2 _culledStagesScrollPos;
         
         int _generateCount = 1;
 
         bool _isGenerating;
-
-        bool _singleGenerated;
 
         int _cullClausesCount = 2;
         int _cullShuffleCount = 1;
@@ -140,35 +140,16 @@ namespace Equation.Tools
                 }
             }
 
-            /*
-            if (GUI.Button(new Rect(20, 600 + 20, 100, 20), "Patterns"))
-            {
-                _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
-                _singleGenerated = true; 
-                GeneratePattern();
-            }
-            
-            if (GUI.Button(new Rect(20, 600 + 45, 100, 20), "Segments"))
-            {
-                GenerateSegments(0);
-            }
-            
-            if (GUI.Button(new Rect(20, 600 + 70, 100, 20), "Shuffle"))
-            {
-                ShuffleSegments();
-            }
-            */
-            
             _generateCount = EditorGUI.IntField(new Rect(520 - 250, 20, 30, 20), _generateCount);
             if (GUI.Button(new Rect(450 - 250, 20, 65, 20), "Generate"))
             {
                 GeneratePuzzles();
             }
             
-            if (GUI.Button(new Rect(560 - 250, 20, 50, 20), "Clear"))
+            if (GUI.Button(new Rect(400 - 250, 20, 42, 20), "Clear"))
             {
                 if (EditorUtility.DisplayDialog("Clear", "Are you sure to clear loaded or generated puzzles?", "yes", "no"))
-                    ClearPuzzles();
+                    ClearGenPuzzles();
             }
             
             GUI.Label(new Rect(400 - 250, 47, 50, 20), "Range");
@@ -191,25 +172,9 @@ namespace Equation.Tools
             _cullClausesCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullClausesCount);
             GUI.Label(new Rect(450 - 50, 45, 50, 20), "Clauses");
 
-            _shuffleCount = EditorGUI.IntField(new Rect(450, 70, 60, 20), _shuffleCount);
+            _cullShuffleCount = EditorGUI.IntField(new Rect(450, 70, 60, 20), _cullShuffleCount);
             GUI.Label(new Rect(450 - 50, 70, 50, 20), "Shuffle");
             
-            if(_singleGenerated)
-            {
-                var clauses = new List<Clause>();
-                clauses.AddRange(_horClauses);
-                clauses.AddRange(_verClauses);
-                foreach (var clause in clauses)
-                {
-                    var cellIndices = clause.parts.Select(p => p.cellIndex).ToList();
-                    var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
-                    foreach (var cell in cellsList)
-                    {
-                        EditorGUI.DrawRect(cell.rect, new Color(.5f, .3f, .1f, .9f));
-                    }
-                }
-            }
-
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horClauses.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verClauses.Count}");
 
@@ -224,11 +189,11 @@ namespace Equation.Tools
             _loadedLevel = EditorGUI.IntField(new Rect(780, 80, 40, 20), _loadedLevel);
             if (GUI.Button(new Rect(720, 80, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
-            
+
             if (_puzzlesPack != null)
             {
                 int stagesCount = _puzzlesPack.puzzles.Count;
-                
+
                 EditorGUI.DrawRect(new Rect(540, tableRect.y, 100, 400), new Color(1, .5f, .9f));
 
                 _stagesScrollPos = GUI.BeginScrollView(new Rect(540, tableRect.y, 100, 400), _stagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
@@ -243,23 +208,53 @@ namespace Equation.Tools
                     if (GUI.Button(new Rect(65, i * 20, 20, 20), "«"))
                     {
                         _selectedStage = i;
+                        _culledSelectedStage = -1;
                     }
                 }
 
                 GUI.EndScrollView();
-                
-                
+            }
+            
+            if (_culledPuzzlesPack != null)
+            {
+                int stagesCount = _culledPuzzlesPack.puzzles.Count;
+
+                EditorGUI.DrawRect(new Rect(580 + 140, tableRect.y, 100, 400), new Color(.5f, .5f, .9f));
+
+                _culledStagesScrollPos = GUI.BeginScrollView(new Rect(580 + 140, tableRect.y, 100, 400), _culledStagesScrollPos, new Rect(0, 0, 80, stagesCount * 20));
+
+                for (int i = 0; i < stagesCount; ++i)
+                {
+                    if (i == _culledSelectedStage)
+                        EditorGUI.DrawRect(new Rect(0, i * 20, 80, 20), new Color(.5f, .1f, .9f));
+
+                    var p = _culledPuzzlesPack.puzzles[i];
+                    GUI.Label(new Rect(0, i * 20, 70, 20), $" {i + 1:000}");
+                    if (GUI.Button(new Rect(65, i * 20, 20, 20), "«"))
+                    {
+                        _culledSelectedStage = i;
+                        _selectedStage = -1;
+                    }
+                }
+
+                GUI.EndScrollView();
+            }
+            
+            
+            if(_puzzlesPack != null || _culledPuzzlesPack != null)
+            {
                 int fontSize = GUI.skin.label.fontSize;
                 var alignment = GUI.skin.label.alignment;
+                GUI.skin.label.font = _fontPersian;
                 GUI.skin.label.fontSize = (int) (cellSize * .5f);
                 GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-                GUI.skin.label.font = _fontPersian;
 
                 Puzzle puzzle = null;
-                if (_selectedStage == -1)
-                    puzzle = _puzzle;
-                if (_selectedStage > -1 && _selectedStage < _puzzlesPack.puzzles.Count)
+                
+                if (_puzzlesPack != null && _selectedStage > -1 && _selectedStage < _puzzlesPack.puzzles.Count)
                     puzzle = _puzzlesPack.puzzles[_selectedStage];
+                else if (_culledPuzzlesPack != null && _culledSelectedStage > -1 && _culledSelectedStage < _culledPuzzlesPack.puzzles.Count)
+                    puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
 
                 foreach (var cell in _allCellsList)
                 {
@@ -302,7 +297,7 @@ namespace Equation.Tools
         }
 
 
-        void ClearPuzzles()
+        void ClearGenPuzzles()
         {
             _puzzlesPack = null;
             _puzzle = null;
@@ -313,9 +308,9 @@ namespace Equation.Tools
         {
             string loadPath = $"{Application.dataPath}/{SAVE_PATH}/level_{level:000}.json";
             string data = File.ReadAllText(loadPath);
-            _puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
+            _culledPuzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
             _selectedStage = 0;
-            _puzzle = _puzzlesPack.puzzles[_selectedStage];
+            _puzzle = _culledPuzzlesPack.puzzles[_selectedStage];
             _rowsCount = _puzzle.rows;
             _colsCount = _puzzle.columns;
         }
@@ -323,8 +318,6 @@ namespace Equation.Tools
 
         async void GeneratePuzzles()
         {
-            _singleGenerated = false;
-            
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
@@ -367,7 +360,7 @@ namespace Equation.Tools
             
             _culledPuzzlesPack.puzzles = _puzzlesPack.puzzles.Where(p =>
             {
-                bool ret1 = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == _cullShuffleCount);
+                bool ret1 = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == p.clauses + _cullShuffleCount - 1);
                 return ret1;
             }).ToList();
         }
@@ -856,10 +849,16 @@ namespace Equation.Tools
         {
             try
             {
-                _puzzlesPack.level = _saveGameLevel;
+                if (_culledPuzzlesPack == null || _culledPuzzlesPack.puzzles.Count == 0)
+                {
+                    Debug.LogError("Can not save. CulledPuzzlesPack is invalid");
+                    return;
+                }
+                
+                _culledPuzzlesPack.level = _saveGameLevel;
 
                 string savePath = $"{Application.dataPath}/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
-                File.WriteAllText(savePath, JsonUtility.ToJson(_puzzlesPack));
+                File.WriteAllText(savePath, JsonUtility.ToJson(_culledPuzzlesPack));
                 //Import asset again for updating file
                 string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel}.json";
                 AssetDatabase.ImportAsset(filePath);
