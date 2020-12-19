@@ -37,7 +37,7 @@ namespace Equation.Tools
         int _numMinRange = 1;
         int _numMaxRange = 20;
 
-        string _opperators = "t,d";
+        string _opperators = "td";
 
         List<Clause> _horClauses = new List<Clause>();
         List<Clause> _verClauses = new List<Clause>();
@@ -70,6 +70,7 @@ namespace Equation.Tools
 
         int _cullClausesCount = 2;
         int _cullShuffleCount = 1;
+        int _cullMaxNum = 99;
         
 
         void Awake()
@@ -162,18 +163,21 @@ namespace Equation.Tools
             
             GUI.Label(new Rect(400 - 250, 95, 60, 20), "Shuffle");
             _shuffleCount = EditorGUI.IntField(new Rect(450 - 250, 95, 30, 20), _shuffleCount);
-
+            
             
             if (GUI.Button(new Rect(450, 20, 60, 20), "Cull"))
             {
                 CullGeneratedPuzzles();
             }
 
-            _cullClausesCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullClausesCount);
             GUI.Label(new Rect(450 - 50, 45, 50, 20), "Clauses");
+            _cullClausesCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullClausesCount);
 
-            _cullShuffleCount = EditorGUI.IntField(new Rect(450, 70, 60, 20), _cullShuffleCount);
-            GUI.Label(new Rect(450 - 50, 70, 50, 20), "Shuffle");
+            GUI.Label(new Rect(450 - 50, 70, 50, 20), "Number");
+            _cullMaxNum = EditorGUI.IntField(new Rect(450, 70, 40, 20), _cullMaxNum);
+            
+            GUI.Label(new Rect(450 - 50, 95, 50, 20), "Shuffle");
+            _cullShuffleCount = EditorGUI.IntField(new Rect(450, 95, 30, 20), _cullShuffleCount);
             
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horClauses.Count}");
             GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verClauses.Count}");
@@ -190,6 +194,15 @@ namespace Equation.Tools
             if (GUI.Button(new Rect(720, 80, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
 
+            if (_puzzlesPack != null && _culledPuzzlesPack != null)
+            {
+                if(GUI.Button(new Rect(650, 150, 60, 20), "Put ->"))
+                {
+                    PourToCulled();
+                }
+            }
+
+            
             if (_puzzlesPack != null)
             {
                 int stagesCount = _puzzlesPack.puzzles.Count;
@@ -203,7 +216,6 @@ namespace Equation.Tools
                     if (i == _selectedStage)
                         EditorGUI.DrawRect(new Rect(0, i * 20, 80, 20), new Color(1, .1f, .9f));
 
-                    var p = _puzzlesPack.puzzles[i];
                     GUI.Label(new Rect(0, i * 20, 70, 20), $" {i + 1:000}");
                     if (GUI.Button(new Rect(65, i * 20, 20, 20), "«"))
                     {
@@ -228,7 +240,6 @@ namespace Equation.Tools
                     if (i == _culledSelectedStage)
                         EditorGUI.DrawRect(new Rect(0, i * 20, 80, 20), new Color(.5f, .1f, .9f));
 
-                    var p = _culledPuzzlesPack.puzzles[i];
                     GUI.Label(new Rect(0, i * 20, 70, 20), $" {i + 1:000}");
                     if (GUI.Button(new Rect(65, i * 20, 20, 20), "«"))
                     {
@@ -241,14 +252,14 @@ namespace Equation.Tools
             }
             
             
+            int fontSize = GUI.skin.label.fontSize;
+            var alignment = GUI.skin.label.alignment;
+            GUI.skin.label.font = _fontPersian;
+            GUI.skin.label.fontSize = (int) (cellSize * .5f);
+            GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+            
             if(_puzzlesPack != null || _culledPuzzlesPack != null)
             {
-                int fontSize = GUI.skin.label.fontSize;
-                var alignment = GUI.skin.label.alignment;
-                GUI.skin.label.font = _fontPersian;
-                GUI.skin.label.fontSize = (int) (cellSize * .5f);
-                GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-
                 Puzzle puzzle = null;
                 
                 if (_puzzlesPack != null && _selectedStage > -1 && _selectedStage < _puzzlesPack.puzzles.Count)
@@ -284,15 +295,34 @@ namespace Equation.Tools
                         }
                     }
                 }
-                
-                GUI.skin.label.font = _fontEnglish;
-                GUI.skin.label.fontSize = fontSize;
-                GUI.skin.label.alignment = alignment;
             }
 
+            GUI.skin.label.font = _fontEnglish;
+            GUI.skin.label.fontSize = fontSize;
+            GUI.skin.label.alignment = alignment;
+            
+            
             if (_isGenerating)
             {
                 GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), "Generating puzzles...");
+            }
+        }
+
+        void PourToCulled()
+        {
+            int initCount = _culledPuzzlesPack.puzzles.Count;
+            for (int i = 0; i < _puzzlesPack.puzzles.Count; ++i)
+            {
+                var p = _puzzlesPack.puzzles[i];
+                var puzzle = new Puzzle();
+                puzzle.id = p.id;
+                puzzle.rows = p.rows;
+                puzzle.columns = p.columns;
+                puzzle.clauses = p.clauses;
+                puzzle.segments = p.segments.ToList();
+                puzzle.shuffle = p.shuffle;
+                puzzle.stage = initCount + i;
+                _culledPuzzlesPack.puzzles.Add(puzzle);
             }
         }
 
@@ -309,7 +339,7 @@ namespace Equation.Tools
             string loadPath = $"{Application.dataPath}/{SAVE_PATH}/level_{level:000}.json";
             string data = File.ReadAllText(loadPath);
             _culledPuzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
-            _selectedStage = 0;
+            _culledSelectedStage = 0;
             _puzzle = _culledPuzzlesPack.puzzles[_selectedStage];
             _rowsCount = _puzzle.rows;
             _colsCount = _puzzle.columns;
@@ -329,7 +359,7 @@ namespace Equation.Tools
             do
             {
                 GeneratePattern();
-                await Task.Delay(200);
+                await Task.Delay(100);
                 Repaint();
                 if (!GenerateSegments(loopIter))
                 {
@@ -337,11 +367,11 @@ namespace Equation.Tools
                     continue;
                 }
 
-                await Task.Delay(200);
+                await Task.Delay(100);
                 ShuffleSegments();
                 _selectedStage = loopIter;
                 Repaint();
-                await Task.Delay(200);
+                await Task.Delay(100);
 
                 loopIter++;
                 
@@ -355,14 +385,32 @@ namespace Equation.Tools
 
         void CullGeneratedPuzzles()
         {
-            if (_culledPuzzlesPack == null)
-                _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
-            
-            _culledPuzzlesPack.puzzles = _puzzlesPack.puzzles.Where(p =>
+            if (_puzzlesPack == null)
             {
-                bool ret1 = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == p.clauses + _cullShuffleCount - 1);
-                return ret1;
-            }).ToList();
+                Debug.LogError("Cull failed. Puzzle pack is null");
+                return;
+            }
+
+            _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+
+            var puzzles = _puzzlesPack.puzzles.Where(p =>
+            {
+                bool ret = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == p.clauses + _cullShuffleCount - 1);
+                var numbers = new List<int>();
+                foreach (var s in p.segments)
+                {
+                    bool res = int.TryParse(s.content, out int num);
+                    if (res)
+                        numbers.Add(num);
+                }
+
+                if (numbers.Exists(n => n > _cullMaxNum))
+                    ret = false;
+
+                return ret;
+            });
+
+            _puzzlesPack.puzzles = puzzles.ToList();
         }
 
         void GeneratePattern()
@@ -842,7 +890,7 @@ namespace Equation.Tools
 
         void TrimSavePuzzles()
         {
-            
+            _culledPuzzlesPack.puzzles = _culledPuzzlesPack.puzzles.Take(_trimSaveGameLevel).ToList();
         }
 
         void SavePuzzles()
