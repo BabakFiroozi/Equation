@@ -191,11 +191,11 @@ namespace Equation
                 
                 _loadingOverlay.SetActive(false);
 
-                // var jsonObj = new JSONObject();
-                // var jsonData = new JSONObject();
-                // jsonObj.AddField("Signup_Data", jsonData);
-                // jsonData.AddField(CheshmakLib.getCheshmakID(), emailAddress);
-                // CheshmakLib.sendTag(jsonObj.Print());
+                var jsonObj = new JSONObject();
+                var jsonData = new JSONObject();
+                jsonObj.AddField("Signup_Data", jsonData);
+                jsonData.AddField(CheshmakLib.getCheshmakID(), emailAddress);
+                CheshmakLib.sendTag(jsonObj.Print());
                 
                 MyAnalytics.SendEvent(MyAnalytics.profile_signed_up);
             }

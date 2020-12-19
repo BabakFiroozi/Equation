@@ -81,10 +81,10 @@ namespace Equation
 
 		void WheelClick()
 		{
-			MyAnalytics.SendEvent(MyAnalytics.wheelOfFortune_button_clicked);
 			var obj = Instantiate(_spinnerPanelObj, transform.parent);
 			obj.GetComponent<PopupScreen>().HideEvent = () => { Destroy(obj); };
 			obj.GetComponent<SpinnerPanel>().Show();
+			MyAnalytics.SendEvent(MyAnalytics.wheelOfFortune_button_clicked);
 		}
 
 		void BuyButtonClick(int index)

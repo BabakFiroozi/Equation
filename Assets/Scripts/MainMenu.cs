@@ -90,6 +90,7 @@ namespace Equation
         {
             int day = GameSaveData.GetDailyEntranceNumber();
             _dailyPuzzlePanel.Show(day);
+            MyAnalytics.SendEvent(MyAnalytics.daily_button_clicked);
         }
 
 
@@ -188,6 +189,7 @@ namespace Equation
         void ShopButtonClick()
         {
             _shopPanel.ShowPanel();
+            MyAnalytics.SendEvent(MyAnalytics.shop_button_clicked);
         }
 
         void CalcLastPlayed()

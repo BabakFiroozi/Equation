@@ -162,6 +162,7 @@ namespace Equation
 				}
 				else
 				{
+					MyAnalytics.SendEvent(MyAnalytics.levels_end_vivsited);
 					_nextLevelText.text = $"{Translator.GetString("You_Finished_Levels")}";
 				}
 				yield return new WaitForSeconds(.3f);
@@ -192,6 +193,7 @@ namespace Equation
 
 		void GoStageSel()
 		{
+			MyAnalytics.SendEvent(MyAnalytics.back_menu_stages);
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
 		}
 

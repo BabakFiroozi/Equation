@@ -151,11 +151,11 @@ namespace Equation
                 
                 GameSaveData.SetSignupEmail(memberInfo.Email);
 
-                // var jsonObj = new JSONObject();
-                // var jsonData = new JSONObject();
-                // jsonObj.AddField("Signup_Data_Edited", jsonData);
-                // jsonData.AddField(CheshmakLib.getCheshmakID(), memberInfo.Email);
-                // CheshmakLib.sendTag(jsonObj.Print());
+                var jsonObj = new JSONObject();
+                var jsonData = new JSONObject();
+                jsonObj.AddField("Signup_Data_Edited", jsonData);
+                jsonData.AddField(CheshmakLib.getCheshmakID(), memberInfo.Email);
+                CheshmakLib.sendTag(jsonObj.Print());
 
                 MyAnalytics.SendEvent(MyAnalytics.profile_edited);
             }

@@ -40,6 +40,8 @@ namespace Equation
                 GameSaveData.SubCoin(GameConfig.Instance.HintCost, true, .1f);
             
             GameWord.Instance.Board.DoHint();
+
+            MyAnalytics.SendEvent(MyAnalytics.hint_button_clicked);
         }
 
         void HelpButtonClick()
@@ -51,6 +53,8 @@ namespace Equation
                 GameSaveData.SubCoin(GameConfig.Instance.HelpCost, true, .1f);
 
             GameWord.Instance.Board.DoHelp();
+            
+            MyAnalytics.SendEvent(MyAnalytics.help_button_clicked);
         }
 
         void ResetButtonClick()

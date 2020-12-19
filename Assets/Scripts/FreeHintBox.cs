@@ -87,7 +87,7 @@ namespace Equation
                 return;
             
             MyTapsellAds.Instance.ShowAd(_freeHintAd);
-            MyAnalytics.SendEvent(MyAnalytics.freeGuide_button_clicked);
+            MyAnalytics.SendEvent(MyAnalytics.freeHint_button_clicked);
         }
 
         void OnClickContinue()

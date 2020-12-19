@@ -45,6 +45,7 @@ namespace Equation
 		void SettingButtonClick()
 		{
 			_settingPanel.ShowSetting();
+			MyAnalytics.SendEvent(MyAnalytics.setting_button_clicked);
 		}
 
 		void SoundClick()

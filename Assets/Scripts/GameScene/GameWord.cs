@@ -83,6 +83,8 @@ namespace Equation
             tr.Find("fa").gameObject.SetActive(!isEng);
 
             Board.SetPawnsFont(isEng);
+
+            MyAnalytics.SendEvent(MyAnalytics.lang_button_clicked);
         }
 
         void GridButtonClick(bool change = true)
@@ -95,6 +97,8 @@ namespace Equation
             tr.Find("on").gameObject.SetActive(visible);
 
             Board.SetGridVisible(visible);
+            
+            MyAnalytics.SendEvent(MyAnalytics.grid_button_clicked);
         }
 
         void OnDestroy()

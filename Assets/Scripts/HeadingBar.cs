@@ -93,11 +93,14 @@ namespace Equation
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
 				else
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
+				MyAnalytics.SendEvent(MyAnalytics.back_ingame_clicked);
 			}
 		}
 
 		void NextButtonClick()
 		{
+			MyAnalytics.SendEvent(MyAnalytics.next_button_clicked);
+			
 			DataHelper.Instance.LastPlayedInfo.Level = GameWord.Instance.NextPlayedInfo.Level;
 			DataHelper.Instance.LastPlayedInfo.Stage = GameWord.Instance.NextPlayedInfo.Stage;
 			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
