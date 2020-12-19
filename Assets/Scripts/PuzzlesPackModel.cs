@@ -19,6 +19,7 @@ namespace Equation.Models
         public int rows;
         public int columns;
         public List<Segment> segments;
+        public int clauses;
         public int shuffle;
     }
     

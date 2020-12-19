@@ -31,7 +31,7 @@ namespace Equation.Tools
 
         int _rowsCount = 12;
         int _colsCount = 8;
-        int _groupsCount = 3;
+        int _clausesCount = 3;
         int _shuffleCount = 1;
         
         int _numMinRange = 1;
@@ -39,8 +39,8 @@ namespace Equation.Tools
 
         string _opperators = "t,d";
 
-        List<Group> _horGroups = new List<Group>();
-        List<Group> _verGroups = new List<Group>();
+        List<Clause> _horClauses = new List<Clause>();
+        List<Clause> _verClauses = new List<Clause>();
         
         List<Cell> _allCellsList = new List<Cell>();
         List<Piece> _allPiecesList = new List<Piece>();
@@ -48,7 +48,7 @@ namespace Equation.Tools
         Puzzle _puzzle;
         PuzzlesPackModel _puzzlesPack;
 
-        PuzzlesPackModel _culledPuzzlePack;
+        PuzzlesPackModel _culledPuzzlesPack;
 
         const string SAVE_PATH = "Resources/Puzzles";
         int _saveGameLevel;
@@ -68,7 +68,7 @@ namespace Equation.Tools
 
         bool _singleGenerated;
 
-        int _cullGroupsCount = 2;
+        int _cullClausesCount = 2;
         int _cullShuffleCount = 1;
         
 
@@ -76,21 +76,21 @@ namespace Equation.Tools
         {
             _colsCount = EditorPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
             _rowsCount = EditorPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
-            _groupsCount = EditorPrefs.GetInt("PuzzleGenerator_groupsCount", _groupsCount);
+            _clausesCount = EditorPrefs.GetInt("PuzzleGenerator_clausesCount", _clausesCount);
         }
 
         void OnDestroy()
         {
             EditorPrefs.SetInt("PuzzleGenerator_colsCount", _colsCount);
             EditorPrefs.SetInt("PuzzleGenerator_rowsCount", _rowsCount);
-            EditorPrefs.SetInt("PuzzleGenerator_groupsCount", _groupsCount);
+            EditorPrefs.SetInt("PuzzleGenerator_clausesCount", _clausesCount);
         }
         
         static void DeletePrefs()
         {
             EditorPrefs.DeleteKey("PuzzleGenerator_colsCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_rowsCount");
-            EditorPrefs.DeleteKey("PuzzleGenerator_groupsCount");
+            EditorPrefs.DeleteKey("PuzzleGenerator_clausesCount");
         }
 
         void OnGUI()
@@ -109,8 +109,8 @@ namespace Equation.Tools
             _rowsCount = Mathf.Clamp(_rowsCount, 6, 21);
             _colsCount = Mathf.Clamp(_colsCount, 5, 18);
 
-            GUI.Label(new Rect(20, 70, 50, 20), "Groups");
-            _groupsCount = EditorGUI.IntField(new Rect(20 + 50, 70, 30, 20), _groupsCount);
+            GUI.Label(new Rect(20, 70, 50, 20), "Clauses");
+            _clausesCount = EditorGUI.IntField(new Rect(20 + 50, 70, 30, 20), _clausesCount);
 
             const float width_ref = 340;
             const float cell_margine = 4;
@@ -188,20 +188,20 @@ namespace Equation.Tools
                 CullGeneratedPuzzles();
             }
 
-            _cullGroupsCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullGroupsCount);
-            GUI.Label(new Rect(450 - 50, 45, 50, 20), "Groups");
+            _cullClausesCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullClausesCount);
+            GUI.Label(new Rect(450 - 50, 45, 50, 20), "Clauses");
 
             _shuffleCount = EditorGUI.IntField(new Rect(450, 70, 60, 20), _shuffleCount);
             GUI.Label(new Rect(450 - 50, 70, 50, 20), "Shuffle");
             
             if(_singleGenerated)
             {
-                var groups = new List<Group>();
-                groups.AddRange(_horGroups);
-                groups.AddRange(_verGroups);
-                foreach (var group in groups)
+                var clauses = new List<Clause>();
+                clauses.AddRange(_horClauses);
+                clauses.AddRange(_verClauses);
+                foreach (var clause in clauses)
                 {
-                    var cellIndices = group.parts.Select(p => p.cellIndex).ToList();
+                    var cellIndices = clause.parts.Select(p => p.cellIndex).ToList();
                     var cellsList = _allCellsList.Where(c => cellIndices.Contains(c.index)).ToList();
                     foreach (var cell in cellsList)
                     {
@@ -210,8 +210,8 @@ namespace Equation.Tools
                 }
             }
 
-            GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horGroups.Count}");
-            GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verGroups.Count}");
+            GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horClauses.Count}");
+            GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verClauses.Count}");
 
             _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
@@ -362,51 +362,51 @@ namespace Equation.Tools
 
         void CullGeneratedPuzzles()
         {
-            if (_culledPuzzlePack == null)
-                _culledPuzzlePack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+            if (_culledPuzzlesPack == null)
+                _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
-            _culledPuzzlePack.puzzles = _puzzlesPack.puzzles.Where(p =>
+            _culledPuzzlesPack.puzzles = _puzzlesPack.puzzles.Where(p =>
             {
-                bool ret1 = p.rows + p.columns == _cullGroupsCount && p.shuffle == _cullShuffleCount;
+                bool ret1 = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == _cullShuffleCount);
                 return ret1;
             }).ToList();
         }
 
         void GeneratePattern()
         {
-            _horGroups.Clear();
-            _verGroups.Clear();
+            _horClauses.Clear();
+            _verClauses.Clear();
 
-            var group = MakeGoup(true, 0);
-            _horGroups.Add(group);
-            foreach (var p in @group.parts.Where(p => !p.isNum))
+            var clause = MakeClause(true, 0);
+            _horClauses.Add(clause);
+            foreach (var p in clause.parts.Where(p => !p.isNum))
                 _allCellsList[p.cellIndex].isBusy = true;
 
             const int change_iter = 2000;
             int loopIter = 0;
             
-            int groupCounter = _horGroups.Count;
+            int clauseCounter = _horClauses.Count;
             do
             {
                 loopIter++;
                 
-                bool isHor = groupCounter % 2 == 0;
+                bool isHor = clauseCounter % 2 == 0;
                 
                 if (loopIter == change_iter * 10)
                     break;
                 if (loopIter % change_iter == 0)
                     isHor = !isHor;
                 
-                group = MakeGoup(isHor, isHor ? _horGroups.Count : _verGroups.Count);
+                clause = MakeClause(isHor, isHor ? _horClauses.Count : _verClauses.Count);
                 
-                if(group == null)
+                if(clause == null)
                     continue;
                 
-                var parts = group.parts.Where(p => p.index % 2 == 0).ToList();
+                var parts = clause.parts.Where(p => p.index % 2 == 0).ToList();
 
-                var crossGroup = !isHor ? _horGroups[Random.Range(0, _horGroups.Count)] : _verGroups[Random.Range(0, _verGroups.Count)];
+                var crossClause = !isHor ? _horClauses[Random.Range(0, _horClauses.Count)] : _verClauses[Random.Range(0, _verClauses.Count)];
 
-                var crossParts = crossGroup.parts.Where(p => p.index % 2 == 0).ToList();
+                var crossParts = crossClause.parts.Where(p => p.index % 2 == 0).ToList();
 
                 var crossCellIndices = crossParts.Select(p => p.cellIndex).ToList();
                 var numParts = parts.Select(p => p.cellIndex).ToList();
@@ -414,36 +414,36 @@ namespace Equation.Tools
                 if (intersect.Count == 0)
                     continue;
 
-                var notCrossGroups = isHor ? _horGroups : _verGroups;
-                var notCrossCellIndices = notCrossGroups.SelectMany(g => g.parts.Select(p => p.cellIndex)).ToList();
+                var notCrossClauses = isHor ? _horClauses : _verClauses;
+                var notCrossCellIndices = notCrossClauses.SelectMany(g => g.parts.Select(p => p.cellIndex)).ToList();
                 intersect = numParts.Intersect(notCrossCellIndices).ToList();
                 if (intersect.Count > 0)
                     continue;
 
                 if (isHor)
-                    _horGroups.Add(group);
+                    _horClauses.Add(clause);
                 else
-                    _verGroups.Add(group);
+                    _verClauses.Add(clause);
 
-                foreach (var p in group.parts)
+                foreach (var p in clause.parts)
                 {
                     if (!p.isNum)
                         _allCellsList[p.cellIndex].isBusy = true;
                 }
 
-                groupCounter++;
-            } while (groupCounter < _groupsCount);
+                clauseCounter++;
+            } while (clauseCounter < _clausesCount);
 
             _allPiecesList.Clear();
         }
 
-        Group MakeGoup(in bool isHor, in int groupIndex)
+        Clause MakeClause(in bool isHor, in int clauseIndex)
         {
             const int eq_len = 5;
 
             var freeCellIndices = _allCellsList.Where(c => !c.isBusy).ToList().Select(c => c.index).ToList();
 
-            Group group = null;
+            Clause clause = null;
 
             int loopIter = 0;
             do
@@ -487,12 +487,12 @@ namespace Equation.Tools
                 if (failed)
                     continue;
 
-                group = new Group {index = groupIndex, parts = parts};
+                clause = new Clause {index = clauseIndex, parts = parts};
 
                 break;
             } while (true);
 
-            return group;
+            return clause;
         }
         
 
@@ -515,7 +515,9 @@ namespace Equation.Tools
 
             Debug.Log($"<color=green>GenerateSegments Succeeded with</color> <color=blue>{failedCounter} try.</color>");
 
-            _puzzle = new Puzzle {stage = stage, id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>()};
+            int clauses = _horClauses.Count + _verClauses.Count;
+
+            _puzzle = new Puzzle {stage = stage, id = Guid.NewGuid().ToString(), rows = _rowsCount, columns = _colsCount, segments = new List<Segment>(), clauses = clauses};
 
             for (int index = 0; index < _allCellsList.Count; ++index)
             {
@@ -534,9 +536,9 @@ namespace Equation.Tools
         {
             bool failed = false;
 
-            var allGroups = new List<Group>();
-            var horGroupsList = _horGroups.ToList();
-            var verGroupsList = _verGroups.ToList();
+            var allClauses = new List<Clause>();
+            var horClausesList = _horClauses.ToList();
+            var verClausesList = _verClauses.ToList();
             
             bool selectHor = false;
             do
@@ -545,21 +547,21 @@ namespace Equation.Tools
 
                 if (selectHor) //is horizontal
                 {
-                    if(horGroupsList.Count > 0)
+                    if(horClausesList.Count > 0)
                     {
-                        allGroups.Add(horGroupsList.ElementAt(0));
-                        horGroupsList.RemoveAt(0);
+                        allClauses.Add(horClausesList.ElementAt(0));
+                        horClausesList.RemoveAt(0);
                     }
                 }
                 else
                 {
-                    if(verGroupsList.Count > 0)
+                    if(verClausesList.Count > 0)
                     {
-                        allGroups.Add(verGroupsList.ElementAt(0));
-                        verGroupsList.RemoveAt(0);
+                        allClauses.Add(verClausesList.ElementAt(0));
+                        verClausesList.RemoveAt(0);
                     }
                 }
-            } while (horGroupsList.Count > 0 || verGroupsList.Count > 0);
+            } while (horClausesList.Count > 0 || verClausesList.Count > 0);
 
             var oppsList = new List<string> {"p", "m"};
             if (_opperators.Contains("t"))
@@ -574,10 +576,10 @@ namespace Equation.Tools
 
             do
             {
-                var group = allGroups.ElementAt(0);
+                var clause = allClauses.ElementAt(0);
 
                 var piecesList = new List<Piece>();
-                foreach (var p in group.parts)
+                foreach (var p in clause.parts)
                 {
                     var piece = new Piece {cellIndex = p.cellIndex, index = p.index, content = ""};
                     piecesList.Add(piece);
@@ -701,9 +703,9 @@ namespace Equation.Tools
                 }
 
                 _allPiecesList.AddRange(piecesList);
-                allGroups.RemoveAt(0);
+                allClauses.RemoveAt(0);
 
-            } while (allGroups.Count > 0);
+            } while (allClauses.Count > 0);
 
             return !failed;
         }
@@ -738,12 +740,12 @@ namespace Equation.Tools
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             
-            var horGroupsList = new List<List<int>>();
-            var verGroupsList = new List<List<int>>();
-            _horGroups.ForEach(g => horGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
-            _verGroups.ForEach(g => verGroupsList.Add(g.parts.Select(p => p.cellIndex).ToList()));
+            var horClausesList = new List<List<int>>();
+            var verClausesList = new List<List<int>>();
+            _horClauses.ForEach(g => horClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
+            _verClauses.ForEach(g => verClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
 
-            int shufflesCount = horGroupsList.Count + verGroupsList.Count;
+            int shufflesCount = horClausesList.Count + verClausesList.Count;
             if(shuffleIter > 0)
             {
                 shufflesCount = shuffleIter;
@@ -780,7 +782,7 @@ namespace Equation.Tools
             if(shuffleIter == 0)
             {
                 bool failed = false;
-                foreach (var g in horGroupsList)
+                foreach (var g in horClausesList)
                 {
                     if (!g.Intersect(heldsList).Any())
                     {
@@ -789,7 +791,7 @@ namespace Equation.Tools
                     }
                 }
 
-                foreach (var g in verGroupsList)
+                foreach (var g in verClausesList)
                 {
                     if (!g.Intersect(heldsList).Any())
                     {
@@ -877,7 +879,7 @@ namespace Equation.Tools
         }
 
         
-        class Group
+        class Clause
         {
             public List<Part> parts = new List<Part>();
             public int index = -1;
