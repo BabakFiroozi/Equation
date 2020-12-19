@@ -194,7 +194,7 @@ namespace Equation.Tools
             if (GUI.Button(new Rect(720, 80, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
 
-            if (_puzzlesPack != null && _culledPuzzlesPack != null)
+            if (_puzzlesPack != null)
             {
                 if(GUI.Button(new Rect(650, 150, 60, 20), "Put ->"))
                 {
@@ -310,6 +310,9 @@ namespace Equation.Tools
 
         void PourToCulled()
         {
+            if (_culledPuzzlesPack == null)
+                _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+            
             int initCount = _culledPuzzlesPack.puzzles.Count;
             for (int i = 0; i < _puzzlesPack.puzzles.Count; ++i)
             {
@@ -348,6 +351,8 @@ namespace Equation.Tools
 
         async void GeneratePuzzles()
         {
+            ClearGenPuzzles();
+
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
@@ -402,7 +407,7 @@ namespace Equation.Tools
                 Debug.LogError("Cull failed. Puzzle pack is null");
                 return;
             }
-
+            
             _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
 
             var puzzles = _puzzlesPack.puzzles.Where(p =>

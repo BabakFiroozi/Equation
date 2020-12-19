@@ -53,10 +53,8 @@ namespace Equation
             _tomorrowMessage.SetActive(solved);
         }
 
-        public void Show(int param)
+        public void Show()
         {
-            //Create items
-
             gameObject.GetComponent<PopupScreen>().Show();
         }
     }

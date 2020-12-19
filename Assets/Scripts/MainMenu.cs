@@ -18,6 +18,7 @@ namespace Equation
         [SerializeField] Text _continueText;
         [SerializeField] Button _shopButton;
         [SerializeField] Button _dailyButton;
+        [SerializeField] RectTransform _dailyNotif;
         [SerializeField] Button _leaderboardButton;
         [SerializeField] ShopPanel _shopPanel;
         [SerializeField] DailyPuzzlePanel _dailyPuzzlePanel;
@@ -39,6 +40,13 @@ namespace Equation
             _shopButton.onClick.AddListener(ShopButtonClick);
             _leaderboardButton.onClick.AddListener(LeaderboardButtonClick);
             _dailyButton.onClick.AddListener(DailyButtonClick);
+            
+            _dailyNotif.gameObject.SetActive(!GameSaveData.DailyVisited(GameSaveData.GetDailyEntranceNumber()));
+
+            var seq = DOTween.Sequence();
+            seq.Append(_dailyNotif.DOScale(.7f, .5f));
+            seq.Append(_dailyNotif.DOScale(1.0f, .5f));
+            seq.SetLoops(-1);
 
             CalcLastPlayed();
             
@@ -89,7 +97,9 @@ namespace Equation
         void DailyButtonClick()
         {
             int day = GameSaveData.GetDailyEntranceNumber();
-            _dailyPuzzlePanel.Show(day);
+            _dailyPuzzlePanel.Show();
+            _dailyNotif.gameObject.SetActive(false);
+            GameSaveData.VisitDaily(day, true);
             MyAnalytics.SendEvent(MyAnalytics.daily_button_clicked);
         }
 
