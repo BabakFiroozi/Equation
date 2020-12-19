@@ -358,7 +358,19 @@ namespace Equation.Tools
             int loopIter = 0;
             do
             {
-                GeneratePattern();
+                if(_clausesCount < 0)
+                {
+                    if (_clausesCount == -1)
+                        GeneratePatternSingle(true);
+                    if (_clausesCount == -2)
+                        GeneratePatternSingle(false);
+                }
+                
+                if(_clausesCount > 0)
+                {
+                    GeneratePattern();
+                }
+                
                 await Task.Delay(100);
                 Repaint();
                 if (!GenerateSegments(loopIter))
@@ -411,6 +423,23 @@ namespace Equation.Tools
             });
 
             _puzzlesPack.puzzles = puzzles.ToList();
+        }
+
+        void GeneratePatternSingle(bool hor)
+        {
+            _horClauses.Clear();
+            _verClauses.Clear();
+
+            var clause = MakeClause(hor, 0);
+            if (hor)
+                _horClauses.Add(clause);
+            else
+                _verClauses.Add(clause);
+
+            foreach (var p in clause.parts.Where(p => !p.isNum))
+                _allCellsList[p.cellIndex].isBusy = true;
+
+            _allPiecesList.Clear();
         }
 
         void GeneratePattern()
