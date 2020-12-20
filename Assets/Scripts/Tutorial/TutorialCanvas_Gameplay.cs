@@ -214,8 +214,8 @@ namespace Equation
                 void ShowHandDrag()
                 {
                     var trans = new List<Transform>();
-                    trans.Add(_gameSceneTutData.Board.Pawns[4].transform);
-                    trans.Add(_gameSceneTutData.Board.Cells[13].rectTr);
+                    trans.Add(_gameSceneTutData.Board.Pawns[_gameSceneTutData.HandDragIndeices[0]].transform);
+                    trans.Add(_gameSceneTutData.Board.Cells[_gameSceneTutData.HandDragIndeices[1]].rectTr.transform);
                     _handTr.gameObject.SetActive(true);
                     _handTr.position = trans[0].position;
                     var handImage = _handTr.GetComponent<Image>();

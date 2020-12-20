@@ -15,6 +15,8 @@ namespace Equation
 
         public GameObject ResultPanelMenuButton;
         public GameObject ResultPanelReplayButton;
+        
+        public int[] HandDragIndeices;
 
         void Start()
         {
