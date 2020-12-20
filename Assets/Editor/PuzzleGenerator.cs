@@ -332,12 +332,65 @@ namespace Equation.Tools
             GUI.skin.label.fontSize = fontSize;
             GUI.skin.label.alignment = alignment;
             
+            var currentEvent = Event.current;
+            if (currentEvent.isKey && currentEvent.type == EventType.KeyDown)
+            {
+                if (_selectedStage > -1)
+                {
+                    if (currentEvent.keyCode == KeyCode.DownArrow)
+                    {
+                        if (_selectedStage < _puzzlesPack.puzzles.Count - 1)
+                        {
+                            _selectedStage++;
+                            if (_selectedStage >= 19)
+                                _stagesScrollPos.y += 20;
+                        }
+                    }
+                    if (currentEvent.keyCode == KeyCode.UpArrow)
+                    {
+                        if (_selectedStage > 0)
+                        {
+                            _selectedStage--;
+                            if (_selectedStage <= 6 && _stagesScrollPos.y > 0)
+                                _stagesScrollPos.y -= 20;
+                        }
+                    }
+                }
+                
+                if (_culledSelectedStage > -1)
+                {
+                    if (currentEvent.keyCode == KeyCode.DownArrow)
+                    {
+                        if (_culledSelectedStage < _culledPuzzlesPack.puzzles.Count - 1)
+                        {
+                            _culledSelectedStage++;
+                            if (_culledSelectedStage >= 19)
+                                _culledStagesScrollPos.y += 20;
+                        }
+                    }
+                    if (currentEvent.keyCode == KeyCode.UpArrow)
+                    {
+                        if (_culledSelectedStage > 0)
+                        {
+                            _culledSelectedStage--;
+                            if (_culledSelectedStage <= 6 && _culledStagesScrollPos.y > 0)
+                                _culledStagesScrollPos.y -= 20;
+                        }
+                    }
+                }
+                
+                currentEvent.Use();
+                Repaint();
+            }
+            
             
             if (_isGenerating)
             {
                 GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), "Generating puzzles...");
             }
         }
+        
+        
 
         void PourToCulled()
         {
@@ -376,6 +429,7 @@ namespace Equation.Tools
                 string data = File.ReadAllText(loadPath);
                 _culledPuzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(data);
                 _culledSelectedStage = 0;
+                _selectedStage = -1;
                 _puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
                 _rowsCount = _puzzle.rows;
                 _colsCount = _puzzle.columns;
