@@ -446,8 +446,6 @@ namespace Equation.Tools
                 return;
             }
             
-            _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
-
             var puzzles = _puzzlesPack.puzzles.Where(p =>
             {
                 bool ret = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == p.clauses + _cullShuffleCount - 1);
@@ -988,7 +986,7 @@ namespace Equation.Tools
                 string savePath = $"{Application.dataPath}/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
                 File.WriteAllText(savePath, JsonUtility.ToJson(_culledPuzzlesPack));
                 //Import asset again for updating file
-                string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel}.json";
+                string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel:000}.json";
                 AssetDatabase.ImportAsset(filePath);
                 AssetDatabase.Refresh();
             }

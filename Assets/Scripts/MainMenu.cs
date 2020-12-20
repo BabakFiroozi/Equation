@@ -26,7 +26,9 @@ namespace Equation
         [SerializeField] LeaderboardPanel _leaderboardPanel;
         [SerializeField] ConfirmScreen _quitPopup;
         [SerializeField] NativeBannerLayout _nativeBannerLayout;
-
+        [SerializeField] RectTransform _otherProduct;
+        
+        
         static TapsellNativeBannerAd _nativeBannerAd;
         static bool _nativeBannerSeen;
 
@@ -88,6 +90,20 @@ namespace Equation
                     playedInfo.Stage = puzzle.stage;
                     int rank = GameSaveData.GetStageRank(playedInfo);
                     _totalStarsCount += rank;
+                }
+            }
+
+            //Other product
+            {
+                Vector2 otherProductPos = _otherProduct.anchoredPosition;
+                _otherProduct.anchoredPosition = new Vector2(otherProductPos.x, -otherProductPos.y);
+                if (TutorialCanvas_Gameplay.Instance == null)
+                {
+                    if (Random.Range(0, 100) < 50)
+                    {
+                        _otherProduct.DOAnchorPos(otherProductPos, .5f).SetEase(Ease.OutBack).SetDelay(1);
+                        _otherProduct.GetComponent<Button>().onClick.AddListener(() => { Application.OpenURL("https://cafebazaar.ir/app/com.babgames.ganjyab"); });
+                    }
                 }
             }
             
