@@ -323,9 +323,12 @@ namespace Equation.Tools
                 GUI.skin.label.fontSize = fontSize;
                 GUI.skin.label.alignment = alignment;
                 
-                GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 90, 20), $"Size: {puzzle.rows} X {puzzle.columns}");
-                GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 90, 20), $"Clauses: {puzzle.clauses}");
-                GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 40, 90, 20), $"Shuffle: {puzzle.shuffle}");
+                if(puzzle != null)
+                {
+                    GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 90, 20), $"Size: {puzzle.rows} X {puzzle.columns}");
+                    GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 90, 20), $"Clauses: {puzzle.clauses}");
+                    GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 40, 90, 20), $"Shuffle: {puzzle.shuffle}");
+                }
             }
 
             GUI.skin.label.font = _fontEnglish;
@@ -1043,6 +1046,7 @@ namespace Equation.Tools
                 string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel:000}.json";
                 AssetDatabase.ImportAsset(filePath);
                 AssetDatabase.Refresh();
+                Debug.Log($"Puzzle saved level_{_saveGameLevel:000}");
             }
             catch (Exception e)
             {
