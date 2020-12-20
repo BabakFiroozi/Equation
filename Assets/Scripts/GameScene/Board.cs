@@ -229,7 +229,7 @@ namespace Equation
         void OnRightMove(bool right)
         {
             if (right)
-                _rightSound.PlayDelayed(.15f);
+                _rightSound.Play();
             PawnMovedEvent?.Invoke(right);
         }
 
