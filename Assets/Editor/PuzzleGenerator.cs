@@ -205,9 +205,6 @@ namespace Equation.Tools
             GUI.Label(new Rect(450 - 60, 95, 60, 20), "Shuffle");
             _cullShuffleCount = EditorGUI.IntField(new Rect(450, 95, 30, 20), _cullShuffleCount);
             
-            GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 100, 20), $"Hors: {_horClauses.Count}");
-            GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 100, 20), $"Vers: {_verClauses.Count}");
-
             _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
                 TrimSavePuzzles();
@@ -321,6 +318,14 @@ namespace Equation.Tools
                         }
                     }
                 }
+                
+                GUI.skin.label.font = _fontEnglish;
+                GUI.skin.label.fontSize = fontSize;
+                GUI.skin.label.alignment = alignment;
+                
+                GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 90, 20), $"Size: {puzzle.rows} X {puzzle.columns}");
+                GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 90, 20), $"Clauses: {puzzle.clauses}");
+                GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 40, 90, 20), $"Shuffle: {puzzle.shuffle}");
             }
 
             GUI.skin.label.font = _fontEnglish;

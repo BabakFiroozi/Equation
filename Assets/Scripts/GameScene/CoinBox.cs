@@ -52,11 +52,11 @@ namespace Equation
                 _effectRenderer.sortingOrder = _sortingOrder + 1;
             }
 
-            if (coinDiff > 0)
-            {
-                _effect.gameObject.SetActive(true);
-                _effect.Play();
-            }
+            // if (coinDiff > 0)
+            // {
+            //     _effect.gameObject.SetActive(true);
+            //     _effect.Play();
+            // }
 
             if (anim)
             {
@@ -115,7 +115,7 @@ namespace Equation
                 _effectRenderer.sortingOrder = effectSortingOrder;
             }
             
-            _effect.Stop();
+            // _effect.Stop();
         }
 
 

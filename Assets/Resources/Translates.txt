@@ -57,6 +57,7 @@ Receveing_Data=در حال دریافت...
 You_May_Be_Lucky=بخت و اقبال یارت
 You_Need_To_Wait=فردا بیا دوباره شانستو امتحان کن
 Damn_The_Luck=ای بخشکی شانس
+Bad_The_Luck=شانست جالب نبود
 You_Fair_lucky=شانست خوب بود
 You_Very_Lucky=خیلی خوش شانسی
 Unable_To_Get_Time=مشکل در هنگام دریافت لطفا بعدا امتحان کنید

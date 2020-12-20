@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -185,12 +186,17 @@ namespace Equation
 
             yield return new WaitForSeconds(spin_duration);
 
-            if (reward >= 250)
+            var larges = _valuesList.OrderByDescending(v => v).Take(3).ToList();
+
+            if (reward >= larges[0])
                 _messageText.text = Translator.GetString("You_Very_Lucky");
-            else if (reward >= 100)
+            else if (reward >= larges[1])
                 _messageText.text = Translator.GetString("You_Fair_lucky");
+            else if (reward >= larges[2])
+                _messageText.text = Translator.GetString("Bad_The_Luck");
             else
                 _messageText.text = Translator.GetString("Damn_The_Luck");
+            
             _rewardText.gameObject.SetActive(true);
 
             _rewardText.text = "";

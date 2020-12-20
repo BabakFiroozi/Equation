@@ -39,9 +39,12 @@ namespace Equation
       
         public int MovesCount { get; private set; }
         public bool GameFinished { get; private set; }
+        
+        public int ClausesCount { get; private set; }
+        
+        public int ShufflesCount { get; private set; }
 
-        int _shufflesCount;
-
+        
         Pawn _draggingPawn;
 
         Puzzle _puzzle;
@@ -69,9 +72,10 @@ namespace Equation
             var textAsset = Resources.Load<TextAsset>(filePath);
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[DataHelper.Instance.LastPlayedInfo.Stage];
+            
             StagesCount = puzzlesPack.puzzles.Count;
-
-            _shufflesCount = _puzzle.shuffle;
+            ClausesCount = _puzzle.clauses;
+            ShufflesCount = _puzzle.shuffle;
 
             float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
@@ -476,7 +480,7 @@ namespace Equation
             GameSaveData.SolveStage(DataHelper.Instance.LastPlayedInfo);
             DoResetBoard();
 
-            int diff = MovesCount - _shufflesCount;
+            int diff = MovesCount - ShufflesCount;
 
             int rank = 1;
             if (diff < 3)

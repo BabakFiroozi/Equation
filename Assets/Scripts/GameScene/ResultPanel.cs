@@ -85,8 +85,8 @@ namespace Equation
 
 			_alreadySolvedText.SetActive(_alreadySolved);
 
-			_rewardText.gameObject.SetActive(!_alreadySolved);
-			var rewardGroup = _rewardText.gameObject.GetComponent<CanvasGroup>();
+			var rewardGroup = _rewardText.transform.parent.gameObject.GetComponent<CanvasGroup>();
+			rewardGroup.gameObject.SetActive(!_alreadySolved);
 			rewardGroup.alpha = 0;
 
 			_movesCountText.text = $"<color=yellow>{GameWord.Instance.Board.MovesCount}</color> :{Translator.GetString("Moves_You_Did")}";
@@ -132,9 +132,10 @@ namespace Equation
 			yield return new WaitForSeconds(delay + .15f);
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
-			const int reward_per_level = 10;
-			const int reward_per_stage = 2;
-			int stageReward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage;
+			const int reward_per_level = 5;
+			const int reward_per_stage = 1;
+			
+			int stageReward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage + CalcShuffleBasedReward();
 			
 			rewardGroup.DOFade(1, .3f);
 			GiveReward(stageReward);
@@ -176,6 +177,20 @@ namespace Equation
 			_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{reward + oldReward}";
 			_rewardText.gameObject.GetComponent<AudioSource>().Play();
 			GameSaveData.AddCoin(reward, false, 0);
+		}
+
+		int CalcShuffleBasedReward()
+		{
+			var board = GameWord.Instance.Board;
+			int limit = board.ClausesCount * 2;
+			int reward = 0;
+			if (board.ShufflesCount > limit)
+			{
+				reward = (board.ShufflesCount - limit) / 3;
+			}
+
+			reward *= GameConfig.Instance.HintCost;
+			return reward;
 		}
 
 		void ReplayGame()
