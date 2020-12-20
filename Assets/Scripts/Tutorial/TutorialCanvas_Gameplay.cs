@@ -257,6 +257,8 @@ namespace Equation
 
                 _stepRayeCaster = _gameSceneTutData.HintButton.gameObject.AddComponent<GraphicRaycaster>();
 
+                GameSaveData.AddCoin(GameConfig.Instance.HintCost);
+
                 _gameSceneTutData.HintButton.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     CurrentStep = Steps.UseHelp;
@@ -293,6 +295,8 @@ namespace Equation
                 _stepCanvas.sortingOrder = _canvasElementOrder;
                 _stepRayeCaster = _gameSceneTutData.HelpButton.gameObject.AddComponent<GraphicRaycaster>();
 
+                GameSaveData.AddCoin(GameConfig.Instance.HelpCost);
+                
                 _gameSceneTutData.HelpButton.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     CurrentStep = Steps.End_1;
