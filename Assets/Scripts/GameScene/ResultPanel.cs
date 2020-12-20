@@ -183,13 +183,13 @@ namespace Equation
 		{
 			var board = GameWord.Instance.Board;
 			int limit = board.ClausesCount * 2;
-			int reward = 0;
+			float coef = 0;
 			if (board.ShufflesCount > limit)
 			{
-				reward = (board.ShufflesCount - limit) / 3;
+				coef = (board.ShufflesCount - limit) / 3f;
 			}
 
-			reward *= GameConfig.Instance.HintCost;
+			int reward = (int) (coef * GameConfig.Instance.HintCost);
 			return reward;
 		}
 
