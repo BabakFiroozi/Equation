@@ -418,7 +418,7 @@ namespace Equation.Tools
                 Repaint();
                 if (!GenerateSegments(loopIter))
                 {
-                    Debug.LogWarning("<color=yellow>GenerateSegments failed in GeneratePuzzles.</color>");
+                    Debug.LogWarning("<color=yellow>GenerateSegments retried in GeneratePuzzles.</color>");
                     continue;
                 }
 
@@ -888,7 +888,7 @@ namespace Equation.Tools
             
             if (holdsList.Count != heldsList.Count)
             {
-                Debug.LogError("holdsList.Count and heldsList.Count must be equal");
+                Debug.LogWarning("Shuffle skipped because holdsList.Count and heldsList.Count must be equal.");
                 return false;
             }
 
