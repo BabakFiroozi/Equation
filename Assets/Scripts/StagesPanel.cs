@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using DG.Tweening;
 using Equation.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +12,7 @@ namespace Equation
         [SerializeField] GameObject _stageItemObj;
         [SerializeField] PopupScreen _popupScreen;
         [SerializeField] Text _levelText;
-        
-        
+
         void Start()
         {
             _stageItemObj.SetActive(false);
@@ -32,7 +30,7 @@ namespace Equation
                 var tr = c as Transform;
                 Destroy(tr.gameObject);
             }
-
+            
             var level = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
             foreach (var puzzle in puzzlesPack.puzzles)
@@ -41,9 +39,8 @@ namespace Equation
                 obj.SetActive(true);
                 var stageSelect = obj.GetComponent<StageSelect>();
                 stageSelect.FillData(puzzlesPack.level, puzzle.stage);
-                if (LevelsPanel.StageResumed && puzzle.stage == playedInfo.Stage)
+                if (LevelsPanel.StageResumed != null && LevelsPanel.StageResumed.Level == puzzlesPack.level && LevelsPanel.StageResumed.Stage == puzzle.stage)
                 {
-                    LevelsPanel.StageResumed = false;
                     stageSelect.SetAsLastPlayed();
                     StartCoroutine(_ScrollToPos(puzzle.stage));
                 }
@@ -57,6 +54,5 @@ namespace Equation
             pos.y += stage / 5 * 120;
             _stagesContent.anchoredPosition = pos;
         }
-        
     }
 }

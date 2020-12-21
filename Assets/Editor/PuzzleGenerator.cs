@@ -69,8 +69,8 @@ namespace Equation.Tools
         int _cullClausesCount = 2;
         int _cullShuffleCount = 1;
         int _cullMaxNum = 99;
-        
-        bool _isGenerating;
+
+        string _generatingMessage = "";
         
 
         void Awake()
@@ -117,8 +117,8 @@ namespace Equation.Tools
             EditorPrefs.DeleteKey("PuzzleGenerator_cullMaxNum");
             EditorPrefs.DeleteKey("PuzzleGenerator_genOppers");
         }
-        
-        
+
+
 
         void OnGUI()
         {
@@ -172,13 +172,13 @@ namespace Equation.Tools
             {
                 GeneratePuzzles();
             }
-            
+
             if (GUI.Button(new Rect(400 - 250, 20, 42, 20), "Clear"))
             {
                 if (EditorUtility.DisplayDialog("Clear", "Are you sure to clear loaded or generated puzzles?", "yes", "no"))
                     ClearGenPuzzles();
             }
-            
+
             GUI.Label(new Rect(400 - 250, 47, 50, 20), "Range");
 
             _numMinRange = EditorGUI.IntField(new Rect(450 - 250, 45, 45, 20), _numMinRange);
@@ -186,11 +186,11 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(400 - 250, 70, 50, 20), "Oppers");
             _genOppers = GUI.TextField(new Rect(450 - 250, 70, 45, 20), _genOppers);
-            
+
             GUI.Label(new Rect(400 - 250, 95, 60, 20), "Shuffle");
             _shuffleCount = EditorGUI.IntField(new Rect(450 - 250, 95, 30, 20), _shuffleCount);
-            
-            
+
+
             if (GUI.Button(new Rect(450, 20, 60, 20), "Cull"))
             {
                 CullGeneratedPuzzles();
@@ -201,31 +201,31 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(450 - 60, 70, 60, 20), "MaxNum");
             _cullMaxNum = EditorGUI.IntField(new Rect(450, 70, 40, 20), _cullMaxNum);
-            
+
             GUI.Label(new Rect(450 - 60, 95, 60, 20), "Shuffle");
             _cullShuffleCount = EditorGUI.IntField(new Rect(450, 95, 30, 20), _cullShuffleCount);
-            
+
             _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
                 TrimSavePuzzles();
-            
+
             _saveGameLevel = EditorGUI.IntField(new Rect(780, 50, 40, 20), _saveGameLevel);
             if (GUI.Button(new Rect(720, 50, 50, 20), "Save"))
                 SavePuzzles();
-            
+
             _loadedLevel = EditorGUI.IntField(new Rect(780, 80, 40, 20), _loadedLevel);
             if (GUI.Button(new Rect(720, 80, 50, 20), "Load"))
                 LoadPuzzlePack(_loadedLevel);
 
             if (_puzzlesPack != null)
             {
-                if(GUI.Button(new Rect(650, 150, 60, 20), "Put ->"))
+                if (GUI.Button(new Rect(650, 150, 60, 20), "Put ->"))
                 {
                     PourToCulled();
                 }
             }
 
-            
+
             if (_puzzlesPack != null)
             {
                 int stagesCount = _puzzlesPack.puzzles.Count;
@@ -249,7 +249,7 @@ namespace Equation.Tools
 
                 GUI.EndScrollView();
             }
-            
+
             if (_culledPuzzlesPack != null)
             {
                 int stagesCount = _culledPuzzlesPack.puzzles.Count;
@@ -273,18 +273,18 @@ namespace Equation.Tools
 
                 GUI.EndScrollView();
             }
-            
-            
+
+
             int fontSize = GUI.skin.label.fontSize;
             var alignment = GUI.skin.label.alignment;
             GUI.skin.label.font = _fontPersian;
             GUI.skin.label.fontSize = (int) (cellSize * .5f);
             GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-            
-            if(_puzzlesPack != null || _culledPuzzlesPack != null)
+
+            if (_puzzlesPack != null || _culledPuzzlesPack != null)
             {
                 Puzzle puzzle = null;
-                
+
                 if (_puzzlesPack != null && _selectedStage > -1 && _selectedStage < _puzzlesPack.puzzles.Count)
                     puzzle = _puzzlesPack.puzzles[_selectedStage];
                 else if (_culledPuzzlesPack != null && _culledSelectedStage > -1 && _culledSelectedStage < _culledPuzzlesPack.puzzles.Count)
@@ -318,12 +318,12 @@ namespace Equation.Tools
                         }
                     }
                 }
-                
+
                 GUI.skin.label.font = _fontEnglish;
                 GUI.skin.label.fontSize = fontSize;
                 GUI.skin.label.alignment = alignment;
-                
-                if(puzzle != null)
+
+                if (puzzle != null)
                 {
                     GUI.Label(new Rect(tableRect.x - 100, tableRect.y, 90, 20), $"Size: {puzzle.rows} X {puzzle.columns}");
                     GUI.Label(new Rect(tableRect.x - 100, tableRect.y + 20, 90, 20), $"Clauses: {puzzle.clauses}");
@@ -334,7 +334,7 @@ namespace Equation.Tools
             GUI.skin.label.font = _fontEnglish;
             GUI.skin.label.fontSize = fontSize;
             GUI.skin.label.alignment = alignment;
-            
+
             var currentEvent = Event.current;
             if (currentEvent.isKey && currentEvent.type == EventType.KeyDown)
             {
@@ -349,6 +349,7 @@ namespace Equation.Tools
                                 _stagesScrollPos.y += 20;
                         }
                     }
+
                     if (currentEvent.keyCode == KeyCode.UpArrow)
                     {
                         if (_selectedStage > 0)
@@ -359,7 +360,7 @@ namespace Equation.Tools
                         }
                     }
                 }
-                
+
                 if (_culledSelectedStage > -1)
                 {
                     if (currentEvent.keyCode == KeyCode.DownArrow)
@@ -371,6 +372,7 @@ namespace Equation.Tools
                                 _culledStagesScrollPos.y += 20;
                         }
                     }
+
                     if (currentEvent.keyCode == KeyCode.UpArrow)
                     {
                         if (_culledSelectedStage > 0)
@@ -381,19 +383,16 @@ namespace Equation.Tools
                         }
                     }
                 }
-                
+
                 currentEvent.Use();
                 Repaint();
             }
-            
-            
-            if (_isGenerating)
-            {
-                GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), "Generating puzzles...");
-            }
+
+
+            GUI.Label(new Rect(Window_Width / 2 - 200, Window_Height - 50, 200, 30), _generatingMessage);
         }
-        
-        
+
+
 
         void PourToCulled()
         {
@@ -453,7 +452,7 @@ namespace Equation.Tools
             
             _selectedStage = 0;
 
-            _isGenerating = true;
+            _generatingMessage = "Generating Puzzles...";
 
             int loopIter = 0;
             do
@@ -483,7 +482,6 @@ namespace Equation.Tools
                 ShuffleSegments();
                 _selectedStage = loopIter;
                 Repaint();
-                await Task.Delay(100);
 
                 loopIter++;
                 
@@ -492,7 +490,7 @@ namespace Equation.Tools
 
             } while (loopIter < _generateCount);
 
-            _isGenerating = false;
+            _generatingMessage = "Generating puzzles finished.";
         }
 
         void CullGeneratedPuzzles()

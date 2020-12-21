@@ -13,7 +13,7 @@ namespace Equation
 
         [SerializeField] HeadingBar _headingBar;
 
-        public static bool StageResumed;
+        public static PuzzlePlayedInfo StageResumed;
         
         void Start()
         {
@@ -24,7 +24,7 @@ namespace Equation
                 var obj = Instantiate(_levelItemObj, _levelsContent);
                 var levelSelect = obj.GetComponent<LevelSelect>();
                 levelSelect.FillData(puzzlesPack.level, puzzlesPack.puzzles.Count);
-                if (StageResumed && puzzlesPack.level == DataHelper.Instance.LastPlayedInfo.Level)
+                if (StageResumed != null && StageResumed.Level == puzzlesPack.level)
                 {
                     levelSelect.OpenStages();
                     StartCoroutine(_ScrollToPos(DataHelper.Instance.LastPlayedInfo.Level));
@@ -51,7 +51,7 @@ namespace Equation
 
         void OnDestroy()
         {
-            StageResumed = false;
+            StageResumed = null;
         }
     }
 }
