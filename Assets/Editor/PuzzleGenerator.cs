@@ -37,7 +37,7 @@ namespace Equation.Tools
         int _numMinRange = 1;
         int _numMaxRange = 20;
 
-        string _genOppers = "td";
+        string _genOppers = "pm";
 
         List<Clause> _horClauses = new List<Clause>();
         List<Clause> _verClauses = new List<Clause>();
@@ -185,7 +185,7 @@ namespace Equation.Tools
             _numMaxRange = EditorGUI.IntField(new Rect(505 - 250, 45, 45, 20), _numMaxRange);
 
             GUI.Label(new Rect(400 - 250, 70, 50, 20), "Oppers");
-            _genOppers = GUI.TextField(new Rect(450 - 250, 70, 45, 20), _genOppers);
+            _genOppers = GUI.TextField(new Rect(450 - 250, 70, 60, 20), _genOppers);
 
             GUI.Label(new Rect(400 - 250, 95, 60, 20), "Shuffle");
             _shuffleCount = EditorGUI.IntField(new Rect(450 - 250, 95, 30, 20), _shuffleCount);
@@ -450,7 +450,8 @@ namespace Equation.Tools
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
-            _selectedStage = 0;
+            _selectedStage = -1;
+            _culledSelectedStage = -1;
 
             _generatingMessage = "Generating Puzzles...";
 
@@ -729,7 +730,11 @@ namespace Equation.Tools
                 }
             } while (horClausesList.Count > 0 || verClausesList.Count > 0);
 
-            var oppsList = new List<string> {"p", "m"};
+            var oppsList = new List<string>();
+            if (_genOppers.Contains("p"))
+                oppsList.Add("p");
+            if (_genOppers.Contains("m"))
+                oppsList.Add("m");
             if (_genOppers.Contains("t"))
                 oppsList.Add("t");
             if (_genOppers.Contains("d"))
