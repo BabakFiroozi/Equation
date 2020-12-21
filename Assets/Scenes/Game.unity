@@ -7555,7 +7555,7 @@ MonoBehaviour:
   BackButton: {fileID: 95475461758137991}
   ResultPanelMenuButton: {fileID: 572737781}
   ResultPanelReplayButton: {fileID: 1223968651}
-  HandDragIndeices: 0400000008000000
+  HandDragIndeices: 0400000009000000
 --- !u!4 &2101996626
 Transform:
   m_ObjectHideFlags: 0

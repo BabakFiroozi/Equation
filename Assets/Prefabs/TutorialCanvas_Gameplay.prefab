@@ -583,8 +583,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -277}
-  m_SizeDelta: {x: 580, y: 190}
+  m_AnchoredPosition: {x: 0, y: -250}
+  m_SizeDelta: {x: 580, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647079147604279
 CanvasRenderer:
@@ -658,8 +658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -254}
-  m_SizeDelta: {x: 560, y: 100}
+  m_AnchoredPosition: {x: 0, y: -255}
+  m_SizeDelta: {x: 560, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647079509113202
 CanvasRenderer:
@@ -954,12 +954,9 @@ MonoBehaviour:
     m_LineSpacing: 1.4
   m_Text: "\uFE96\uFB90\uFEAE\uFEA3 \uFEED\uFEAD <color=#00A5FF>\uFEF2\uFEBF\uFE8E\uFEF3\uFEAD
     \uFEF1\uFE8E\uFEEB \uFEE9\uFEAE\uFEEC\uFEE3</color> \uFEAA\uFEF3\uFE8E\uFE91
-    \uFEF1\uFEAF\uFE8E\uFE91 \uFEE6\uFEF3\uFE8D \uFEEE\uFE97\n   \uFEAF\uFE8D  \uFE8E\uFEEB
-    \uFE95\uFEAD\uFE8E\uFE92\uFECB .\uFEEA\uFEB3\uFEAE\uFE91 \uFE8F\uFE8D\uFEEE\uFE9F
-    \uFEEA\uFE91 \uFEDD\uFEED\uFEAA\uFE9F \uFE8E\uFE97 \uFEF1\uFEAA\uFE91\n  \uFEEA\uFEB8\uFEF4\uFEE3
-    \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3 <color=yellow>\uFEE6\uFEF4\uFEF3\uFE8E\uFB58
-    \uFEEA\uFE91 \uFEFB\uFE8E\uFE91</color> \uFEAF\uFE8D \uFEED <color=yellow>\uFE96\uFEB3\uFE8D\uFEAD
-    \uFEEA\uFE91 \uFB57\uFB7C</color>"
+    \uFEF1\uFEAF\uFE8E\uFE91 \uFEE6\uFEF3\uFE8D \uFEEE\uFE97\n                         
+    .\uFEEA\uFEB3\uFEAE\uFE91 <color=yellow>\uFE8F\uFE8D\uFEEE\uFE9F</color> \uFEEA\uFE91
+    \uFEDD\uFEED\uFEAA\uFE9F \uFE8E\uFE97 \uFEF1\uFEAA\uFE91"
 --- !u!1 &6420647079983137358
 GameObject:
   m_ObjectHideFlags: 0
