@@ -26,6 +26,8 @@ namespace Equation
             }
             
             _stageItemObj.SetActive(false);
+            
+            CheshmakMe.CheshmakLib.initializeBannerAds("bottom");
         }
     }
 }

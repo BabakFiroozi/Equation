@@ -108,8 +108,15 @@ namespace Equation
             }
             
             SubmitScoreAsync();
+            
+            Invoke(nameof(RemoveBannerAd), 3);
+            
         }
-
+        void RemoveBannerAd()
+        {
+            CheshmakMe.CheshmakLib.removeBannerAds();
+        }
+        
         void DailyButtonClick()
         {
             int day = GameSaveData.GetDailyEntranceNumber();

@@ -61,8 +61,14 @@ namespace Equation
             _board.GameFinishedEvent += GameFinishedHandler;
 
             _solvedBadge.fillAmount = 0;
+            
+            Invoke(nameof(RemoveBannerAd), 3);
         }
         
+        void RemoveBannerAd()
+        {
+            CheshmakMe.CheshmakLib.removeBannerAds();
+        }
 
         void GameFinishedHandler(bool alreadySolved, int stageRank)
         {

@@ -23,6 +23,8 @@ namespace Equation
             }
             
             _levelItemObj.SetActive(false);
+
+            CheshmakMe.CheshmakLib.initializeBannerAds("bottom");
         }
 
         public static void ResetStageHistoryScroll()
