@@ -39,7 +39,9 @@ namespace Equation
         IEnumerator _ScrollToPos(int level)
         {
             yield return new  WaitForEndOfFrame();
-            _levelsContent.DOAnchorPosY(_levelsContent.anchoredPosition.y + level * 120, .3f);
+            Vector2 pos = _levelsContent.anchoredPosition;
+            pos.y += level * 120;
+            _levelsContent.anchoredPosition = pos;
         }
 
         public static void ResetStageHistoryScroll()

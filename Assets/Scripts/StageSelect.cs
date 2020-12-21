@@ -10,6 +10,7 @@ namespace Equation
         [SerializeField] Button _goButton;
         [SerializeField] Text _stageText;
         [SerializeField] GameObject _lockObject;
+        [SerializeField] GameObject _lastObject;
 
         [SerializeField] GameObject[] _stars;
         
@@ -17,8 +18,12 @@ namespace Equation
 
         int _stage;
         int _level;
-        
-        
+
+        void Awake()
+        {
+            _lastObject.SetActive(false);
+        }
+
         void Start()
         {
             _goButton.onClick.AddListener(GoButtonClick);
@@ -46,6 +51,11 @@ namespace Equation
             int rank = GameSaveData.GetStageRank(info);
             for (int i = 0; i < 3; ++i)
                 _stars[i].SetActive(i + 1 <= rank);
+        }
+
+        public void SetAsLastPlayed()
+        {
+            _lastObject.SetActive(true);
         }
     }
 }

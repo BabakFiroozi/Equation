@@ -9,7 +9,6 @@ namespace Equation
 	{
 		None = -1,
 		Level,
-		Stage,
 		Game,
 		Count
 	}
@@ -41,13 +40,6 @@ namespace Equation
 				SetData(title);
 			}
 
-			if (_headingType == HeadingBarTypes.Stage)
-			{
-				var playedInfo = DataHelper.Instance.LastPlayedInfo;
-				string title = $"<color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Level")}</color>";
-				SetData(title);
-			}
-			
 			if (_headingType == HeadingBarTypes.Game)
 			{
 				var playedInfo = DataHelper.Instance.LastPlayedInfo;
@@ -80,11 +72,6 @@ namespace Equation
 			if (_headingType == HeadingBarTypes.Level)
 			{
 				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
-			}
-
-			if (_headingType == HeadingBarTypes.Stage)
-			{
-				SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU, false);
 			}
 
 			if (_headingType == HeadingBarTypes.Game)

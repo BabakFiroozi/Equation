@@ -24,15 +24,14 @@ namespace Equation
         {
             _popupScreen.Show();
 
-            _levelText.text = $"{DataHelper.Instance.LastPlayedInfo.Level + 1} {Translator.GetString("Stages_Of_level")}";
+            var playedInfo = DataHelper.Instance.LastPlayedInfo;
+            _levelText.text = $"<color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Stages_Of_level")}</color>";
 
             foreach (var c in _stagesContent)
             {
                 var tr = c as Transform;
                 Destroy(tr.gameObject);
             }
-
-            var playedInfo = DataHelper.Instance.LastPlayedInfo;
 
             var level = Resources.Load<TextAsset>($"Puzzles/level_{playedInfo.Level:000}");
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
@@ -42,9 +41,10 @@ namespace Equation
                 obj.SetActive(true);
                 var stageSelect = obj.GetComponent<StageSelect>();
                 stageSelect.FillData(puzzlesPack.level, puzzle.stage);
-                if (LevelsPanel.StageResumed)
+                if (LevelsPanel.StageResumed && puzzle.stage == playedInfo.Stage)
                 {
                     LevelsPanel.StageResumed = false;
+                    stageSelect.SetAsLastPlayed();
                     StartCoroutine(_ScrollToPos(puzzle.stage));
                 }
             }
@@ -53,7 +53,9 @@ namespace Equation
         IEnumerator _ScrollToPos(int stage)
         {
             yield return new  WaitForEndOfFrame();
-            _stagesContent.DOAnchorPosY(_stagesContent.anchoredPosition.y + stage / 5 * 120, .3f);
+            Vector2 pos = _stagesContent.anchoredPosition;
+            pos.y += stage / 5 * 120;
+            _stagesContent.anchoredPosition = pos;
         }
         
     }

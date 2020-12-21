@@ -51,7 +51,6 @@ namespace Equation
         public void OpenStages()
         {
             GoButtonClick();
-            _stagesPanelObj.GetComponent<StagesPanel>().Show();
         }
     }
 }
