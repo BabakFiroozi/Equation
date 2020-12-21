@@ -907,6 +907,12 @@ namespace Equation.Tools
         {
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
+
+            if (hollowSegs.Count == 0 || fixedSegs.Count == 0)
+            {
+                Debug.LogWarning("Shuffle skipped because holdsList.Count or heldsList.Count is zero.");
+                return false;
+            }
             
             var horClausesList = new List<List<int>>();
             var verClausesList = new List<List<int>>();
@@ -920,8 +926,6 @@ namespace Equation.Tools
             }
 
             var holdsList = new List<int>();
-            var heldsList = new List<int>();
-
             do
             {
                 int index = Random.Range(0, hollowSegs.Count);
@@ -931,6 +935,7 @@ namespace Equation.Tools
                     break;
             } while (holdsList.Count < shufflesCount);
             
+            var heldsList = new List<int>();
             do
             {
                 int index = Random.Range(0, fixedSegs.Count);
