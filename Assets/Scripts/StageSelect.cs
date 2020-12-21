@@ -3,7 +3,7 @@ using Equation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace Equation
 {
     public class StageSelect : MonoBehaviour
     {
@@ -21,10 +21,10 @@ namespace DefaultNamespace
         
         void Start()
         {
-            _goButton.onClick.AddListener(StageButtonClick);
+            _goButton.onClick.AddListener(GoButtonClick);
         }
 
-        void StageButtonClick()
+        void GoButtonClick()
         {
             DataHelper.Instance.LastPlayedInfo.Stage = _stage;
             SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);

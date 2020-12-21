@@ -209,7 +209,7 @@ namespace Equation
 		void GoStageSel()
 		{
 			MyAnalytics.SendEvent(MyAnalytics.back_menu_stages);
-			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
+			SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU, false);
 		}
 
 		void NextStage()

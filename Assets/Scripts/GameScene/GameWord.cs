@@ -111,6 +111,8 @@ namespace Equation
         {
             _board.GameFinishedEvent -= GameFinishedHandler;
             
+            LevelsPanel.StageResumed = true;
+            
             if (Instance == this)
                 Instance = null;
         }

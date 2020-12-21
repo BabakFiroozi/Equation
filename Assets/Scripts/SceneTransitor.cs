@@ -19,8 +19,7 @@ namespace Equation
 		public const int SCENE_SPLASH = 0;
 		public const int SCENE_MAIN_MENU = 1;
 		public const int SCENE_LEVEL_MENU = 2;
-		public const int SCENE_STAGE_MENU = 3;
-		public const int SCENE_GAME = 4;
+		public const int SCENE_GAME = 3;
 
 
 		[SerializeField] GameObject _blockTouch;

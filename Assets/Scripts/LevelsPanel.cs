@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using DG.Tweening;
 using Equation.Models;
 using UnityEngine;
 
@@ -6,10 +8,12 @@ namespace Equation
 {
     public class LevelsPanel : MonoBehaviour
     {
-        [SerializeField] Transform _levelsContent;
+        [SerializeField] RectTransform _levelsContent;
         [SerializeField] GameObject _levelItemObj;
 
         [SerializeField] HeadingBar _headingBar;
+
+        public static bool StageResumed;
         
         void Start()
         {
@@ -20,6 +24,11 @@ namespace Equation
                 var obj = Instantiate(_levelItemObj, _levelsContent);
                 var levelSelect = obj.GetComponent<LevelSelect>();
                 levelSelect.FillData(puzzlesPack.level, puzzlesPack.puzzles.Count);
+                if (StageResumed && puzzlesPack.level == DataHelper.Instance.LastPlayedInfo.Level)
+                {
+                    levelSelect.OpenStages();
+                    StartCoroutine(_ScrollToPos(DataHelper.Instance.LastPlayedInfo.Level));
+                }
             }
             
             _levelItemObj.SetActive(false);
@@ -27,9 +36,20 @@ namespace Equation
             CheshmakMe.CheshmakLib.initializeBannerAds("bottom");
         }
 
+        IEnumerator _ScrollToPos(int level)
+        {
+            yield return new  WaitForEndOfFrame();
+            _levelsContent.DOAnchorPosY(_levelsContent.anchoredPosition.y + level * 120, .3f);
+        }
+
         public static void ResetStageHistoryScroll()
         {
             //TODO - scroll
+        }
+
+        void OnDestroy()
+        {
+            StageResumed = false;
         }
     }
 }

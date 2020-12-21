@@ -92,7 +92,7 @@ namespace Equation
 				if (GameWord.Instance.CurrentPlayedInfo.Daily)
 					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_MAIN_MENU, false);
 				else
-					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, false);
+					SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_LEVEL_MENU, false);
 				MyAnalytics.SendEvent(MyAnalytics.back_ingame_clicked);
 			}
 		}

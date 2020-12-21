@@ -10,6 +10,7 @@ namespace Equation
         [SerializeField] Text _progressText;
         [SerializeField] Text _levelText;
         [SerializeField] GameObject _lockObject;
+        [SerializeField] GameObject _stagesPanelObj;
 
         int _level;
         int _count;
@@ -23,7 +24,7 @@ namespace Equation
         void GoButtonClick()
         {
             DataHelper.Instance.LastPlayedInfo.Level = _level;
-            SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_STAGE_MENU, true);
+            _stagesPanelObj.GetComponent<StagesPanel>().Show();
         }
 
         public void FillData(int level, int count)
@@ -45,6 +46,12 @@ namespace Equation
 
             bool unlcoked = GameSaveData.IsLevelUnlocked(_level) || GameConfig.Instance.GameIsUnlock;
             _lockObject.SetActive(!unlcoked);
+        }
+
+        public void OpenStages()
+        {
+            GoButtonClick();
+            _stagesPanelObj.GetComponent<StagesPanel>().Show();
         }
     }
 }

@@ -74,6 +74,7 @@ Daily=روزانه
 Levels=فصل ها
 Level=فصل
 Stage=مرحله
+Stages_Of_level=مراحل فصل
 Needed_Moves=جابجایی
 Moves_You_Did=تعداد حرکاتی که رفتی
 You_Entered_Level=شما وارد فصل
