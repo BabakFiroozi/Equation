@@ -891,7 +891,7 @@ namespace Equation.Tools
                 {
                     if (loopIter++ > 1000)
                         break;
-                } while (!TryShuffleSegments(shuffleIter, ref shuffledCount));
+                } while (!TryShuffleSegments(shuffleIter == 0, ref shuffledCount));
 
                 totalShuffle += shuffledCount;
             } while (++shuffleIter < _shuffleCount);
@@ -903,7 +903,7 @@ namespace Equation.Tools
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments(int shuffleIter, ref int shuffledCount)
+        bool TryShuffleSegments(bool firstShuffle, ref int shuffledCount)
         {
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
@@ -919,11 +919,7 @@ namespace Equation.Tools
             _horClauses.ForEach(g => horClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
             _verClauses.ForEach(g => verClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
 
-            int shufflesCount = horClausesList.Count + verClausesList.Count;
-            if(shuffleIter > 0)
-            {
-                shufflesCount = shuffleIter;
-            }
+            int needShuffles = firstShuffle ? horClausesList.Count + verClausesList.Count : 1;
 
             var holdsList = new List<int>();
             do
@@ -933,7 +929,7 @@ namespace Equation.Tools
                 hollowSegs.RemoveAt(index);
                 if(hollowSegs.Count == 0)
                     break;
-            } while (holdsList.Count < shufflesCount);
+            } while (holdsList.Count < needShuffles);
             
             var heldsList = new List<int>();
             do
@@ -943,7 +939,7 @@ namespace Equation.Tools
                 fixedSegs.RemoveAt(index);
                 if(fixedSegs.Count == 0)
                     break;
-            } while (heldsList.Count < shufflesCount);
+            } while (heldsList.Count < needShuffles);
 
             
             if (holdsList.Count != heldsList.Count)
@@ -952,7 +948,7 @@ namespace Equation.Tools
                 return false;
             }
 
-            if(shuffleIter == 0)
+            if(firstShuffle)
             {
                 bool failed = false;
                 foreach (var g in horClausesList)
