@@ -51,7 +51,7 @@ namespace Equation
         {
             yield return new  WaitForEndOfFrame();
             Vector2 pos = _stagesContent.anchoredPosition;
-            pos.y += stage / 5 * 120;
+            pos.y += (stage / 5 - 6) * 120;
             _stagesContent.anchoredPosition = pos;
         }
     }

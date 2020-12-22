@@ -40,7 +40,7 @@ namespace Equation
         {
             yield return new  WaitForEndOfFrame();
             Vector2 pos = _levelsContent.anchoredPosition;
-            pos.y += level * 120;
+            pos.y += (level - 8) * 120;
             _levelsContent.anchoredPosition = pos;
         }
 
