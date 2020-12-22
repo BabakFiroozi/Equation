@@ -5,6 +5,8 @@ namespace Equation
 {
     public class TutMgr : MonoBehaviour
     {
+        [SerializeField] GameObject _tutorialCanvas_Gameplay;
+        
         public RectTransform BoardTable;
         public Board Board;
 

@@ -7548,6 +7548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e79c84c3a241fd9f45d2cbfd39979a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tutorialCanvas_Gameplay: {fileID: 0}
   BoardTable: {fileID: 533575973}
   Board: {fileID: 1327249555}
   HintButton: {fileID: 235274997}
@@ -7555,7 +7556,7 @@ MonoBehaviour:
   BackButton: {fileID: 95475461758137991}
   ResultPanelMenuButton: {fileID: 572737781}
   ResultPanelReplayButton: {fileID: 1223968651}
-  HandDragIndeices: 0400000009000000
+  HandDragIndeices: 0400000009000000020000001d000000
 --- !u!4 &2101996626
 Transform:
   m_ObjectHideFlags: 0

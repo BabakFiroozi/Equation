@@ -16,8 +16,8 @@ namespace Equation
             Welcome,
             Introduce,
             MovePawn,
+            MovePawn2,
             Gap_1,
-            Gap_2,
             UseHint,
             UseHelp,
             End_1,
@@ -52,6 +52,7 @@ namespace Equation
         [SerializeField] GameObject Welcome_Message;
         [SerializeField] GameObject Introduce_Message;
         [SerializeField] GameObject MovePawn_Message;
+        [SerializeField] GameObject MovePawn_Message_2;
         [SerializeField] GameObject Hint_Message;
         [SerializeField] GameObject Help_Message;
         [SerializeField] int _canvasElementOrder = 7;
@@ -129,6 +130,7 @@ namespace Equation
             Welcome_Message.SetActive(false);
             Introduce_Message.SetActive(false);
             MovePawn_Message.SetActive(false);
+            MovePawn_Message_2.SetActive(false);
             Hint_Message.SetActive(false);
             Help_Message.SetActive(false);
             _handTr.gameObject.SetActive(false);
@@ -155,14 +157,14 @@ namespace Equation
                 });
             }
 
-            if (CurrentStep == Steps.Introduce || CurrentStep == Steps.MovePawn || CurrentStep == Steps.Gap_1 || CurrentStep == Steps.Gap_2 || CurrentStep == Steps.UseHint)
+            if (CurrentStep == Steps.Introduce || CurrentStep == Steps.MovePawn || CurrentStep == Steps.Gap_1 || CurrentStep == Steps.UseHint)
             {
                 _gameSceneTutData.BackButton.SetActive(false);
                 _gameSceneTutData.ResultPanelMenuButton.SetActive(false);
                 _gameSceneTutData.ResultPanelReplayButton.SetActive(false);
             }
             
-            if (CurrentStep == Steps.Gap_1 || CurrentStep == Steps.Gap_2)
+            if (CurrentStep == Steps.Gap_1)
             {
                 CurrentStep++;
                 yield break;
@@ -190,7 +192,7 @@ namespace Equation
                         Destroy(_stepRayeCaster);
                         Destroy(_stepCanvas);
                         _handTr.gameObject.SetActive(false);
-                        CurrentStep = Steps.Gap_1;
+                        CurrentStep = Steps.MovePawn2;
                     }
                     else
                     {
@@ -216,6 +218,68 @@ namespace Equation
                     var trans = new List<Transform>();
                     trans.Add(_gameSceneTutData.Board.Pawns[_gameSceneTutData.HandDragIndeices[0]].transform);
                     trans.Add(_gameSceneTutData.Board.Cells[_gameSceneTutData.HandDragIndeices[1]].rectTr.transform);
+                    _handTr.gameObject.SetActive(true);
+                    _handTr.position = trans[0].position;
+                    var handImage = _handTr.GetComponent<Image>();
+                    var color = handImage.color;
+                    color.a = 0;
+                    handImage.color = color;
+                    _handDragSeq?.Kill();
+                    _handTr.DOKill();
+                    var seq = DOTween.Sequence();
+                    seq.SetDelay(.5f);
+                    seq.Append(handImage.DOFade(1, .3f));
+                    seq.Append(_handTr.DOMove(trans[0].position, .5f));
+                    seq.Append(_handTr.DOMove(trans[1].position, .5f));
+                    seq.AppendInterval(.5f);
+                    seq.Append(handImage.DOFade(0, .3f));
+                    seq.AppendInterval(.2f);
+                    seq.SetLoops(-1);
+                    _handDragSeq = seq;
+                }
+                
+                yield return new WaitForSeconds(1.5f);
+
+                _stepRayeCaster = _gameSceneTutData.BoardTable.gameObject.AddComponent<GraphicRaycaster>();
+            }
+            
+            if (CurrentStep == Steps.MovePawn2)
+            {
+                _gameSceneTutData.Board.PawnMovedEvent += right =>
+                {
+                    if (right)
+                    {
+                        _gameSceneTutData.Board.GameFinishedEvent = null;
+                        _tutorialCanvasGroup.DOFade(0, .2f).onComplete = () => _tutorialCanvasGroup.gameObject.SetActive(false);
+                        Destroy(_stepRayeCaster);
+                        Destroy(_stepCanvas);
+                        _handTr.gameObject.SetActive(false);
+                        CurrentStep = Steps.Gap_1;
+                    }
+                    else
+                    {
+                        ShowHandDrag();
+                    }
+                };
+
+                _tutorialCanvasGroup.alpha = 0;
+                _tutorialCanvasGroup.gameObject.SetActive(true);
+                yield return new WaitForSeconds(.5f);
+                _stepCanvas = _gameSceneTutData.BoardTable.gameObject.AddComponent<Canvas>();
+                _stepCanvas.overrideSorting = true;
+                _stepCanvas.sortingOrder = _canvasElementOrder;
+                MovePawn_Message_2.SetActive(true);
+                _tutorialCanvasGroup.DOFade(1, 1);
+
+                yield return new WaitForSeconds(1);
+
+                ShowHandDrag();
+
+                void ShowHandDrag()
+                {
+                    var trans = new List<Transform>();
+                    trans.Add(_gameSceneTutData.Board.Pawns[_gameSceneTutData.HandDragIndeices[2]].transform);
+                    trans.Add(_gameSceneTutData.Board.Cells[_gameSceneTutData.HandDragIndeices[3]].rectTr.transform);
                     _handTr.gameObject.SetActive(true);
                     _handTr.position = trans[0].position;
                     var handImage = _handTr.GetComponent<Image>();
@@ -324,7 +388,7 @@ namespace Equation
 
         void Update()
         {
-            if (CurrentStep == Steps.MovePawn)
+            if (CurrentStep == Steps.MovePawn || CurrentStep == Steps.MovePawn2)
             {
                 if (_gameSceneTutData != null && _handTr.gameObject.activeSelf)
                 {

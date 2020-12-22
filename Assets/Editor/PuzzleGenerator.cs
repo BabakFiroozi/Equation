@@ -89,6 +89,8 @@ namespace Equation.Tools
             _cullShuffleCount = EditorPrefs.GetInt("PuzzleGenerator_cullShuffleCount", _cullShuffleCount);
             _cullMaxNum = EditorPrefs.GetInt("PuzzleGenerator_cullMaxNum", _cullMaxNum);
             _genOppers = EditorPrefs.GetString("PuzzleGenerator_genOppers", _genOppers);
+            _saveGameLevel = EditorPrefs.GetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
+            _loadedLevel = EditorPrefs.GetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
         }
 
         void OnDestroy()
@@ -104,6 +106,8 @@ namespace Equation.Tools
             EditorPrefs.SetInt("PuzzleGenerator_cullShuffleCount", _cullShuffleCount);
             EditorPrefs.SetInt("PuzzleGenerator_cullMaxNum", _cullMaxNum);
             EditorPrefs.SetString("PuzzleGenerator_genOppers", _genOppers);
+            EditorPrefs.SetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
+            EditorPrefs.SetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
         }
         
         static void DeletePrefs()
@@ -119,6 +123,8 @@ namespace Equation.Tools
             EditorPrefs.DeleteKey("PuzzleGenerator_cullShuffleCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_cullMaxNum");
             EditorPrefs.DeleteKey("PuzzleGenerator_genOppers");
+            EditorPrefs.DeleteKey("PuzzleGenerator_saveGameLevel");
+            EditorPrefs.DeleteKey("PuzzleGenerator_loadedLevel");
         }
 
 
