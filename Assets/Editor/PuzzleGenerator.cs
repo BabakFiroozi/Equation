@@ -474,8 +474,8 @@ namespace Equation.Tools
                 _culledSelectedStage = 0;
                 _selectedStage = -1;
                 _puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
-                // _rowsCount = _puzzle.rows;
-                // _colsCount = _puzzle.columns;
+                _rowsCount = _puzzle.rows;
+                _colsCount = _puzzle.columns;
             }
             catch (Exception e)
             {
