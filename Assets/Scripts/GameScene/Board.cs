@@ -482,10 +482,12 @@ namespace Equation
 
             int diff = MovesCount - ShufflesCount;
 
+            int limit = ClausesCount;
+
             int rank = 1;
-            if (diff < 3)
+            if (diff < limit)
                 rank = 3;
-            else if (diff < 9)
+            else if (diff < limit * 2)
                 rank = 2;
 
             GameSaveData.SetStageRank(DataHelper.Instance.LastPlayedInfo, rank);
