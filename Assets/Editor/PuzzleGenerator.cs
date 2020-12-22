@@ -416,6 +416,27 @@ namespace Equation.Tools
                 _culledPuzzlesPack.puzzles.Add(puzzle);
             }
         }
+        
+        /*void __PourToCulled()
+        {
+            if (_culledPuzzlesPack == null)
+                _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
+            
+            int i = 3;
+            {
+                var p = _puzzlesPack.puzzles[0];
+                var puzzle = new Puzzle();
+                puzzle.id = p.id;
+                puzzle.rows = p.rows;
+                puzzle.columns = p.columns;
+                puzzle.clauses = p.clauses;
+                puzzle.segments = p.segments.ToList();
+                puzzle.shuffle = p.shuffle;
+                puzzle.stage = i;
+                _culledPuzzlesPack.puzzles.RemoveAt(i);
+                _culledPuzzlesPack.puzzles.Insert(i, puzzle);
+            }
+        }*/
 
 
         void ClearGenPuzzles()
