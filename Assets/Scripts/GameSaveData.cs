@@ -60,6 +60,9 @@ namespace Equation
 
 		public static void SetStageRank(PuzzlePlayedInfo info, int rank)
 		{
+			int oldRank = GetStageRank(info);
+			if(rank <= oldRank)
+				return;
 			string key = $"Stage_Rank_{info.Level}_{info.Stage}_{info.Daily}";
 			PlayerPrefs.SetInt(key, rank);
 		}

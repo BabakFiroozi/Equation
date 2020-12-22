@@ -76,14 +76,13 @@ namespace Equation
 		IEnumerator _ShowFrame()
 		{
 			_nextLevelText.gameObject.SetActive(false);
+			_alreadySolvedText.SetActive(false);
 			
 			var buttonsObj = _replayButton.transform.parent.gameObject;
 			buttonsObj.SetActive(false);
 
 			foreach (var star in _stars)
 				star.gameObject.SetActive(false);
-
-			_alreadySolvedText.SetActive(_alreadySolved);
 
 			var rewardGroup = _rewardText.transform.parent.gameObject.GetComponent<CanvasGroup>();
 			rewardGroup.gameObject.SetActive(!_alreadySolved);
@@ -135,18 +134,26 @@ namespace Equation
 
 			int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
 			
-			rewardGroup.DOFade(1, .3f);
-			GiveReward(stageReward);
+			if(!_alreadySolved)
+			{
+				rewardGroup.DOFade(1, .3f);
+				GiveReward(stageReward);
+			}
+			else
+			{
+				_alreadySolvedText.SetActive(true);
+				_alreadySolvedText.GetComponent<AudioSource>().Play();
+			}
 
-			yield return new WaitForSeconds(.5f);
+			yield return new WaitForSeconds(.35f);
 
 			buttonsObj.SetActive(true);
 			var buttonsGroup = buttonsObj.GetComponent<CanvasGroup>();
 			buttonsGroup.alpha = 0;
-			buttonsGroup.DOFade(1, .3f);
+			buttonsGroup.DOFade(1, .2f);
 			buttonsGroup.GetComponent<AudioSource>().Play();
 
-			yield return new WaitForSeconds(.3f);
+			yield return new WaitForSeconds(.2f);
 
 			if (currentPlayedInfo.Stage == GameWord.Instance.Board.StagesCount - 1)
 			{
@@ -156,8 +163,11 @@ namespace Equation
 				{
 					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";
 					LevelsPanel.ResetStageHistoryScroll();
-					int levelReward = (currentPlayedInfo.Level + 1) * 100;
-					GiveReward(levelReward, stageReward);
+					if(!_alreadySolved)
+					{
+						int levelReward = (currentPlayedInfo.Level + 1) * 100;
+						GiveReward(levelReward, stageReward);
+					}
 				}
 				else
 				{
