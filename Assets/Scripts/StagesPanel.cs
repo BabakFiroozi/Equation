@@ -21,6 +21,8 @@ namespace Equation
         public void Show()
         {
             _popupScreen.Show();
+            
+            _stagesContent.anchoredPosition = Vector2.zero;
 
             var playedInfo = DataHelper.Instance.LastPlayedInfo;
             _levelText.text = $"<color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Stages_Of_level")}</color>";
