@@ -145,7 +145,7 @@ namespace Equation
 				_alreadySolvedText.GetComponent<AudioSource>().Play();
 			}
 
-			yield return new WaitForSeconds(.35f);
+			yield return new WaitForSeconds(.4f);
 
 			buttonsObj.SetActive(true);
 			var buttonsGroup = buttonsObj.GetComponent<CanvasGroup>();
