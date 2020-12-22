@@ -1088,7 +1088,7 @@ namespace Equation.Tools
                 string savePath = $"{Application.dataPath}/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
                 File.WriteAllText(savePath, JsonUtility.ToJson(_culledPuzzlesPack));
                 //Import asset again for updating file
-                string filePath = $"Assets/{SAVE_PATH}/{_saveGameLevel:000}.json";
+                string filePath = $"Assets/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
                 AssetDatabase.ImportAsset(filePath);
                 AssetDatabase.Refresh();
                 Debug.Log($"Puzzle saved level_{_saveGameLevel:000}");
