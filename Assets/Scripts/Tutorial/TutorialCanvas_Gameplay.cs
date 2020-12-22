@@ -176,7 +176,7 @@ namespace Equation
                 _tutorialCanvasGroup.alpha = 0;
                 yield return new WaitForSeconds(1);
                 _tutorialCanvasGroup.DOFade(1, 1);
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(3);
                 var tr = Introduce_Message.GetComponent<RectTransform>();
                 ShowNextButton(tr.anchoredPosition + new Vector2(0, -tr.rect.height / 2));
             }
@@ -206,6 +206,8 @@ namespace Equation
                 _stepCanvas = _gameSceneTutData.BoardTable.gameObject.AddComponent<Canvas>();
                 _stepCanvas.overrideSorting = true;
                 _stepCanvas.sortingOrder = _canvasElementOrder;
+                _stepRayeCaster = _gameSceneTutData.BoardTable.gameObject.AddComponent<GraphicRaycaster>();
+                _stepRayeCaster.enabled = false;
                 MovePawn_Message.SetActive(true);
                 _tutorialCanvasGroup.DOFade(1, 1);
 
@@ -240,7 +242,7 @@ namespace Equation
                 
                 yield return new WaitForSeconds(1.5f);
 
-                _stepRayeCaster = _gameSceneTutData.BoardTable.gameObject.AddComponent<GraphicRaycaster>();
+                _stepRayeCaster.enabled = true;
             }
             
             if (CurrentStep == Steps.MovePawn2)
@@ -268,6 +270,8 @@ namespace Equation
                 _stepCanvas = _gameSceneTutData.BoardTable.gameObject.AddComponent<Canvas>();
                 _stepCanvas.overrideSorting = true;
                 _stepCanvas.sortingOrder = _canvasElementOrder;
+                _stepRayeCaster = _gameSceneTutData.BoardTable.gameObject.AddComponent<GraphicRaycaster>();
+                _stepRayeCaster.enabled = false;
                 MovePawn_Message_2.SetActive(true);
                 _tutorialCanvasGroup.DOFade(1, 1);
 
@@ -301,8 +305,8 @@ namespace Equation
                 }
                 
                 yield return new WaitForSeconds(1.5f);
-
-                _stepRayeCaster = _gameSceneTutData.BoardTable.gameObject.AddComponent<GraphicRaycaster>();
+                
+                _stepRayeCaster.enabled = true;
             }
 
             if (CurrentStep == Steps.UseHint)
@@ -318,8 +322,8 @@ namespace Equation
                 _stepCanvas = _gameSceneTutData.HintButton.gameObject.AddComponent<Canvas>();
                 _stepCanvas.overrideSorting = true;
                 _stepCanvas.sortingOrder = _canvasElementOrder;
-
                 _stepRayeCaster = _gameSceneTutData.HintButton.gameObject.AddComponent<GraphicRaycaster>();
+                _stepRayeCaster.enabled = false;
 
                 GameSaveData.AddCoin(GameConfig.Instance.HintCost, false, 0);
 
@@ -342,6 +346,8 @@ namespace Equation
                 seq.SetLoops(-1);
 
                 yield return new WaitForSeconds(.5f);
+                
+                _stepRayeCaster.enabled = true;
             }
 
             if (CurrentStep == Steps.UseHelp)
@@ -358,6 +364,7 @@ namespace Equation
                 _stepCanvas.overrideSorting = true;
                 _stepCanvas.sortingOrder = _canvasElementOrder;
                 _stepRayeCaster = _gameSceneTutData.HelpButton.gameObject.AddComponent<GraphicRaycaster>();
+                _stepRayeCaster.enabled = false;
 
                 GameSaveData.AddCoin(GameConfig.Instance.HelpCost, false, 0);
                 
@@ -381,6 +388,8 @@ namespace Equation
                 seq.SetLoops(-1);
 
                 yield return new WaitForSeconds(.5f);
+                
+                _stepRayeCaster.enabled = true;
             }
         }
         
