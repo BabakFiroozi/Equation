@@ -485,7 +485,7 @@ namespace Equation
             int rank = 1;
             if (diff < 3)
                 rank = 3;
-            else if (diff < 6)
+            else if (diff < 9)
                 rank = 2;
 
             GameSaveData.SetStageRank(DataHelper.Instance.LastPlayedInfo, rank);
