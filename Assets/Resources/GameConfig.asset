@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5071970d8b890e54d832220f6bf0e36d, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _tutorialIsActive: 1
-  _gameIsUnlock: 0
+  _tutorialIsActive: 0
+  _gameIsUnlock: 1
   _playerInitialCoin: 1000
   _hintCost: 30
   _helpCost: 90

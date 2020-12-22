@@ -132,7 +132,7 @@ namespace Equation
 			yield return new WaitForSeconds(delay + .15f);
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
-			const int reward_per_level = 5;
+			const int reward_per_level = 10;
 			const int reward_per_stage = 1;
 			
 			int stageReward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage + CalcShuffleBasedReward();
@@ -186,7 +186,8 @@ namespace Equation
 			float coef = 0;
 			if (board.ShufflesCount > limit)
 			{
-				coef = (board.ShufflesCount - limit) / 3f;
+				//TODO - reward calcualation
+				coef = (board.ShufflesCount - limit) / 5f;
 			}
 
 			int reward = (int) (coef * GameConfig.Instance.HintCost);

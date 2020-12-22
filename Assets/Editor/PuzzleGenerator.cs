@@ -425,6 +425,8 @@ namespace Equation.Tools
                 puzzle.stage = initCount + i;
                 _culledPuzzlesPack.puzzles.Add(puzzle);
             }
+
+            _culledStagesScrollPos.y += _puzzlesPack.puzzles.Count * 20;
         }
         
         void ReplaceToCulled(int repNum)
