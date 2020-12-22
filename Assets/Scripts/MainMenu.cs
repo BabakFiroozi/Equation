@@ -101,6 +101,7 @@ namespace Equation
                 {
                     if (Random.Range(0, 100) < 50)
                     {
+                        _nativeBannerSeen = true;
                         _otherProduct.DOAnchorPos(otherProductPos, .5f).SetEase(Ease.OutBack).SetDelay(.5f);
                         _otherProduct.GetComponent<Button>().onClick.AddListener(() => { Application.OpenURL("https://cafebazaar.ir/app/com.babgames.ganjyab"); });
                     }

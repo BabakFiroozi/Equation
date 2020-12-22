@@ -73,7 +73,8 @@ namespace Equation.Tools
         int _cullMaxNum = 99;
 
         string _generatingMessage = "";
-        
+
+        int _replaceStageIndex = -1;
 
         void Awake()
         {
@@ -221,9 +222,18 @@ namespace Equation.Tools
 
             if (_puzzlesPack != null)
             {
+                _replaceStageIndex = EditorGUI.IntField(new Rect(650 + 70, 150, 40, 20), _replaceStageIndex);
                 if (GUI.Button(new Rect(650, 150, 60, 20), "Put ->"))
                 {
-                    PourToCulled();
+                    if (_replaceStageIndex > -1)
+                    {
+                        ReplaceToCulled(_replaceStageIndex);
+                        _replaceStageIndex = -1;
+                    }
+                    else
+                    {
+                        PourToCulled();
+                    }
                 }
             }
 
@@ -417,12 +427,12 @@ namespace Equation.Tools
             }
         }
         
-        /*void __PourToCulled()
+        void ReplaceToCulled(int repNum)
         {
             if (_culledPuzzlesPack == null)
                 _culledPuzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
-            int i = 3;
+            int i = repNum - 1;
             {
                 var p = _puzzlesPack.puzzles[0];
                 var puzzle = new Puzzle();
@@ -436,7 +446,7 @@ namespace Equation.Tools
                 _culledPuzzlesPack.puzzles.RemoveAt(i);
                 _culledPuzzlesPack.puzzles.Insert(i, puzzle);
             }
-        }*/
+        }
 
 
         void ClearGenPuzzles()
