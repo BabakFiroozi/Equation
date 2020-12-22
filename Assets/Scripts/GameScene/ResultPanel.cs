@@ -132,10 +132,8 @@ namespace Equation
 			yield return new WaitForSeconds(delay + .15f);
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
-			const int reward_per_level = 10;
-			const int reward_per_stage = 1;
-			
-			int stageReward = (currentPlayedInfo.Level + 1) * reward_per_level + (currentPlayedInfo.Stage + 1) * reward_per_stage + CalcShuffleBasedReward();
+
+			int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
 			
 			rewardGroup.DOFade(1, .3f);
 			GiveReward(stageReward);
@@ -236,7 +234,7 @@ namespace Equation
 
 			if (!_ratePageAsked && !GameSaveData.IsGameRated())
 			{
-				if (currentPlayedInfo.Stage > 0 && currentPlayedInfo.Stage % 10 == 0)
+				if (currentPlayedInfo.Level > 1 && currentPlayedInfo.Stage > 0 && currentPlayedInfo.Stage % 10 == 0)
 				{
 					_ratePageAsked = true;
 					var obj = Instantiate(_rateAskPageObj, transform.parent);
