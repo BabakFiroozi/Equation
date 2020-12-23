@@ -935,7 +935,7 @@ namespace Equation.Tools
                 {
                     if (loopIter++ > 1000)
                         break;
-                } while (!TryShuffleSegments(shuffleIter == 0, ref shuffledCount));
+                } while (!TryShuffleSegments(shuffleIter % 2 == 0, ref shuffledCount));
 
                 totalShuffle += shuffledCount;
             } while (++shuffleIter < _shuffleCount);
@@ -947,7 +947,7 @@ namespace Equation.Tools
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments(bool firstShuffle, ref int shuffledCount)
+        bool TryShuffleSegments(bool isHor, ref int shuffledCount)
         {
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
@@ -960,10 +960,10 @@ namespace Equation.Tools
             
             var horClausesList = new List<List<int>>();
             var verClausesList = new List<List<int>>();
-            _horClauses.ForEach(g => horClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
-            _verClauses.ForEach(g => verClausesList.Add(g.parts.Select(p => p.cellIndex).ToList()));
+            _horClauses.ForEach(clause => horClausesList.Add(clause.parts.Select(p => p.cellIndex).ToList()));
+            _verClauses.ForEach(clause => verClausesList.Add(clause.parts.Select(p => p.cellIndex).ToList()));
 
-            int needShuffles = firstShuffle ? horClausesList.Count + verClausesList.Count : 1;
+            int needShuffles = 1;
 
             var holdsList = new List<int>();
             do
@@ -992,30 +992,32 @@ namespace Equation.Tools
                 return false;
             }
 
-            if(firstShuffle)
+            bool failed = false;
+            if (isHor)
             {
-                bool failed = false;
-                foreach (var g in horClausesList)
+                foreach (var clause in horClausesList)
                 {
-                    if (!g.Intersect(heldsList).Any())
+                    if (!clause.Intersect(heldsList).Any())
                     {
                         failed = true;
                         break;
                     }
                 }
-
-                foreach (var g in verClausesList)
-                {
-                    if (!g.Intersect(heldsList).Any())
-                    {
-                        failed = true;
-                        break;
-                    }
-                }
-
-                if (failed)
-                    return false;
             }
+            else
+            {
+                foreach (var clause in verClausesList)
+                {
+                    if (!clause.Intersect(heldsList).Any())
+                    {
+                        failed = true;
+                        break;
+                    }
+                }
+            }
+
+            if (failed)
+                return false;
             
             shuffledCount = heldsList.Count;
 
