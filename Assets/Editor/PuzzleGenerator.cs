@@ -458,6 +458,12 @@ namespace Equation.Tools
             _puzzlesPack = null;
             _puzzle = null;
 
+            if (_shuffleCount > Mathf.Abs(_clausesCount) * 5 - 1)
+            {
+                Debug.LogWarning("Failed to start generate puzzles. Invalid shuffle count paramter.");
+                return;
+            }
+
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
             
@@ -498,6 +504,7 @@ namespace Equation.Tools
 
                 await Task.Delay(100);
                 ShuffleSegments();
+                
                 _selectedStage = loopIter;
                 Repaint();
 
@@ -894,113 +901,54 @@ namespace Equation.Tools
             int shuffleIter = 0;
             do
             {
-                int shuffledCount = 0;
-                int loopIter = 0;
-                do
-                {
-                    if (loopIter++ > 1000)
-                        break;
-                } while (!TryShuffleSegments(shuffleIter % 2 == 0, ref shuffledCount));
-
-                totalShuffle += shuffledCount;
+                TryShuffleSegments();
+                totalShuffle++;
             } while (++shuffleIter < _shuffleCount);
-
-            // if (_puzzlesPack.puzzles.Exists(p => p.id == _puzzle.id))
-            //     return;
 
             _puzzle.shuffle = totalShuffle;
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
-        bool TryShuffleSegments(bool isHor, ref int shuffledCount)
+        void TryShuffleSegments()
         {
-            var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
+            var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
 
-            if (hollowSegs.Count == 0 || fixedSegs.Count == 0)
-            {
-                Debug.LogWarning("Shuffle skipped because holdsList.Count or heldsList.Count is zero.");
-                return false;
-            }
+            Segment heldSeg = null;
+            Segment holdSeg = null;
             
-            var horClausesList = new List<List<int>>();
-            var verClausesList = new List<List<int>>();
-            _horClauses.ForEach(clause => horClausesList.Add(clause.parts.Select(p => p.cellIndex).ToList()));
-            _verClauses.ForEach(clause => verClausesList.Add(clause.parts.Select(p => p.cellIndex).ToList()));
+            var allHorPartIndices = _horClauses.SelectMany(h => h.parts.Select(p => p.cellIndex)).ToList();
+            var horFixedSegIndices = fixedSegs.Select(s => s.cellIndex).ToList();
+            var horSegIndices = allHorPartIndices.Intersect(horFixedSegIndices).ToList();
 
-            int needShuffles = 1;
-
-            var holdsList = new List<int>();
-            do
-            {
-                int index = Random.Range(0, hollowSegs.Count);
-                holdsList.Add(hollowSegs[index].cellIndex);
-                hollowSegs.RemoveAt(index);
-                if(hollowSegs.Count == 0)
-                    break;
-            } while (holdsList.Count < needShuffles);
+            var allVerPartIndices = _verClauses.SelectMany(h => h.parts.Select(p => p.cellIndex)).ToList();
+            var verFixedSegIndices = fixedSegs.Select(s => s.cellIndex).ToList();
+            var verSegIndices = allVerPartIndices.Intersect(verFixedSegIndices).ToList();
             
-            var heldsList = new List<int>();
-            do
-            {
-                int index = Random.Range(0, fixedSegs.Count);
-                heldsList.Add(fixedSegs[index].cellIndex);
-                fixedSegs.RemoveAt(index);
-                if(fixedSegs.Count == 0)
-                    break;
-            } while (heldsList.Count < needShuffles);
-
             
-            if (holdsList.Count != heldsList.Count)
-            {
-                Debug.LogWarning("Shuffle skipped because holdsList.Count and heldsList.Count must be equal.");
-                return false;
-            }
+            bool isHor = horSegIndices.Count >= verSegIndices.Count;
 
-            bool failed = false;
+
             if (isHor)
             {
-                foreach (var clause in horClausesList)
-                {
-                    if (!clause.Intersect(heldsList).Any())
-                    {
-                        failed = true;
-                        break;
-                    }
-                }
+                var cellIndex = horSegIndices[Random.Range(0, horSegIndices.Count)];
+                heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
             }
             else
             {
-                foreach (var clause in verClausesList)
-                {
-                    if (!clause.Intersect(heldsList).Any())
-                    {
-                        failed = true;
-                        break;
-                    }
-                }
+                
+                var cellIndex = verSegIndices[Random.Range(0, verSegIndices.Count)];
+                heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
             }
 
-            if (failed)
-                return false;
+            holdSeg = hollowSegs[Random.Range(0, hollowSegs.Count)];
             
-            shuffledCount = heldsList.Count;
-
-            do
-            {
-                int hold = holdsList.ElementAt(0);
-                int held = heldsList.ElementAt(0);
-                holdsList.RemoveAt(0);
-                heldsList.RemoveAt(0);
-
-                _puzzle.segments[hold].hold = held;
-                _puzzle.segments[hold].content = _puzzle.segments[held].content;
-                _puzzle.segments[held].type = SegmentTypes.Modified;
-                // _puzzle.segments[held].content = "";
-                
-            } while (holdsList.Count > 0);
+            _puzzle.segments[holdSeg.cellIndex].hold = heldSeg.cellIndex;
+            _puzzle.segments[holdSeg.cellIndex].content = _puzzle.segments[heldSeg.cellIndex].content;
+            _puzzle.segments[heldSeg.cellIndex].type = SegmentTypes.Modified;
+            // _puzzle.segments[heldSeg.cellIndex].content = "";
             
-            return true;
+            Debug.Log("Shuffled. " + isHor);
         }
         
         
