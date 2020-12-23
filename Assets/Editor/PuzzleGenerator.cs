@@ -170,37 +170,25 @@ namespace Equation.Tools
                 }
             }
 
-            _generateCount = EditorGUI.IntField(new Rect(520 - 250, 20, 30, 20), _generateCount);
-            if (GUI.Button(new Rect(450 - 250, 20, 65, 20), "Generate"))
+            _generateCount = EditorGUI.IntField(new Rect(540 - 250 + 20, 20, 30, 20), _generateCount);
+            if (GUI.Button(new Rect(470 - 250 + 20, 20, 65, 20), "Generate"))
             {
                 GeneratePuzzles();
             }
 
-            if (GUI.Button(new Rect(400 - 250, 20, 42, 20), "Clear"))
-            {
-                if (EditorUtility.DisplayDialog("Clear", "Are you sure to clear loaded or generated puzzles?", "yes", "no"))
-                    ClearGenPuzzles();
-            }
+            GUI.Label(new Rect(400 - 250 + 20, 47, 50, 20), "Range");
 
-            GUI.Label(new Rect(400 - 250, 47, 50, 20), "Range");
+            _numMinRange = EditorGUI.IntField(new Rect(470 - 250 + 20, 45, 45, 20), _numMinRange);
+            _numMaxRange = EditorGUI.IntField(new Rect(525 - 250 + 20, 45, 45, 20), _numMaxRange);
 
-            _numMinRange = EditorGUI.IntField(new Rect(450 - 250, 45, 45, 20), _numMinRange);
-            _numMaxRange = EditorGUI.IntField(new Rect(505 - 250, 45, 45, 20), _numMaxRange);
+            GUI.Label(new Rect(400 - 250 + 20, 70, 50, 20), "Oppers");
+            _genOppers = GUI.TextField(new Rect(470 - 250 + 20, 70, 60, 20), _genOppers);
 
-            GUI.Label(new Rect(400 - 250, 70, 50, 20), "Oppers");
-            _genOppers = GUI.TextField(new Rect(450 - 250, 70, 60, 20), _genOppers);
+            GUI.Label(new Rect(400 - 250 + 20, 95, 60, 20), "Shuffle");
+            _shuffleCount = EditorGUI.IntField(new Rect(470 - 250 + 20, 95, 30, 20), _shuffleCount);
 
-            GUI.Label(new Rect(400 - 250, 95, 60, 20), "Shuffle");
-            _shuffleCount = EditorGUI.IntField(new Rect(450 - 250, 95, 30, 20), _shuffleCount);
-
-
-            if (GUI.Button(new Rect(450, 20, 60, 20), "Cull"))
-            {
-                CullGeneratedPuzzles();
-            }
-
-            GUI.Label(new Rect(450 - 60, 50, 60, 20), "MaxNum");
-            _cullMaxNum = EditorGUI.IntField(new Rect(450, 50, 40, 20), _cullMaxNum);
+            GUI.Label(new Rect(400 - 250 + 20, 120, 60, 20), "MaxNum");
+            _cullMaxNum = EditorGUI.IntField(new Rect(470 - 250 + 20, 120, 40, 20), _cullMaxNum);
 
             _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
@@ -445,13 +433,6 @@ namespace Equation.Tools
         }
 
 
-        void ClearGenPuzzles()
-        {
-            _puzzlesPack = null;
-            _puzzle = null;
-        }
-
-
         void LoadPuzzlePack(int level)
         {
             try
@@ -474,7 +455,8 @@ namespace Equation.Tools
 
         async void GeneratePuzzles()
         {
-            ClearGenPuzzles();
+            _puzzlesPack = null;
+            _puzzle = null;
 
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
@@ -508,6 +490,12 @@ namespace Equation.Tools
                     continue;
                 }
 
+                if (IsOutOfMaxNumber(_puzzle))
+                {
+                    Debug.LogWarning("<color=yellow>Puzzle with a number out of max. retried in GeneratePuzzles.</color>");
+                    continue;
+                }
+
                 await Task.Delay(100);
                 ShuffleSegments();
                 _selectedStage = loopIter;
@@ -523,32 +511,21 @@ namespace Equation.Tools
             _generatingMessage = "Generating puzzles finished.";
         }
 
-        void CullGeneratedPuzzles()
+        bool IsOutOfMaxNumber(Puzzle p)
         {
-            if (_puzzlesPack == null)
+            bool ret = false;
+            var numbers = new List<int>();
+            foreach (var s in p.segments)
             {
-                Debug.LogError("Cull failed. Puzzle pack is null");
-                return;
+                bool res = int.TryParse(s.content, out int num);
+                if (res)
+                    numbers.Add(num);
             }
-            
-            var puzzles = _puzzlesPack.puzzles.Where(p =>
-            {
-                bool ret = p.clauses == _clausesCount && (p.shuffle == 0 || p.shuffle == _shuffleCount);
-                var numbers = new List<int>();
-                foreach (var s in p.segments)
-                {
-                    bool res = int.TryParse(s.content, out int num);
-                    if (res)
-                        numbers.Add(num);
-                }
 
-                if (numbers.Exists(n => n > _cullMaxNum))
-                    ret = false;
+            if (numbers.Exists(n => n > _cullMaxNum))
+                ret = true;
 
-                return ret;
-            });
-
-            _puzzlesPack.puzzles = puzzles.ToList();
+            return ret;
         }
 
         void GeneratePatternSingle(bool hor)
