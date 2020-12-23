@@ -68,8 +68,6 @@ namespace Equation.Tools
         
         int _generateCount = 1;
 
-        int _cullClausesCount = 2;
-        int _cullShuffleCount = 1;
         int _cullMaxNum = 99;
 
         string _generatingMessage = "";
@@ -85,8 +83,6 @@ namespace Equation.Tools
             _numMinRange = EditorPrefs.GetInt("PuzzleGenerator_numMinRange", _numMinRange);
             _numMaxRange = EditorPrefs.GetInt("PuzzleGenerator_numMaxRange", _numMaxRange);
             _loadedLevel = EditorPrefs.GetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
-            _cullClausesCount = EditorPrefs.GetInt("PuzzleGenerator_cullClausesCount", _cullClausesCount);
-            _cullShuffleCount = EditorPrefs.GetInt("PuzzleGenerator_cullShuffleCount", _cullShuffleCount);
             _cullMaxNum = EditorPrefs.GetInt("PuzzleGenerator_cullMaxNum", _cullMaxNum);
             _genOppers = EditorPrefs.GetString("PuzzleGenerator_genOppers", _genOppers);
             _saveGameLevel = EditorPrefs.GetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
@@ -102,8 +98,6 @@ namespace Equation.Tools
             EditorPrefs.SetInt("PuzzleGenerator_numMinRange", _numMinRange);
             EditorPrefs.SetInt("PuzzleGenerator_numMaxRange", _numMaxRange);
             EditorPrefs.SetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
-            EditorPrefs.SetInt("PuzzleGenerator_cullClausesCount", _cullClausesCount);
-            EditorPrefs.SetInt("PuzzleGenerator_cullShuffleCount", _cullShuffleCount);
             EditorPrefs.SetInt("PuzzleGenerator_cullMaxNum", _cullMaxNum);
             EditorPrefs.SetString("PuzzleGenerator_genOppers", _genOppers);
             EditorPrefs.SetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
@@ -205,14 +199,8 @@ namespace Equation.Tools
                 CullGeneratedPuzzles();
             }
 
-            GUI.Label(new Rect(450 - 60, 45, 60, 20), "Clauses");
-            _cullClausesCount = EditorGUI.IntField(new Rect(450, 45, 60, 20), _cullClausesCount);
-
-            GUI.Label(new Rect(450 - 60, 70, 60, 20), "MaxNum");
-            _cullMaxNum = EditorGUI.IntField(new Rect(450, 70, 40, 20), _cullMaxNum);
-
-            GUI.Label(new Rect(450 - 60, 95, 60, 20), "Shuffle");
-            _cullShuffleCount = EditorGUI.IntField(new Rect(450, 95, 30, 20), _cullShuffleCount);
+            GUI.Label(new Rect(450 - 60, 50, 60, 20), "MaxNum");
+            _cullMaxNum = EditorGUI.IntField(new Rect(450, 50, 40, 20), _cullMaxNum);
 
             _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
@@ -545,7 +533,7 @@ namespace Equation.Tools
             
             var puzzles = _puzzlesPack.puzzles.Where(p =>
             {
-                bool ret = p.clauses == _cullClausesCount && (p.shuffle == 0 || p.shuffle == p.clauses + _cullShuffleCount - 1);
+                bool ret = p.clauses == _clausesCount && (p.shuffle == 0 || p.shuffle == _shuffleCount);
                 var numbers = new List<int>();
                 foreach (var s in p.segments)
                 {
