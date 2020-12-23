@@ -102,6 +102,7 @@ namespace Equation
                 cellRectTr.sizeDelta = new Vector2(cellSize, cellSize);
                 cellRectTr.anchoredPosition = cell.pos;
                 cell.rectTr = cellRectTr;
+                cell.frame = cellObj.GetComponent<Image>();
 
                 if (seg.type == SegmentTypes.Modified)
                 {
@@ -171,9 +172,12 @@ namespace Equation
         
         public void SetGridVisible(bool on)
         {
+            Color color = Color.white;
             foreach (var cell in Cells)
             {
-                cell.rectTr.gameObject.SetActive(on);
+                color = cell.frame.color;
+                color.a = on ? 1 : 0;
+                cell.frame.color = color;
             }
         }
 
@@ -208,6 +212,7 @@ namespace Equation
                 else
                 {
                     nearestCell = prevDragging.Cell;
+                    OnCancelMove();
                 }
 
                 prevDragging.SetCell(nearestCell);
@@ -224,6 +229,22 @@ namespace Equation
 
             if (prevDragging != null)
                 OnRightMove(prevDragging.State == PawnStates.Right);
+        }
+
+        void OnCancelMove()
+        {
+            if(!GameSaveData.IsGridVisible())
+            {
+                Color color = Color.white;
+                foreach (var cell in Cells)
+                {
+                    color = cell.frame.color;
+                    color.a = 0;
+                    cell.frame.color = color;
+                    cell.frame.DOFade(1, .25f);
+                    cell.frame.DOFade(0, .25f).SetDelay(.25f + .15f);
+                }
+            }
         }
 
         void OnRightMove(bool right)
@@ -548,5 +569,6 @@ namespace Equation
         public Vector2 pos;
         public Pawn Pawn;
         public RectTransform rectTr;
+        public Image frame;
     }
 }
