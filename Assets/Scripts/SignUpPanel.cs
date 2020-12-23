@@ -20,6 +20,7 @@ namespace Equation
         [SerializeField] InputField _emailInput;
         [SerializeField] InputField _passwordInput;
         [SerializeField] Button _loginButton;
+        [SerializeField] Button _signupButton;
         [SerializeField] Text _messageText;
         [SerializeField] GameObject _loadingOverlay;
         [SerializeField] TextAsset _forbiddenWords;
@@ -42,6 +43,7 @@ namespace Equation
         void Start()
         {
             _loginButton.onClick.AddListener(DoLoginAsync);
+            _signupButton.onClick.AddListener(DoSignUpAsync);
         }
 
 

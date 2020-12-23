@@ -38,6 +38,7 @@ Enter=ورود
 Start=شروع
 Continue=ادامه
 Become=شدید
+Clause=عبارت
 
 Toman=تومان
 

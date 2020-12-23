@@ -23,7 +23,7 @@ namespace Equation
                 var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
                 var obj = Instantiate(_levelItemObj, _levelsContent);
                 var levelSelect = obj.GetComponent<LevelSelect>();
-                levelSelect.FillData(puzzlesPack.level, puzzlesPack.puzzles.Count);
+                levelSelect.FillData(puzzlesPack.level, puzzlesPack.puzzles[0].clauses, puzzlesPack.puzzles.Count);
                 if (StageResumed != null && StageResumed.Level == puzzlesPack.level)
                 {
                     levelSelect.OpenStages();

@@ -9,10 +9,12 @@ namespace Equation
         [SerializeField] Button _goButton;
         [SerializeField] Text _progressText;
         [SerializeField] Text _levelText;
+        [SerializeField] Text _clauseText;
         [SerializeField] GameObject _lockObject;
         [SerializeField] GameObject _stagesPanelObj;
 
         int _level;
+        int _clause;
         int _count;
         int _progress;
         
@@ -27,9 +29,10 @@ namespace Equation
             _stagesPanelObj.GetComponent<StagesPanel>().Show();
         }
 
-        public void FillData(int level, int count)
+        public void FillData(int level, int clause, int count)
         {
             _level = level;
+            _clause = clause;
             _count = count;
             _progress = 0;
 
@@ -42,6 +45,7 @@ namespace Equation
             }
 
             _levelText.text = $"{_level + 1} {Translator.GetString("Level")}";
+            _clauseText.text = $"{Translator.GetString("Clause")} {_clause}";
             _progressText.text = $"{_progress} / {_count}";
 
             bool unlcoked = GameSaveData.IsLevelUnlocked(_level) || GameConfig.Instance.GameIsUnlock;

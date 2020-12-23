@@ -229,13 +229,11 @@ namespace Equation
         void CalcLastPlayed()
         {
             int levels = DataHelper.Instance.LevelsCount;
-            int lastUnlockedLevel = 0;
+            int lastUnlockedLevel = -1;
             for (int l = 0; l < levels; ++l)
             {
                 if (GameSaveData.IsLevelUnlocked(l))
-                    continue;
-                lastUnlockedLevel = l - 1;
-                break;
+                    lastUnlockedLevel++;
             }
 
             var level = Resources.Load<TextAsset>($"Puzzles/level_{lastUnlockedLevel:000}");
