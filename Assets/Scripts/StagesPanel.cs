@@ -53,7 +53,10 @@ namespace Equation
         {
             yield return new  WaitForEndOfFrame();
             Vector2 pos = _stagesContent.anchoredPosition;
-            pos.y += (stage / 5 - 7) * 120 + 60 + 20;
+            float itemHeight =_stageItemObj.GetComponent<RectTransform>().rect.height + 10;
+            int itemsCount = (int)(_stagesContent.rect.height / itemHeight);
+            if (stage / 5 > itemsCount)
+                pos.y += (stage / 5 - itemsCount) * itemHeight + itemHeight / 2;
             _stagesContent.anchoredPosition = pos;
         }
     }
