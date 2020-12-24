@@ -132,7 +132,8 @@ namespace Equation
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
 
-			int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
+			// int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
+			int stageReward = GameWord.Instance.Board.ShufflesCount;
 			
 			if(!_alreadySolved)
 			{
@@ -165,7 +166,8 @@ namespace Equation
 					LevelsPanel.ResetStageHistoryScroll();
 					if(!_alreadySolved)
 					{
-						int levelReward = (currentPlayedInfo.Level + 1) * 100;
+						yield return new WaitForSeconds(.2f);
+						int levelReward = (currentPlayedInfo.Level + 1) * GameWord.Instance.Board.StagesCount;
 						GiveReward(levelReward, stageReward);
 					}
 				}

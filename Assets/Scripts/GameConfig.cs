@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 namespace Equation
 {
@@ -25,14 +26,14 @@ namespace Equation
 
 		[SerializeField] string _leaderboardId = "";
 
-		[SerializeField] int _freeCoinAmount = 100;
+		[SerializeField] int _freeCoinAmount = 20;
 		
 		[SerializeField] float _timeScale = 1.0f;
 
 		[SerializeField] bool _dailyIsLocal;
 		
 		[SerializeField] int _freeCoinDayCap = 5;
-		[SerializeField] int _freeGuideDayCap = 7;
+		[SerializeField] int _freeHintDayCap = 7;
 		[SerializeField] int _exitAdChance = 50;
 		
 		[SerializeField] WorldTimeAPIInfo _worldTimeAPI;
@@ -47,7 +48,7 @@ namespace Equation
 
 		public int PlayerInitialCoin => _playerInitialCoin;
 		
-		public int FreeCoinAmount => _freeCoinAmount;
+		public int FreeCoinAmount { get; private set; }
 		
 		public float TimeScale => _timeScale;
 
@@ -55,12 +56,12 @@ namespace Equation
 		
 		public bool DailyIsLocal => _dailyIsLocal;
 		
-		public int FreeGuideDayCap => _freeGuideDayCap;
+		public int FreeHintDayCap => _freeHintDayCap;
 		public int FreeCoinDayCap => _freeCoinDayCap;
 		public int ExitAdChance => _exitAdChance;
 		
 		public WorldTimeAPIInfo WorldTimeAPI => _worldTimeAPI;
-
+		
 
 		static GameConfig _instance;
 
@@ -69,7 +70,10 @@ namespace Equation
 			get
 			{
 				if (_instance == null)
+				{
 					_instance = Resources.Load<GameConfig>("GameConfig");
+					_instance.FreeCoinAmount = _instance._freeCoinAmount + Random.Range(0, _instance._freeCoinAmount / 2);
+				}
 				return _instance;
 			}
 		}

@@ -22,7 +22,7 @@ namespace Equation
 
         void Awake()
         {
-            if (!GameSaveData.HasDailyFreeGuide(GameConfig.Instance.FreeGuideDayCap))
+            if (!GameSaveData.HasDailyFreeGuide(GameConfig.Instance.FreeHintDayCap))
             {
                 gameObject.SetActive(false);
             }
