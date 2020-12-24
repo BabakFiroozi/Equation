@@ -460,14 +460,14 @@ namespace Equation.Tools
 
         async void GeneratePuzzles()
         {
-            _puzzlesPack = null;
-            _puzzle = null;
-
             if (_shuffleCount > Mathf.Abs(_clausesCount) * 5 - 1)
             {
                 Debug.LogWarning("Failed to start generate puzzles. Invalid shuffle count paramter.");
                 return;
             }
+            
+            _puzzlesPack = null;
+            _puzzle = null;
 
             if (_puzzlesPack == null)
                 _puzzlesPack = new PuzzlesPackModel {level = 0, puzzles = new List<Puzzle>()};
@@ -476,6 +476,10 @@ namespace Equation.Tools
             _culledSelectedStage = -1;
 
             _generatingMessage = "Generating Puzzles...";
+
+            await Task.Delay(50);
+
+            int patternBreakIter = -1;
 
             int loopIter = 0;
             do
@@ -487,16 +491,23 @@ namespace Equation.Tools
                     if (_clausesCount == -2)
                         GeneratePatternSingle(false);
                 }
-                
-                if(_clausesCount > 0)
+
+                if (_clausesCount > 0)
                 {
                     if (!GeneratePattern())
                     {
+                        patternBreakIter++;
+                        if (patternBreakIter > 2000)
+                        {
+                            Debug.LogWarning("<color=red>GeneratePattern failed to generate pattern with clauses count. GeneratePuzzles cancelled.</color>");
+                            break;
+                        }
+
                         Debug.LogWarning("<color=yellow>GeneratePattern retried in GeneratePuzzles.</color>");
                         continue;
                     }
                 }
-                
+
                 await Task.Delay(100);
                 Repaint();
                 if (!GenerateSegments(loopIter))
