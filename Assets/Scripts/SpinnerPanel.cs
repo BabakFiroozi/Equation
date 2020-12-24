@@ -173,7 +173,7 @@ namespace Equation
 
             float step = 360f / _tracksCount;
             int track = Random.Range(0, _tracksCount);
-            float spinsAngle = (_trackValues.Length - 3) * 360 + track * step;
+            float spinsAngle = (_trackValues.Length) * 360 + track * step;
             int reward = _valuesList[track];
 
             print("spinner reward: " + reward);
