@@ -35,6 +35,7 @@ namespace Equation.Tools
         int _colsCount = 8;
         int _clausesCount = 3;
         int _shuffleCount = 1;
+        bool _allowEmptyClause;
         
         int _numMinRange = 1;
         int _numMaxRange = 20;
@@ -87,6 +88,7 @@ namespace Equation.Tools
             _genOppers = EditorPrefs.GetString("PuzzleGenerator_genOppers", _genOppers);
             _saveGameLevel = EditorPrefs.GetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
             _loadedLevel = EditorPrefs.GetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
+            _allowEmptyClause = EditorPrefs.GetBool("PuzzleGenerator_allowEmptyClause", _allowEmptyClause);
         }
 
         void OnDestroy()
@@ -102,6 +104,7 @@ namespace Equation.Tools
             EditorPrefs.SetString("PuzzleGenerator_genOppers", _genOppers);
             EditorPrefs.SetInt("PuzzleGenerator_saveGameLevel", _saveGameLevel);
             EditorPrefs.SetInt("PuzzleGenerator_loadedLevel", _loadedLevel);
+            EditorPrefs.SetBool("PuzzleGenerator_allowEmptyClause", _allowEmptyClause);
         }
         
         static void DeletePrefs()
@@ -119,6 +122,7 @@ namespace Equation.Tools
             EditorPrefs.DeleteKey("PuzzleGenerator_genOppers");
             EditorPrefs.DeleteKey("PuzzleGenerator_saveGameLevel");
             EditorPrefs.DeleteKey("PuzzleGenerator_loadedLevel");
+            EditorPrefs.DeleteKey("PuzzleGenerator_allowEmptyClause");
         }
 
 
@@ -151,23 +155,21 @@ namespace Equation.Tools
             Rect tableRect = new Rect(160, 180, tableWidth + cell_margine * 1.5f, tableHeight + cell_margine * 1.5f);
             EditorGUI.DrawRect(tableRect, new Color(.8f, .7f, .4f, 1));
 
-            _allCellsList.Clear();
+            var drawCellsList = new List<Cell>();
             Vector2 cellPos = new Vector2(tableRect.x, tableRect.y);
-            for (int i = 0; i < _rowsCount * _colsCount; i++)
+            for (int i = 0; i < _allCellsList.Count; i++)
             {
-                Rect rect = new Rect(cellPos.x + cell_margine, cellPos.y + cell_margine, cellSize - cell_margine / 2, cellSize - cell_margine / 2);
-                EditorGUI.DrawRect(rect, new Color(.7f, .5f, .3f, 1));
-
-                var cell = new Cell {index = i, rect = rect, isBusy = false};
-                _allCellsList.Add(cell);
-
+                var cell = _allCellsList[i];
+                var drawCell = new Cell {index = cell.index, rect = cell.rect, isBusy = cell.isBusy};
+                drawCell.rect = new Rect(cellPos.x + cell_margine, cellPos.y + cell_margine, cellSize - cell_margine / 2, cellSize - cell_margine / 2);
+                drawCellsList.Add(drawCell);
                 cellPos.x += cellSize;
-
                 if ((i + 1) % _colsCount == 0)
                 {
                     cellPos.y += cellSize;
                     cellPos.x = tableRect.x;
                 }
+                EditorGUI.DrawRect(drawCell.rect, new Color(.7f, .5f, .3f, 1));
             }
 
             _generateCount = EditorGUI.IntField(new Rect(540 - 250 + 20, 20, 30, 20), _generateCount);
@@ -186,6 +188,8 @@ namespace Equation.Tools
 
             GUI.Label(new Rect(400 - 250 + 20, 95, 60, 20), "Shuffle");
             _shuffleCount = EditorGUI.IntField(new Rect(470 - 250 + 20, 95, 30, 20), _shuffleCount);
+
+            _allowEmptyClause = GUI.Toggle(new Rect(470 - 250 + 60, 95, 100, 20), _allowEmptyClause, "Allow All");
 
             GUI.Label(new Rect(400 - 250 + 20, 120, 60, 20), "MaxNum");
             _cullMaxNum = EditorGUI.IntField(new Rect(470 - 250 + 20, 120, 40, 20), _cullMaxNum);
@@ -284,7 +288,7 @@ namespace Equation.Tools
                 else if (_culledPuzzlesPack != null && _culledSelectedStage > -1 && _culledSelectedStage < _culledPuzzlesPack.puzzles.Count)
                     puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
 
-                foreach (var cell in _allCellsList)
+                foreach (var cell in drawCellsList)
                 {
                     if (puzzle == null)
                         break;
@@ -304,7 +308,7 @@ namespace Equation.Tools
                                 if (seg.hold != -1)
                                 {
                                     var holdPiece = puzzle.segments[seg.cellIndex];
-                                    var holdCell = _allCellsList[seg.cellIndex];
+                                    var holdCell = drawCellsList[seg.cellIndex];
                                     EditorGUI.DrawRect(holdCell.rect, new Color(.3f, .3f, .5f, .3f));
                                     GUI.Label(holdCell.rect, HelperMethods.CorrectOpperatorContent(holdPiece.content));
                                 }
@@ -445,6 +449,7 @@ namespace Equation.Tools
                 _puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
                 _rowsCount = _puzzle.rows;
                 _colsCount = _puzzle.columns;
+                CreateTableCells();
             }
             catch (Exception e)
             {
@@ -485,7 +490,11 @@ namespace Equation.Tools
                 
                 if(_clausesCount > 0)
                 {
-                    GeneratePattern();
+                    if (!GeneratePattern())
+                    {
+                        Debug.LogWarning("<color=yellow>GeneratePattern retried in GeneratePuzzles.</color>");
+                        continue;
+                    }
                 }
                 
                 await Task.Delay(100);
@@ -535,8 +544,20 @@ namespace Equation.Tools
             return ret;
         }
 
+        void CreateTableCells()
+        {
+            _allCellsList.Clear();
+            for (int i = 0; i < _rowsCount * _colsCount; i++)
+            {
+                var cell = new Cell {index = i, rect = Rect.zero, isBusy = false};
+                _allCellsList.Add(cell);
+            }
+        }
+
         void GeneratePatternSingle(bool hor)
         {
+            CreateTableCells();
+            
             _horClauses.Clear();
             _verClauses.Clear();
 
@@ -552,8 +573,10 @@ namespace Equation.Tools
             _allPiecesList.Clear();
         }
 
-        void GeneratePattern()
+        bool GeneratePattern()
         {
+            CreateTableCells();
+            
             _horClauses.Clear();
             _verClauses.Clear();
 
@@ -583,7 +606,7 @@ namespace Equation.Tools
                     continue;
                 
                 var parts = clause.parts.Where(p => p.index % 2 == 0).ToList();
-
+                
                 var crossClause = !isHor ? _horClauses[Random.Range(0, _horClauses.Count)] : _verClauses[Random.Range(0, _verClauses.Count)];
 
                 var crossParts = crossClause.parts.Where(p => p.index % 2 == 0).ToList();
@@ -615,6 +638,8 @@ namespace Equation.Tools
             } while (clauseCounter < _clausesCount);
 
             _allPiecesList.Clear();
+
+            return _horClauses.Count + _verClauses.Count == _clausesCount;
         }
 
         Clause MakeClause(in bool isHor, in int clauseIndex)
@@ -678,6 +703,8 @@ namespace Equation.Tools
 
         bool GenerateSegments(int stage)
         {
+            Debug.Log($"<color=blue>GenerateSegments started...</color>");
+            
             int failedCounter = 0;
             while (true)
             {
@@ -688,7 +715,7 @@ namespace Equation.Tools
 
                 if (failedCounter == 3000)
                 {
-                    Debug.Log($"<color=red>GenerateSegments failed with {failedCounter} try.</color>");
+                    Debug.LogWarning($"<color=red>GenerateSegments failed with {failedCounter} try.</color>");
                     return false;
                 }
             }
@@ -927,6 +954,9 @@ namespace Equation.Tools
                 clausesDic.Add(clause, count);
             }
 
+            if (!_allowEmptyClause && !clausesDic.Any(c => c.Value > 1))
+                return;
+
             clausesDic = clausesDic.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
             var shuffleClause = clausesDic.Keys.Last();
@@ -999,7 +1029,7 @@ namespace Equation.Tools
                 string filePath = $"Assets/{SAVE_PATH}/level_{_saveGameLevel:000}.json";
                 AssetDatabase.ImportAsset(filePath);
                 AssetDatabase.Refresh();
-                Debug.Log($"Puzzle saved level_{_saveGameLevel:000}");
+                Debug.Log($"Puzzle saved level_{_saveGameLevel:000} stages: {_culledPuzzlesPack.puzzles.Count}");
             }
             catch (Exception e)
             {
