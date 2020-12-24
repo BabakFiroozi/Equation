@@ -41,9 +41,9 @@ namespace Equation
             yield return new  WaitForEndOfFrame();
             Vector2 pos = _levelsContent.anchoredPosition;
             float itemHeight =_levelItemObj.GetComponent<RectTransform>().rect.height + 10;
-            float itemsCount = (int)(_levelsContent.rect.height / itemHeight);
-            if (level > itemsCount)
-                pos.y += (level - itemsCount) * itemHeight + itemHeight / 2;
+            float itemsCount = (int)(_levelsContent.parent.GetComponent<RectTransform>().rect.width / itemHeight);
+            if (level + 1 > itemsCount)
+                pos.y += (level + 1 - itemsCount) * itemHeight + itemHeight + 10;
             _levelsContent.anchoredPosition = pos;
         }
 

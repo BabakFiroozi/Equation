@@ -914,41 +914,34 @@ namespace Equation.Tools
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
             var hollowSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Hollow && s.hold == -1).ToList();
 
-            Segment heldSeg = null;
-            Segment holdSeg = null;
-            
-            var allHorPartIndices = _horClauses.SelectMany(h => h.parts.Select(p => p.cellIndex)).ToList();
-            var horFixedSegIndices = fixedSegs.Select(s => s.cellIndex).ToList();
-            var horSegIndices = allHorPartIndices.Intersect(horFixedSegIndices).ToList();
+            var allClausesList = new List<Clause>();
+            allClausesList.AddRange(_horClauses);
+            allClausesList.AddRange(_verClauses);
 
-            var allVerPartIndices = _verClauses.SelectMany(h => h.parts.Select(p => p.cellIndex)).ToList();
-            var verFixedSegIndices = fixedSegs.Select(s => s.cellIndex).ToList();
-            var verSegIndices = allVerPartIndices.Intersect(verFixedSegIndices).ToList();
-            
-            
-            bool isHor = horSegIndices.Count >= verSegIndices.Count;
-
-
-            if (isHor)
+            var clausesDic = new Dictionary<Clause, int>();
+            foreach (var clause in allClausesList)
             {
-                var cellIndex = horSegIndices[Random.Range(0, horSegIndices.Count)];
-                heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
-            }
-            else
-            {
-                
-                var cellIndex = verSegIndices[Random.Range(0, verSegIndices.Count)];
-                heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
+                var partIndices = clause.parts.Select(p => p.cellIndex).ToList();
+                var fixedIndices = fixedSegs.Select(s => s.cellIndex).ToList();
+                var count = partIndices.Intersect(fixedIndices).ToList().Count;
+                clausesDic.Add(clause, count);
             }
 
-            holdSeg = hollowSegs[Random.Range(0, hollowSegs.Count)];
+            clausesDic = clausesDic.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+            var shuffleClause = clausesDic.Keys.Last();
+
+            var shuffleParts = shuffleClause.parts.Select(p => p.cellIndex).Intersect(fixedSegs.Select(s => s.cellIndex)).ToList();
+            var cellIndex = shuffleParts[Random.Range(0, shuffleParts.Count)];
+            
+            var heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
+
+            var holdSeg = hollowSegs[Random.Range(0, hollowSegs.Count)];
             
             _puzzle.segments[holdSeg.cellIndex].hold = heldSeg.cellIndex;
             _puzzle.segments[holdSeg.cellIndex].content = _puzzle.segments[heldSeg.cellIndex].content;
             _puzzle.segments[heldSeg.cellIndex].type = SegmentTypes.Modified;
             // _puzzle.segments[heldSeg.cellIndex].content = "";
-            
-            Debug.Log("Shuffled. " + isHor);
         }
         
         
