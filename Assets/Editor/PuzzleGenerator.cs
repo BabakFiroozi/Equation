@@ -13,7 +13,7 @@ namespace Equation.Tools
 {
     public class PuzzleGenerator : EditorWindow
     {
-        // formula of stages of levels = 4 * clauses - crosses. croass is (clauses - 1).
+        // formula of stages of levels = 4 * clauses - clauses. croass is (clauses - 1).
         
         [MenuItem("Equation/Puzzle Generator")]
         static void ShowWindow()

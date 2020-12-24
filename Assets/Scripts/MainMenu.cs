@@ -27,7 +27,7 @@ namespace Equation
         [SerializeField] ConfirmScreen _quitPopup;
         [SerializeField] NativeBannerLayout _nativeBannerLayout;
         [SerializeField] RectTransform _otherProduct;
-        
+        [SerializeField] Transform _logoTr;
         
         static TapsellNativeBannerAd _nativeBannerAd;
         static bool _nativeBannerSeen;
@@ -44,6 +44,9 @@ namespace Equation
             _dailyButton.onClick.AddListener(DailyButtonClick);
             
             _dailyNotif.gameObject.SetActive(!GameSaveData.DailyVisited(GameSaveData.GetDailyEntranceNumber()));
+
+            _logoTr.localScale = Vector3.one * .9f;
+            _logoTr.DOScale(Vector3.one, .2f).SetEase(Ease.OutFlash).SetDelay(.2f);
 
             var seq = DOTween.Sequence();
             seq.Append(_dailyNotif.DOScale(.7f, .5f));
@@ -259,6 +262,9 @@ namespace Equation
 
         void ContinueButtonClick()
         {
+            var tr = _continueButton.transform;
+            tr.DOScale(1.1f, .15f);
+            tr.DOScale(1.0f, .15f).SetDelay(.15f);
             SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
         }
 

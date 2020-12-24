@@ -50,6 +50,7 @@ namespace Equation
 
             bool unlcoked = GameSaveData.IsLevelUnlocked(_level) || GameConfig.Instance.GameIsUnlock;
             _lockObject.SetActive(!unlcoked);
+            _progressText.gameObject.SetActive(unlcoked);
         }
 
         public void OpenStages()
