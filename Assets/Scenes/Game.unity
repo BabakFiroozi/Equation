@@ -4389,7 +4389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -76.2}
+  m_AnchoredPosition: {x: 0, y: -76.20001}
   m_SizeDelta: {x: 212.698, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1308133363
@@ -6538,11 +6538,12 @@ MonoBehaviour:
   _stateColors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.078233, g: 1, b: 0, a: 1}
-  - {r: 0.99215686, g: 0.34386754, b: 0.19999997, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
   _fonts:
   - {fileID: 12800000, guid: 478d6321422b3b348bdfc6e7116804a9, type: 3}
   - {fileID: 12800000, guid: 338454304eb7a5e498b8ca9ab1ff4125, type: 3}
   _helpSound: {fileID: 1639013874}
+  _helpColor: {r: 0.8536848, g: 1, b: 0, a: 1}
   _helpEffectObj: {fileID: 3331238668594551595, guid: 1642f54f89299114bb81e593534c5002,
     type: 3}
 --- !u!82 &1639013874

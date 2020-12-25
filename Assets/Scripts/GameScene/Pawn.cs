@@ -17,6 +17,7 @@ namespace Equation
         
         [SerializeField] AudioSource _helpSound;
 
+        [SerializeField] Color _helpColor;
         [SerializeField] GameObject _helpEffectObj;
         
         public RectTransform RectTr => _rectTr;
@@ -42,6 +43,7 @@ namespace Equation
         public void SetState(PawnStates state)
         {
             _state = state;
+            _frameImage.DOKill();
             _frameImage.color = _stateColors[(int) state];
             _fixedBadge.color = _stateColors[(int) state];
         }
@@ -69,6 +71,8 @@ namespace Equation
                     _helpSound.Play();
                     effect = Instantiate(_helpEffectObj, _rectTr);
                     StartCoroutine(_SetEffectSize(effect.GetComponent<ParticleSystem>()));
+
+                    _frameImage.DOColor(_helpColor, moveTime);
                 }
                 
                 RectTr.DOAnchorPos(cell.pos, moveTime).onComplete = () =>
