@@ -73,7 +73,7 @@ namespace Equation
                 RectTr.DOAnchorPos(cell.pos, moveTime).onComplete = () =>
                 {
                     if (effect != null)
-                        Destroy(effect, 1);
+                        Destroy(effect, 2);
                 };
             }
             else
