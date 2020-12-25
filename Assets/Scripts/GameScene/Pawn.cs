@@ -114,7 +114,7 @@ namespace Equation
         public void SetFontEng(bool eng)
         {
             _valueText.font = !eng ? _fonts[0] : _fonts[1];
-            _valueText.fontSize = eng ? _fontSize - 8 : _fontSize;
+            _valueText.fontSize = eng ? _fontSize - 4 : _fontSize;
         }
 
         void Awake()

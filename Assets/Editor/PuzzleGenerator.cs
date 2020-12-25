@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Equation.Models;
-using Random = UnityEngine.Random;
 
 
 namespace Equation.Tools
@@ -74,6 +73,15 @@ namespace Equation.Tools
         string _generatingMessage = "";
 
         int _replaceStageIndex = -1;
+
+        System.Random _randomer;
+        int RandomNum(int min, int max)
+        {
+            if (_randomer == null)
+                _randomer = new System.Random();
+            int num = _randomer.Next(min, max);
+            return num;
+        }
 
         void Awake()
         {
@@ -618,7 +626,7 @@ namespace Equation.Tools
                 
                 var parts = clause.parts.Where(p => p.index % 2 == 0).ToList();
                 
-                var crossClause = !isHor ? _horClauses[Random.Range(0, _horClauses.Count)] : _verClauses[Random.Range(0, _verClauses.Count)];
+                var crossClause = !isHor ? _horClauses[RandomNum(0, _horClauses.Count)] : _verClauses[RandomNum(0, _verClauses.Count)];
 
                 var crossParts = crossClause.parts.Where(p => p.index % 2 == 0).ToList();
 
@@ -669,7 +677,7 @@ namespace Equation.Tools
                 
                 bool failed = false;
 
-                int listIndex = Random.Range(0, freeCellIndices.Count);
+                int listIndex = RandomNum(0, freeCellIndices.Count);
                 int cellIndex = freeCellIndices[listIndex];
                 if (isHor)
                 {
@@ -808,8 +816,8 @@ namespace Equation.Tools
                 }
 
                 var oppPieces = piecesList.Where(p => p.index % 2 != 0).ToList();
-                oppPieces[0].content = Random.Range(0, 100) > 50 ? "e" : oppsList[Random.Range(0, oppsList.Count)];
-                oppPieces[1].content = oppPieces[0].content == "e" ? oppsList[Random.Range(0, oppsList.Count)] : "e";
+                oppPieces[0].content = RandomNum(0, 100) > 50 ? "e" : oppsList[RandomNum(0, oppsList.Count)];
+                oppPieces[1].content = oppPieces[0].content == "e" ? oppsList[RandomNum(0, oppsList.Count)] : "e";
 
                 var numPieces = new List<Piece>();
 
@@ -851,7 +859,7 @@ namespace Equation.Tools
                     {
                         if (p.content == "")
                         {
-                            p.content = Random.Range(numberMin, numberMax).ToString();
+                            p.content = RandomNum(numberMin, numberMax).ToString();
                             emptyPieces.Add(p);
                         }
                     }
@@ -973,11 +981,11 @@ namespace Equation.Tools
             var shuffleClause = clausesDic.Keys.Last();
 
             var shuffleParts = shuffleClause.parts.Select(p => p.cellIndex).Intersect(fixedSegs.Select(s => s.cellIndex)).ToList();
-            var cellIndex = shuffleParts[Random.Range(0, shuffleParts.Count)];
+            var cellIndex = shuffleParts[RandomNum(0, shuffleParts.Count)];
             
             var heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
 
-            var holdSeg = hollowSegs[Random.Range(0, hollowSegs.Count)];
+            var holdSeg = hollowSegs[RandomNum(0, hollowSegs.Count)];
             
             _puzzle.segments[holdSeg.cellIndex].hold = heldSeg.cellIndex;
             _puzzle.segments[holdSeg.cellIndex].content = _puzzle.segments[heldSeg.cellIndex].content;
