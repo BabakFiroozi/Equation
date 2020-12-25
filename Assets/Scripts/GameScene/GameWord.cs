@@ -14,6 +14,7 @@ namespace Equation
         [SerializeField] Board _board;
         [SerializeField] GameObject _resultPanel;
         [SerializeField] AudioSource _solvSound;
+        [SerializeField] Text _clauseText;
 
         public static GameWord Instance { get; private set; }
         
@@ -61,6 +62,8 @@ namespace Equation
             _board.GameFinishedEvent += GameFinishedHandler;
 
             _solvedBadge.fillAmount = 0;
+            
+            _clauseText.text = $"{Translator.GetString("Clause")} {Board.ClausesCount}";
             
             Invoke(nameof(RemoveBannerAd), 3);
         }
