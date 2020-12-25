@@ -12295,7 +12295,7 @@ GameObject:
   - component: {fileID: 2644988193703478388}
   - component: {fileID: 5260533968334736896}
   m_Layer: 5
-  m_Name: ShopPanel
+  m_Name: shopPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12466,7 +12466,7 @@ MonoBehaviour:
   _spinnerPanelObj: {fileID: 2815417403408414524, guid: 14baa6b7aff2ed840a0d7dfd3b77ac17,
     type: 3}
   _prices: d00700008813000010270000204e0000
-  _coins: 7c0100004c040000c4090000e0150000
+  _coins: 90010000b0040000b80b0000581b0000
   _notEnoughCoinMessage: {fileID: 1914286713275505336}
 --- !u!223 &2644988193703478388
 Canvas:

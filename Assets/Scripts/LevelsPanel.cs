@@ -10,6 +10,7 @@ namespace Equation
     {
         [SerializeField] RectTransform _levelsContent;
         [SerializeField] GameObject _levelItemObj;
+        [SerializeField] RectTransform _commingSoon;
 
         [SerializeField] HeadingBar _headingBar;
 
@@ -30,6 +31,8 @@ namespace Equation
                     StartCoroutine(_ScrollToPos(DataHelper.Instance.LastPlayedInfo.Level));
                 }
             }
+
+            _commingSoon.transform.SetParent(_levelsContent);
             
             _levelItemObj.SetActive(false);
 
