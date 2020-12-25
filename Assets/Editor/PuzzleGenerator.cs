@@ -88,6 +88,7 @@ namespace Equation.Tools
             _colsCount = EditorPrefs.GetInt("PuzzleGenerator_colsCount", _colsCount);
             _rowsCount = EditorPrefs.GetInt("PuzzleGenerator_rowsCount", _rowsCount);
             _clausesCount = EditorPrefs.GetInt("PuzzleGenerator_clausesCount", _clausesCount);
+            _generateCount = EditorPrefs.GetInt("PuzzleGenerator_generateCount", _generateCount);
             _shuffleCount = EditorPrefs.GetInt("PuzzleGenerator_shuffleCount", _shuffleCount);
             _numMinRange = EditorPrefs.GetInt("PuzzleGenerator_numMinRange", _numMinRange);
             _numMaxRange = EditorPrefs.GetInt("PuzzleGenerator_numMaxRange", _numMaxRange);
@@ -104,6 +105,7 @@ namespace Equation.Tools
             EditorPrefs.SetInt("PuzzleGenerator_colsCount", _colsCount);
             EditorPrefs.SetInt("PuzzleGenerator_rowsCount", _rowsCount);
             EditorPrefs.SetInt("PuzzleGenerator_clausesCount", _clausesCount);
+            EditorPrefs.SetInt("PuzzleGenerator_generateCount", _generateCount);
             EditorPrefs.SetInt("PuzzleGenerator_shuffleCount", _shuffleCount);
             EditorPrefs.SetInt("PuzzleGenerator_numMinRange", _numMinRange);
             EditorPrefs.SetInt("PuzzleGenerator_numMaxRange", _numMaxRange);
@@ -120,6 +122,7 @@ namespace Equation.Tools
             EditorPrefs.DeleteKey("PuzzleGenerator_colsCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_rowsCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_clausesCount");
+            EditorPrefs.DeleteKey("PuzzleGenerator_generateCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_shuffleCount");
             EditorPrefs.DeleteKey("PuzzleGenerator_numMinRange");
             EditorPrefs.DeleteKey("PuzzleGenerator_numMaxRange");
