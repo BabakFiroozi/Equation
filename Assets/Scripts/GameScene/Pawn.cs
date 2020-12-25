@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,12 +92,12 @@ namespace Equation
             return moveTime;
         }
         
-        IEnumerator _SetEffectSize(ParticleSystem effect)
+        IEnumerator<WaitForEndOfFrame> _SetEffectSize(ParticleSystem effect)
         {
             yield return new WaitForEndOfFrame();
-            float sizeCeof =  _rectTr.rect.width / 100;
+            float sizeCeof = _rectTr.rect.width / 140;
             var main = effect.main;
-            main.startSizeMultiplier = main.startSizeMultiplier * sizeCeof;
+            main.startSizeMultiplier *= sizeCeof;
             var shape = effect.shape;
             shape.radius *= sizeCeof;
         }
