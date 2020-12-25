@@ -973,7 +973,7 @@ namespace Equation.Tools
                 clausesDic.Add(clause, count);
             }
 
-            if (!_allowEmptyClause && !clausesDic.Any(c => c.Value > 1))
+            if (!_allowEmptyClause && !clausesDic.Any(c => c.Value > 0))
                 return;
 
             clausesDic = clausesDic.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
