@@ -16,6 +16,8 @@ namespace Equation
         
         [SerializeField] AudioSource _helpSound;
 
+        [SerializeField] GameObject _helpEffectObj;
+        
         public RectTransform RectTr => _rectTr;
 
         
@@ -35,7 +37,7 @@ namespace Equation
 
         int _fontSize;
         
-
+        
         public void SetState(PawnStates state)
         {
             _state = state;
@@ -58,9 +60,21 @@ namespace Equation
                 GameSaveData.SavePawnCell(DataHelper.Instance.LastPlayedInfo, Id, Cell.index);
                 float dist = (cell.pos - RectTr.anchoredPosition).magnitude;
                 moveTime = Mathf.Clamp(dist / 720, .01f, .5f);
-                RectTr.DOAnchorPos(cell.pos, moveTime).OnComplete(() => { });
+
+                GameObject effect = null;
+                
                 if (help)
+                {
                     _helpSound.Play();
+                    effect = Instantiate(_helpEffectObj, _rectTr);
+                    StartCoroutine(_SetEffectSize(effect.GetComponent<ParticleSystem>()));
+                }
+                
+                RectTr.DOAnchorPos(cell.pos, moveTime).onComplete = () =>
+                {
+                    if (effect != null)
+                        Destroy(effect, 1);
+                };
             }
             else
             {
@@ -75,6 +89,16 @@ namespace Equation
             }
 
             return moveTime;
+        }
+        
+        IEnumerator _SetEffectSize(ParticleSystem effect)
+        {
+            yield return new WaitForEndOfFrame();
+            float sizeCeof =  _rectTr.rect.width / 100;
+            var main = effect.main;
+            main.startSizeMultiplier = main.startSizeMultiplier * sizeCeof;
+            var shape = effect.shape;
+            shape.radius *= sizeCeof;
         }
 
         public void SetData(int id, string content, bool movable)
