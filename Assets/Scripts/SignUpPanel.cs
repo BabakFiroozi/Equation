@@ -49,6 +49,7 @@ namespace Equation
 
         void Clear()
         {
+            _loadingOverlay.SetActive(false);
             _messageText.text = "";
             _nicknameInput.text = "";
             _emailInput.text = "";
@@ -86,6 +87,8 @@ namespace Equation
 
         async void DoLoginAsync()
         {
+            Debug.Log("Login Started");
+            
             _messageText.text = "";
             
             string emailAddress = _emailInput.text;
@@ -120,6 +123,8 @@ namespace Equation
             }
             catch (GameServiceException e)
             {
+                _loadingOverlay.SetActive(false);
+
                 if (e.Message == "user_notfound")
                 {
                     ShowMessage(Translator.GetString("You_Not_Signed_Up_Yet"), true);
@@ -147,14 +152,16 @@ namespace Equation
 
         async void DoSignUpAsync()
         {
+            Debug.Log("Signup Started");
+            
             _messageText.text = "";
             
             string nickName = _nicknameInput.text;
             string emailAddress = _emailInput.text;
             string password = _passwordInput.text;
 
-            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
-            password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
+            // emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
+            // password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
 
             var forbiddens = _forbiddenWords.text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
             bool isForbidden = forbiddens.Any(f => nickName.Contains(f));
@@ -203,10 +210,12 @@ namespace Equation
             }
             catch (GameServiceException e)
             {
+                _loadingOverlay.SetActive(false);
+
                 if (e.Message == "used_email")
                 {
                     ShowMessage(Translator.GetString("You_Already_Signed_Up"), true);
-                    DoLoginAsync();
+                    // DoLoginAsync();
                 }
 
                 Debug.LogError(e.Message);

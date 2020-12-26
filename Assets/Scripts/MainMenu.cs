@@ -112,7 +112,8 @@ namespace Equation
             }
             
             SubmitScoreAsync();
-            
+
+            RemoveBannerAd();
             Invoke(nameof(RemoveBannerAd), 3);
             
         }

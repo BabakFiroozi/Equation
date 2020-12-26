@@ -65,6 +65,7 @@ namespace Equation
             
             _clauseText.text = $"{Translator.GetString("Clause")} {Board.ClausesCount}";
             
+            RemoveBannerAd();
             Invoke(nameof(RemoveBannerAd), 3);
         }
         
