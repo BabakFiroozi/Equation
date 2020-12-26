@@ -547,6 +547,17 @@ namespace Equation.Tools
             } while (loopIter < _generateCount);
 
             _generatingMessage = "Generating puzzles finished.";
+
+            PlayGenFinishSound();
+        }
+
+        void PlayGenFinishSound()
+        {
+            var clip = (AudioClip) EditorGUIUtility.Load("Assets/Editor/Sounds/gen_finished.mp3");
+            var gameObj = new GameObject();
+            var audio = gameObj.AddComponent<AudioSource>();
+            audio.clip = clip;
+            audio.Play();
         }
 
         bool IsOutOfMaxNumber(Puzzle p)
