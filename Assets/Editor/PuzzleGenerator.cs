@@ -958,6 +958,12 @@ namespace Equation.Tools
             _puzzlesPack.puzzles.Add(_puzzle);
         }
 
+        class ShuffleHelperInfo
+        {
+            public Clause clause;
+            public int fixedCount;
+        }
+        
         void TryShuffleSegments()
         {
             var fixedSegs = _puzzle.segments.Where(s => s.type == SegmentTypes.Fixed).ToList();
@@ -967,24 +973,34 @@ namespace Equation.Tools
             allClausesList.AddRange(_horClauses);
             allClausesList.AddRange(_verClauses);
 
-            var clausesDic = new Dictionary<Clause, int>();
+            var shuffleHelpersList = new List<ShuffleHelperInfo>();
             foreach (var clause in allClausesList)
             {
                 var partIndices = clause.parts.Select(p => p.cellIndex).ToList();
                 var fixedIndices = fixedSegs.Select(s => s.cellIndex).ToList();
                 var count = partIndices.Intersect(fixedIndices).ToList().Count;
-                clausesDic.Add(clause, count);
+                shuffleHelpersList.Add(new ShuffleHelperInfo {clause = clause, fixedCount = count});
             }
 
-            if (!_allowEmptyClause && !clausesDic.Any(c => c.Value > 0))
-                return;
+            if(!_allowEmptyClause)
+            {
+                if (!shuffleHelpersList.Any(c => c.fixedCount > 1))
+                    return;
+            }
 
-            clausesDic = clausesDic.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            shuffleHelpersList = shuffleHelpersList.OrderBy(x => x.fixedCount).ToList();
 
-            var shuffleClause = clausesDic.Keys.Last();
+            var shuffleClause = shuffleHelpersList.Last().clause;
 
             var shuffleParts = shuffleClause.parts.Select(p => p.cellIndex).Intersect(fixedSegs.Select(s => s.cellIndex)).ToList();
             var cellIndex = shuffleParts[RandomNum(0, shuffleParts.Count)];
+
+            if(!_allowEmptyClause)
+            {
+                var shuffleHelperMin = shuffleHelpersList.Find(h => h.fixedCount == 1);
+                if (shuffleHelperMin != null && shuffleHelperMin.clause.parts.Select(p => p.cellIndex).Contains(cellIndex))
+                    return;
+            }
             
             var heldSeg = fixedSegs.Find(s => s.cellIndex == cellIndex);
 
