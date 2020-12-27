@@ -472,7 +472,7 @@ MonoBehaviour:
     m_LineSpacing: 1.4
   m_Text: ".\uFEB6\uFE98\uFEB3\uFEAD\uFEA9 \uFEF1\uFE8E\uFE9F \uFEAE\uFEB3 \uFEAD\uFE8D\uFEB0\uFE91
     \u0648\u0631 \uFEEA\uFB95\uFEF3\uFEA9 <color=#00A5FF>\uFEE9\uFEAE\uFEEC\uFEE3</color>
-    \uFEEA\uFEF3\n     .\uFEEA\uFEB8\uFEF4\uFEE3 \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3
+    \uFEEA\uFEF3\n    .\uFEEA\uFEB8\uFEF4\uFEE3 \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3
     <color=yellow>\uFEE6\uFEF4\uFEF3\uFE8E\uFB58 \uFEEA\uFE91 \uFEFB\uFE8E\uFE91</color>
     \uFEAF\uFE8D \uFEF1\uFEA9\uFEEE\uFEE4\uFECB"
 --- !u!1 &6420647078742700305
@@ -511,7 +511,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 240}
-  m_SizeDelta: {x: 540, y: 140}
+  m_SizeDelta: {x: 520, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647078742700310
 CanvasRenderer:
@@ -616,7 +616,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 32
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -627,11 +627,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1.4
-  m_Text: "\uFEEA\uFEF3 \uFEEE\uFE97 \uFEED\uFEAD \uFEE9\uFEAE\uFEEC\uFEE3 \uFEEA\uFEF3
-    \uFEF2\uFEE7\uFEEE\uFE98\uFEF4\uFEE3 <color=#78FF00>\uFB8F\uFEE4\uFB90</color>
-    \uFEEA\uFEE4\uFB90\uFEA9 \uFEE5\uFEA9\uFEAF \uFE8E\uFE91\n                              
-    \uFEF1\uFEAD\uFE8D\uFEB0\uFE91 \uFEDD\uFEED\uFEAA\uFE9F \uFE96\uFEB3\uFEAD\uFEA9
-    \uFEEA\uFEE7\uFEEE\uFEA7"
+  m_Text: "\uFE96\uFEB3\uFEAD\uFEA9 \uFEEA\uFEE7\uFEEE\uFEA7 \uFEEA\uFEF3 \uFEEE\uFE97
+    \uFEED\uFEAD \uFEE9\uFEAE\uFEEC\uFEE3 \uFEEA\uFEF3 <color=#78FF00>\uFEF2\uFB91\uFEE4\uFB90</color>
+    \uFEEA\uFEE4\uFB90\uFEA9\n                                                  \uFEE9\uFEAD\uFE8D\uFEB0\uFEF4\uFEE3
+    \uFEDD\uFEED\uFEAA\uFE9F "
 --- !u!1 &6420647079147604274
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +742,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -255}
-  m_SizeDelta: {x: 560, y: 120}
+  m_SizeDelta: {x: 560, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6420647079509113202
 CanvasRenderer:
@@ -859,10 +858,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1.4
-  m_Text: "\uFEEA\uFEE7\uFEEE\uFEA7 \uFEEA\uFEF3 \uFEF2\uFEE7\uFEEE\uFE98\uFEF4\uFEE3
-    <color=#FFBB00>\uFEF2\uFEF3\uFE8E\uFEE4\uFEE8\uFEEB\uFE8D\uFEAD</color> \uFEEA\uFEE4\uFB90\uFEA9
-    \uFEE5\uFEA9\uFEAF \uFE8E\uFE91\n         \uFEF2\uFEE8\uFB90 \uFEF2\uFEF3\uFE8E\uFEB3\uFE8E\uFEE8\uFEB7
-    \uFEED\uFEAD \uFEDD\uFEED\uFEAA\uFE9F \uFEAF\uFE8D \uFEDD\uFEEE\uFEEC\uFEA0\uFEE3 "
+  m_Text: "\uFEED\uFEAD \uFEDD\uFEED\uFEAA\uFE9F \uFEDD\uFEEE\uFEEC\uFEA0\uFEE3 \uFEEA\uFEE7\uFEEE\uFEA7
+    \uFEEA\uFEF3 <color=#FFBB00>\uFE8E\uFEE4\uFEE8\uFEEB\uFE8D\uFEAD</color> \uFEEA\uFEE4\uFB90\uFEA9\n                                     
+    \uFEE9\uFEAA\uFEF4\uFEE3 \uFEE5\uFEEE\uFEB8\uFEE7 \uFE96\uFEEC\uFE91"
 --- !u!1 &6420647079800957620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,7 +1212,7 @@ MonoBehaviour:
     m_LineSpacing: 1.4
   m_Text: ".\uFEB6\uFE98\uFEB3\uFEAD\uFEA9 \uFEF1\uFE8E\uFE9F \uFEAE\uFEB3 \uFEAD\uFE8D\uFEB0\uFE91
     \uFEED \uFEB6\uFB91\uFE91 \uFEED\uFEAD <color=#00A5FF>\uFEE9\uFEAE\uFEEC\uFEE3</color>
-    \uFEFB\uFE8E\uFEA3\n             .\uFEEA\uFEB8\uFEF4\uFEE3 \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3
+    \uFEFB\uFE8E\uFEA3\n            .\uFEEA\uFEB8\uFEF4\uFEE3 \uFEEA\uFE92\uFEB3\uFE8E\uFEA4\uFEE3
     <color=yellow>\uFE96\uFEB3\uFE8D\uFEAD \uFEEA\uFE91 \uFB57\uFB7C</color> \uFEAF\uFE8D
     \uFEF2\uFED8\uFED3\uFE8D"
 --- !u!1 &6420647080381607586
@@ -1994,7 +1992,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -255}
-  m_SizeDelta: {x: 530, y: 120}
+  m_SizeDelta: {x: 530, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &673788929530190575
 CanvasRenderer:

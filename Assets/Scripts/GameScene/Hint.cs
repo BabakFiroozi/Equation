@@ -45,7 +45,7 @@ namespace Equation
             _contentText.fontSize = (int) (RectTr.rect.width / _initWidth * _initFontSize);
         }
 
-        public float Reveal(bool anim)
+        public float Reveal(bool anim, bool daily = false)
         {
             Revealed = true;
             _contentText.text = "?";
@@ -61,6 +61,14 @@ namespace Equation
                 _badgeEffect.DOScale(1, time);
                 RectTr.DOScale(1, time);
                 _revealSound.Play();
+            }
+
+            if (daily)
+            {
+                _lightEffect.gameObject.SetActive(false);
+                var badgeImage = _badgeEffect.GetComponent<Image>();
+                _badgeEffect.GetChild(0).GetComponentInChildren<Image>().color = badgeImage.color;
+                badgeImage.color = Color.white;
             }
 
             return time;

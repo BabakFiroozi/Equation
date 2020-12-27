@@ -152,13 +152,16 @@ namespace Equation
             {
                 var cell = GameSaveData.LoadPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id, pawn.Cell.index);
                 pawn.SetCell(Cells[cell], false);
+                bool helped = GameSaveData.LoadPawnHelped(DataHelper.Instance.LastPlayedInfo, pawn.Id);
+                if (pawn.Movable && helped)
+                    pawn.SetData(pawn.Id, pawn.Content, false);
             }
 
             ProcessTable();
 
             if(DataHelper.Instance.LastPlayedInfo.Daily)
                 foreach (var hint in Hints)
-                    hint.Reveal(false);
+                    hint.Reveal(false, true);
         }
 
 
@@ -485,7 +488,10 @@ namespace Equation
         {
             GameSaveData.ResetUsedHints(DataHelper.Instance.LastPlayedInfo);
             foreach (var pawn in Pawns)
+            {
                 GameSaveData.ResetPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id);
+                GameSaveData.ResetPawnHelped(DataHelper.Instance.LastPlayedInfo, pawn.Id);
+            }
         }
 
         void FinishGame()

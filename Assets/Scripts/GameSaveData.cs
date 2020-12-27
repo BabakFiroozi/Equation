@@ -138,6 +138,24 @@ namespace Equation
 			PlayerPrefs.DeleteKey(keyName);
 		}
 		
+		public static void SavePawnHelped(PuzzlePlayedInfo info, int pawn, bool helped)
+		{
+			string keyName = $"PawnHelp_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
+			SetBool(keyName, helped);
+		}
+
+		public static bool LoadPawnHelped(PuzzlePlayedInfo info, int pawn)
+		{
+			string keyName = $"PawnHelp_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
+			return GetBool(keyName);
+		}
+		
+		public static void ResetPawnHelped(PuzzlePlayedInfo info, int pawn)
+		{
+			string keyName = $"PawnHelp_{info.Level}_{info.Stage}_{info.Daily}_{pawn}";
+			PlayerPrefs.DeleteKey(keyName);
+		}
+		
 		public static bool IsDailyPuzzleRewarded(PuzzlePlayedInfo info)
 		{
 			string keyName = $"DailyPuzzleRewarded_{info.Level}_{info.Stage}_{info.Daily}";

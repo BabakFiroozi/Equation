@@ -10,7 +10,7 @@ namespace Equation
     {
         [SerializeField] RectTransform _rectTr;
         [SerializeField] Text _valueText;
-        [SerializeField] Image _frameImage;
+        [SerializeField] Image _movableBadge;
         [SerializeField] Image _fixedBadge;
         [SerializeField] Color[] _stateColors;
         [SerializeField] Font[] _fonts;
@@ -43,8 +43,8 @@ namespace Equation
         public void SetState(PawnStates state)
         {
             _state = state;
-            _frameImage.DOKill();
-            _frameImage.color = _stateColors[(int) state];
+            _movableBadge.DOKill();
+            _movableBadge.color = _stateColors[(int) state];
             _fixedBadge.color = _stateColors[(int) state];
         }
 
@@ -72,13 +72,17 @@ namespace Equation
                     effect = Instantiate(_helpEffectObj, _rectTr);
                     StartCoroutine(_SetEffectSize(effect.GetComponent<ParticleSystem>()));
 
-                    _frameImage.DOColor(_helpColor, moveTime);
+                    _movableBadge.DOColor(_helpColor, moveTime);
+
+                    GameSaveData.SavePawnHelped(DataHelper.Instance.LastPlayedInfo, Id, true);
                 }
                 
                 RectTr.DOAnchorPos(cell.pos, moveTime).onComplete = () =>
                 {
                     if (effect != null)
                         Destroy(effect, 2);
+                    if (help)
+                        SetData(Id, Content, false);
                 };
             }
             else
@@ -112,6 +116,7 @@ namespace Equation
             Content = content;
             _valueText.text = HelperMethods.CorrectOpperatorContent(content);
             Movable = movable;
+            _movableBadge.enabled = movable;
             _fixedBadge.enabled = !movable;
         }
 

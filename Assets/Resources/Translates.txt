@@ -40,6 +40,9 @@ Continue=ادامه
 Become=شدید
 Clause=عبارت
 
+Hint=راهنما
+Help=کمکی
+
 Toman=تومان
 
 You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
