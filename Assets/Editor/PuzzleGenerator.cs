@@ -460,6 +460,7 @@ namespace Equation.Tools
                 _puzzle = _culledPuzzlesPack.puzzles[_culledSelectedStage];
                 _rowsCount = _puzzle.rows;
                 _colsCount = _puzzle.columns;
+                _clausesCount = _puzzle.clauses;
                 CreateTableCells();
             }
             catch (Exception e)
