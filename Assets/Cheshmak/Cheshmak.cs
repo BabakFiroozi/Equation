@@ -17,7 +17,7 @@ namespace CheshmakMe
                 CheshmakLib.initEvents(AdsEvents); 
                 
                 
-                CheshmakLib.setTestMode(); // Remove this line before release !! 
+                // CheshmakLib.setTestMode(); // Remove this line before release !! 
                 // CheshmakLib.initializeBannerAds("top"); // [top | center | bottom] load banner on the top of screen;
                 // CheshmakLib.initializeMRECAds("bottom"); // [top | center | bottom] load banner on the top of screen;
                 // CheshmakLib.initializeInterstitialAds(); // Waiting for a while .... then call showInterstitialAds();

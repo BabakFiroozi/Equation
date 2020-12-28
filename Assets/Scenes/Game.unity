@@ -2099,7 +2099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -555.6}
+  m_AnchoredPosition: {x: 0, y: -555.6001}
   m_SizeDelta: {x: 0, y: -1111.3855}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &493567998
@@ -4463,7 +4463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -76.20001}
+  m_AnchoredPosition: {x: 0, y: -76.19971}
   m_SizeDelta: {x: 212.698, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1308133363
@@ -4627,6 +4627,7 @@ MonoBehaviour:
   _putSound: {fileID: 1327249557}
   _rightSound: {fileID: 1327249556}
   _wrongDragMessage: {fileID: 1891484390}
+  _canvasScaler: {fileID: 500210306}
 --- !u!82 &1327249556
 AudioSource:
   m_ObjectHideFlags: 0

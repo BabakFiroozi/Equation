@@ -25,6 +25,8 @@ namespace Equation
         [SerializeField] AudioSource _rightSound;
         
         [SerializeField] Text _wrongDragMessage;
+        
+        [SerializeField] CanvasScaler _canvasScaler;
 
         
         public List<Pawn> Pawns { get; } = new List<Pawn>();
@@ -53,7 +55,6 @@ namespace Equation
 
         public Pawn DraggingPawn => _draggingPawn;
 
-
         void Start()
         {
             UnBlobkTouch();
@@ -68,7 +69,6 @@ namespace Equation
 
         void MakePuzzleUI()
         {
-            const int screeen_width = 720;
             
             string filePath = $"{(DataHelper.Instance.LastPlayedInfo.Daily ? "DailyPuzzles" : "Puzzles")}/level_{DataHelper.Instance.LastPlayedInfo.Level:000}";
             var textAsset = Resources.Load<TextAsset>(filePath);
@@ -79,7 +79,7 @@ namespace Equation
             ClausesCount = _puzzle.clauses;
             ShufflesCount = _puzzle.shuffle;
 
-            float cellSize = (screeen_width - _tableMargin) / _puzzle.columns;
+            float cellSize = (_canvasScaler.referenceResolution.x - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
 
             _tableRectTr.sizeDelta = new Vector2(cellSize * _puzzle.columns, cellSize * _puzzle.rows);
@@ -554,10 +554,32 @@ namespace Equation
 
             if (_draggingPawn != null)
             {
-                Vector2 pos = eventData.position;
-                pos.y -= Screen.height / 2f;
-                pos.x -= Screen.width / 2f;
-                _draggingPawn.RectTr.anchoredPosition = pos;
+                Vector2 eventPos = eventData.position;
+                
+                Vector2 centericPos = Vector2.zero;
+
+                centericPos.x = eventPos.x - Screen.width / 2f;
+                centericPos.y = -(Screen.height / 2f - eventPos.y);
+                
+                Debug.Log(centericPos);
+
+                Vector2 refRes = _canvasScaler.referenceResolution;
+
+                float widthCoef = (refRes.x / 2f) / (Screen.width / 2f);
+                float heightCoef = (refRes.x / 2f) / (Screen.width / 2f);
+
+                float screenRatio = Screen.height / (float) Screen.width;
+                float refResRatio = refRes.y / refRes.x;
+                if(screenRatio < refResRatio)
+                {
+                    float adaptedRation = refResRatio / screenRatio;
+                    widthCoef *= adaptedRation;
+                    heightCoef *= adaptedRation;
+                }
+
+                Vector2 adaptedPos = new Vector2(centericPos.x * widthCoef, centericPos.y * heightCoef);
+                
+                _draggingPawn.RectTr.anchoredPosition = adaptedPos;
             }
         }
 
