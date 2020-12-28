@@ -554,7 +554,7 @@ namespace Equation.Tools
 
         void PlayGenFinishSound()
         {
-            var clip = (AudioClip) EditorGUIUtility.Load("Assets/Editor/gen_finished.mp3");
+            var clip = (AudioClip) EditorGUIUtility.Load("Assets/Editor/gen_finished.wav");
             var gameObj = new GameObject();
             var audio = gameObj.AddComponent<AudioSource>();
             audio.clip = clip;
@@ -775,6 +775,16 @@ namespace Equation.Tools
 
         bool TryGenerateSegments()
         {
+            bool NumberisPrime(int num)
+            {
+                if (num == 1)
+                    return false;
+                for(int i = 2; i < num; ++i)
+                    if (num % i == 0)
+                        return false;
+                return true;
+            }
+            
             bool failed = false;
 
             var allClauses = new List<Clause>();
@@ -814,9 +824,6 @@ namespace Equation.Tools
             if (_genOppers.Contains("d"))
                 oppsList.Add("d");
 
-            int numberMin = _numMinRange;
-            int numberMax = _numMaxRange;
-
             _allPiecesList.Clear();
 
             do
@@ -831,8 +838,43 @@ namespace Equation.Tools
                 }
 
                 var oppPieces = piecesList.Where(p => p.index % 2 != 0).ToList();
-                oppPieces[0].content = RandomNum(0, 100) > 50 ? "e" : oppsList[RandomNum(0, oppsList.Count)];
-                oppPieces[1].content = oppPieces[0].content == "e" ? oppsList[RandomNum(0, oppsList.Count)] : "e";
+                // oppPieces[0].content = RandomNum(0, 100) > 50 ? "e" : oppsList[RandomNum(0, oppsList.Count)];
+                // oppPieces[1].content = oppPieces[0].content == "e" ? oppsList[RandomNum(0, oppsList.Count)] : "e";
+
+                if (RandomNum(0, 100) > 50)
+                {
+                    oppPieces[0].content = "e";
+                }
+                else
+                {
+                    int randomNum = RandomNum(0, 100);
+                    if (randomNum < 27)
+                        oppPieces[0].content = oppsList[0];
+                    else if(randomNum < 54)
+                        oppPieces[0].content = oppsList[1];
+                    else if(randomNum < 81)
+                        oppPieces[0].content = oppsList[2];
+                    else
+                        oppPieces[0].content = oppsList[3];
+                }
+                
+                if (oppPieces[0].content != "e")
+                {
+                    oppPieces[1].content = "e";
+                }
+                else
+                {
+                    int randomNum = RandomNum(0, 100);
+                    if (randomNum < 27)
+                        oppPieces[1].content = oppsList[0];
+                    else if(randomNum < 54)
+                        oppPieces[1].content = oppsList[1];
+                    else if(randomNum < 81)
+                        oppPieces[1].content = oppsList[2];
+                    else
+                        oppPieces[1].content = oppsList[3];
+                }
+                
 
                 var numPieces = new List<Piece>();
 
@@ -874,7 +916,17 @@ namespace Equation.Tools
                     {
                         if (p.content == "")
                         {
-                            p.content = RandomNum(numberMin, numberMax).ToString();
+                            int contentNumber = 0;
+                            bool shouldNotBePrime = RandomNum(0, 100) > 60;
+                            do
+                            {
+                                contentNumber = RandomNum(_numMinRange, _numMaxRange);
+                                if(shouldNotBePrime && NumberisPrime(contentNumber))
+                                    continue;
+                                break;
+                            } while (true);
+                            
+                            p.content = contentNumber.ToString();
                             emptyPieces.Add(p);
                         }
                     }
