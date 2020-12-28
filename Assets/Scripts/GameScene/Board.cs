@@ -17,8 +17,8 @@ namespace Equation
         [SerializeField] GameObject _cellObj;
         [SerializeField] GameObject _pawnObj;
         [SerializeField] GameObject _hintObj;
-        [SerializeField] float _tableMargin = 20;
-        [SerializeField] float _tableBorder = 10;
+        [SerializeField] int _tableMargin = 20;
+        [SerializeField] int _tableBorder = 20;
         [SerializeField] GameObject _touchBlockObj;
         
         [SerializeField] AudioSource _putSound;
@@ -68,6 +68,8 @@ namespace Equation
 
         void MakePuzzleUI()
         {
+            const int screeen_width = 720;
+            
             string filePath = $"{(DataHelper.Instance.LastPlayedInfo.Daily ? "DailyPuzzles" : "Puzzles")}/level_{DataHelper.Instance.LastPlayedInfo.Level:000}";
             var textAsset = Resources.Load<TextAsset>(filePath);
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
@@ -77,7 +79,7 @@ namespace Equation
             ClausesCount = _puzzle.clauses;
             ShufflesCount = _puzzle.shuffle;
 
-            float cellSize = (Screen.width - _tableMargin) / _puzzle.columns;
+            float cellSize = (screeen_width - _tableMargin) / _puzzle.columns;
             _cellSize = cellSize;
 
             _tableRectTr.sizeDelta = new Vector2(cellSize * _puzzle.columns, cellSize * _puzzle.rows);

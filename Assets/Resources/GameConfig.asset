@@ -15,8 +15,8 @@ MonoBehaviour:
   _tutorialIsActive: 1
   _gameIsUnlock: 0
   _playerInitialCoin: 100
-  _hintCost: 30
-  _helpCost: 90
+  _hintCost: 20
+  _helpCost: 60
   _storeName: 0
   _leaderboardId: rankleaderboard
   _freeCoinAmount: 15
