@@ -554,7 +554,7 @@ namespace Equation.Tools
 
         void PlayGenFinishSound()
         {
-            var clip = (AudioClip) EditorGUIUtility.Load("Assets/Editor/Sounds/gen_finished.mp3");
+            var clip = (AudioClip) EditorGUIUtility.Load("Assets/Editor/gen_finished.mp3");
             var gameObj = new GameObject();
             var audio = gameObj.AddComponent<AudioSource>();
             audio.clip = clip;
