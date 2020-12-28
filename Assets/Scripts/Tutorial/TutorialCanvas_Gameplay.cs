@@ -157,7 +157,7 @@ namespace Equation
                 });
             }
 
-            if (CurrentStep == Steps.Introduce || CurrentStep == Steps.MovePawn || CurrentStep == Steps.Gap_1 || CurrentStep == Steps.UseHint)
+            if (CurrentStep == Steps.Introduce || CurrentStep == Steps.MovePawn || CurrentStep == Steps.MovePawn2 || CurrentStep == Steps.Gap_1 || CurrentStep == Steps.UseHint)
             {
                 _gameSceneTutData.BackButton.SetActive(false);
                 _gameSceneTutData.ResultPanelMenuButton.SetActive(false);
