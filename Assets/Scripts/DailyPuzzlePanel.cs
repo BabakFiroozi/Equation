@@ -17,15 +17,22 @@ namespace Equation
 
         void Start()
         {
+            var textAsset = Resources.Load<TextAsset>("DailyPuzzles/level_999");
+            var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
+
+            int stagesCount = puzzlesPack.puzzles.Count;
+
+            stagesCount = 2;
+            
             puzzleItemObj.SetActive(false);
             _finishedItemObj.SetActive(false);
 
             int dayNum = GameSaveData.GetDailyEntranceNumber();
 
             bool finished = false;
-            if (dayNum > DataHelper.MAX_DAILY_NUM)
+            if (dayNum >= stagesCount)
             {
-                dayNum = DataHelper.MAX_DAILY_NUM;
+                dayNum = stagesCount;
                 finished = true;
             }
 
@@ -33,19 +40,19 @@ namespace Equation
             
             for (int i = 0; i < dayNum + 1; ++i)
             {
+                if (i == dayNum && finished)
+                {
+                    _finishedItemObj.SetActive(true);
+                    _finishedItemObj.transform.SetParent(_content);
+                    break;
+                }
+
                 var obj = Instantiate(puzzleItemObj, _content);
                 obj.SetActive(true);
                 var puzzleItem = obj.GetComponent<DailyPuzzleItem>();
-                int level = i / DataHelper.MAX_DAILY_STAGES_COUNT;
-                int stage = i % DataHelper.MAX_DAILY_STAGES_COUNT;
-                puzzleItem.FillData(level, stage, i);
+                int stage = i % stagesCount;
+                puzzleItem.FillData(stage, i);
                 puzzleItems.Add(puzzleItem);
-            }
-
-            if (finished)
-            {
-                _finishedItemObj.SetActive(true);
-                _finishedItemObj.transform.SetParent(_content);
             }
 
             bool solved = puzzleItems.ToList().Exists(p => p.Rank > -1);

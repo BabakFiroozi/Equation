@@ -69,8 +69,8 @@ namespace Equation
 
         void MakePuzzleUI()
         {
-            
-            string filePath = $"{(DataHelper.Instance.LastPlayedInfo.Daily ? "DailyPuzzles" : "Puzzles")}/level_{DataHelper.Instance.LastPlayedInfo.Level:000}";
+
+            string filePath = !DataHelper.Instance.LastPlayedInfo.Daily ? $"Puzzles/level_{DataHelper.Instance.LastPlayedInfo.Level:000}" : "DailyPuzzles/level_999";
             var textAsset = Resources.Load<TextAsset>(filePath);
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
             _puzzle = puzzlesPack.puzzles[DataHelper.Instance.LastPlayedInfo.Stage];

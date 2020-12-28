@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Equation.Models;
 using UnityEngine.UI;
 
 
@@ -102,9 +103,14 @@ namespace Equation
 			{
 				if (DataHelper.Instance.LastPlayedInfo.Daily)
 				{
+					var textAsset = Resources.Load<TextAsset>("DailyPuzzles/level_999");
+					var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
+
+					int stagesCount = puzzlesPack.puzzles.Count;
 					var dayNum = GameSaveData.GetDailyEntranceNumber();
-					if (dayNum > DataHelper.MAX_DAILY_NUM)
-						dayNum = DataHelper.MAX_DAILY_NUM;
+					if (dayNum > stagesCount)
+						dayNum = stagesCount;
+					
 					_titleText.text = $"<color=#73D6FF>{dayNum + 1}</color> <color=#F0FF00>{Translator.GetString("Daily")}</color>";
 				}
 			}

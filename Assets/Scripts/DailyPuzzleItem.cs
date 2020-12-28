@@ -10,12 +10,9 @@ namespace Equation
         [SerializeField] Button _button;
         [SerializeField] Text _dayText;
 
-        bool _stageUnlocked;
-
         PuzzlePlayedInfo puzzleInfo;
 
-        int _level; //Week number
-        int _stage; //Day of week
+        int _stage; //Day
         
 
         public int Rank { get; private set; } = -1;
@@ -27,9 +24,6 @@ namespace Equation
 
         void ButtonClick()
         {
-            if (!_stageUnlocked)
-                return;
-
             MyAnalytics.SendEvent(MyAnalytics.daily_played);
 
             DataHelper.Instance.LastPlayedInfo.Daily = true;
@@ -39,17 +33,13 @@ namespace Equation
             SceneTransitor.Instance.TransitScene(SceneTransitor.SCENE_GAME, true);
         }
 
-        public void FillData(int level, int stage, int day)
+        public void FillData(int stage, int day)
         {
-            _level = level; //Week number
             _stage = stage; //Day of week
 
-            puzzleInfo = new PuzzlePlayedInfo {Level = _level, Stage = _stage, Daily = true};
+            puzzleInfo = new PuzzlePlayedInfo {Level = 999, Stage = _stage, Daily = true};
             Rank = GameSaveData.GetStageRank(puzzleInfo);
-
-            _stageUnlocked = GameSaveData.IsStageUnlocked(_level, _stage);
             _dayText.text = $"{day + 1} {Translator.GetString("Day")}";
-            
             for (int i = 0; i < 3; ++i)
                 _stars[i].SetActive(i + 1 <= Rank);
         }

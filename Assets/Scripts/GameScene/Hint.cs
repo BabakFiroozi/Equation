@@ -67,7 +67,8 @@ namespace Equation
             {
                 _lightEffect.gameObject.SetActive(false);
                 var badgeImage = _badgeEffect.GetComponent<Image>();
-                _badgeEffect.GetChild(0).GetComponentInChildren<Image>().color = badgeImage.color;
+                // _badgeEffect.GetChild(0).GetComponentInChildren<Image>().color = badgeImage.color;
+                _badgeEffect.GetChild(0).gameObject.SetActive(false);
                 badgeImage.color = Color.white;
             }
 

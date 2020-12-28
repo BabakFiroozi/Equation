@@ -33,9 +33,9 @@ namespace Equation
         {
             //TODO - reward
             _rewards = new int[3];
-            _rewards[0] = Random.Range(40, 70);
-            _rewards[1] = Random.Range(100, 130);
-            _rewards[2] = Random.Range(160, 190);
+            _rewards[0] = Random.Range(15, 30);
+            _rewards[1] = Random.Range(45, 60);
+            _rewards[2] = Random.Range(75, 90);
 
             for (int i = 0; i < _rewards.Length; ++i)
             {
