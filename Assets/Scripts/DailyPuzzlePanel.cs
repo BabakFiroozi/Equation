@@ -22,8 +22,6 @@ namespace Equation
 
             int stagesCount = puzzlesPack.puzzles.Count;
 
-            stagesCount = 2;
-            
             puzzleItemObj.SetActive(false);
             _finishedItemObj.SetActive(false);
 

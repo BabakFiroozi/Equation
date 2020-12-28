@@ -34,12 +34,6 @@ namespace Equation
 			return GetBool(key);
 		}
 
-		public static void DelUnlockedLevel(int level, bool daily = false)
-		{
-			string key = $"Level_Unlocked_{level}_{daily}";
-			PlayerPrefs.DeleteKey(key);
-		}
-
 		public static void UnlockStage(int level, int stage, bool daily = false)
 		{
 			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
@@ -50,12 +44,6 @@ namespace Equation
 		{
 			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
 			return GetBool(key);
-		}
-
-		public static void DelUnlockedStage(int level, int stage, bool daily = false)
-		{
-			string key = $"Stage_Unlocked_{level}_{stage}_{daily}";
-			PlayerPrefs.DeleteKey(key);
 		}
 
 		public static void SetStageRank(PuzzlePlayedInfo info, int rank)
@@ -71,6 +59,12 @@ namespace Equation
 		{
 			string key = $"Stage_Rank_{info.Level}_{info.Stage}_{info.Daily}";
 			return PlayerPrefs.GetInt(key, 0);
+		}
+		
+		public static void DelStageRank(PuzzlePlayedInfo info)
+		{
+			string key = $"Stage_Rank_{info.Level}_{info.Stage}_{info.Daily}";
+			PlayerPrefs.DeleteKey(key);
 		}
 		
 		public static bool IsStageSolved(PuzzlePlayedInfo info)

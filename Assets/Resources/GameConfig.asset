@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5071970d8b890e54d832220f6bf0e36d, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _tutorialIsActive: 0
-  _gameIsUnlock: 1
+  _tutorialIsActive: 1
+  _gameIsUnlock: 0
   _playerInitialCoin: 100
   _hintCost: 20
   _helpCost: 60
@@ -21,7 +21,7 @@ MonoBehaviour:
   _leaderboardId: rankleaderboard
   _freeCoinAmount: 12
   _timeScale: 1
-  _dailyIsLocal: 1
+  _dailyIsLocal: 0
   _freeCoinDayCap: 6
   _freeHintDayCap: 7
   _exitAdChance: 50

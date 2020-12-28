@@ -5,6 +5,7 @@ using BazaarInAppBilling;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Equation.Models;
 
 
 namespace Equation
@@ -72,17 +73,25 @@ namespace Equation
 				Debug.LogError("Unable to get live datetime");
 			
 			DataHelper.Instance.CheckDailyEntrance(dateTime);
+			int dayNum = GameSaveData.GetDailyEntranceNumber();
+			
+			var playedInfo = new PuzzlePlayedInfo();
 
 			if (DataHelper.Instance.DailyEntranceDisturbed)
 			{
-				//Lock again
-			}
+				var textAsset = Resources.Load<TextAsset>("DailyPuzzles/level_999");
+				var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
 
-			//
-			{
-				//Unlock new daily
+				int stagesCount = puzzlesPack.puzzles.Count;
+				for (int s = 0; s < stagesCount; ++s)
+				{
+					playedInfo.Level = 999;
+					playedInfo.Stage = s;
+					playedInfo.Daily = true;
+					GameSaveData.DelStageRank(playedInfo);
+					GameSaveData.VisitDaily(dayNum, false);
+				}
 			}
-
 			StartCoroutine(_GoToMenu());
 		}
 
