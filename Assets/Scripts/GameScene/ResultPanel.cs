@@ -132,13 +132,14 @@ namespace Equation
 
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
 
-			// int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
-			int stageReward = GameWord.Instance.Board.ShufflesCount * 2;
+			int stageReward = GameWord.Instance.Board.ShufflesCount;
 			
 			if(!_alreadySolved)
 			{
 				rewardGroup.DOFade(1, .3f);
-				GiveReward(stageReward);
+				_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{stageReward}";
+				_rewardText.gameObject.GetComponent<AudioSource>().Play();
+				GameSaveData.AddCoin(stageReward, false, 0);
 			}
 			else
 			{
@@ -164,12 +165,6 @@ namespace Equation
 				{
 					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";
 					LevelsPanel.ResetStageHistoryScroll();
-					if(!_alreadySolved)
-					{
-						yield return new WaitForSeconds(.2f);
-						int levelReward = (currentPlayedInfo.Level + 1) * GameWord.Instance.Board.StagesCount;
-						GiveReward(levelReward, stageReward);
-					}
 				}
 				else
 				{
@@ -180,28 +175,6 @@ namespace Equation
 			}
 			
 			_preventTouchObj.SetActive(false);
-		}
-
-		void GiveReward(int reward, int oldReward = 0)
-		{
-			_rewardText.text = $"<color=white>{Translator.CROSS_SIGN}</color>{reward + oldReward}";
-			_rewardText.gameObject.GetComponent<AudioSource>().Play();
-			GameSaveData.AddCoin(reward, false, 0);
-		}
-
-		int CalcShuffleBasedReward()
-		{
-			var board = GameWord.Instance.Board;
-			int limit = board.ClausesCount * 2;
-			float coef = 0;
-			if (board.ShufflesCount > limit)
-			{
-				//TODO - reward calcualation
-				coef = (board.ShufflesCount - limit) / 5f;
-			}
-
-			int reward = (int) (coef * GameConfig.Instance.HintCost);
-			return reward;
 		}
 
 		void ReplayGame()

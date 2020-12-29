@@ -19,7 +19,7 @@ MonoBehaviour:
   _helpCost: 45
   _storeName: 0
   _leaderboardId: rankleaderboard
-  _freeCoinAmount: 12
+  _freeCoinAmount: 8
   _timeScale: 1
   _dailyIsLocal: 0
   _freeCoinDayCap: 6
