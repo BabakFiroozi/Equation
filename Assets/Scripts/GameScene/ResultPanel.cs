@@ -133,7 +133,7 @@ namespace Equation
 			var currentPlayedInfo = GameWord.Instance.CurrentPlayedInfo;
 
 			// int stageReward = (currentPlayedInfo.Level + 1) * 2 + (currentPlayedInfo.Stage + 1) / 5 + CalcShuffleBasedReward();
-			int stageReward = GameWord.Instance.Board.ShufflesCount * 1;
+			int stageReward = GameWord.Instance.Board.ShufflesCount * 2;
 			
 			if(!_alreadySolved)
 			{

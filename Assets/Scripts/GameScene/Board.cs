@@ -561,8 +561,6 @@ namespace Equation
                 centericPos.x = eventPos.x - Screen.width / 2f;
                 centericPos.y = -(Screen.height / 2f - eventPos.y);
                 
-                Debug.Log(centericPos);
-
                 Vector2 refRes = _canvasScaler.referenceResolution;
 
                 float widthCoef = (refRes.x / 2f) / (Screen.width / 2f);

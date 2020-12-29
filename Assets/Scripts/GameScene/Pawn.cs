@@ -42,6 +42,9 @@ namespace Equation
         
         public void SetState(PawnStates state)
         {
+            if (state == PawnStates.Wrong)
+                return;
+            
             _state = state;
             _movableBadge.DOKill();
             _movableBadge.color = _stateColors[(int) state];

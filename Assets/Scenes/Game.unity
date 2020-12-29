@@ -6575,7 +6575,7 @@ MonoBehaviour:
   _stateColors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.078233, g: 1, b: 0, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.2119097, b: 0.07075471, a: 1}
   _fonts:
   - {fileID: 12800000, guid: 478d6321422b3b348bdfc6e7116804a9, type: 3}
   - {fileID: 12800000, guid: 338454304eb7a5e498b8ca9ab1ff4125, type: 3}
