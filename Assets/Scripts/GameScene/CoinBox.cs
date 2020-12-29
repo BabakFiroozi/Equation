@@ -15,7 +15,8 @@ namespace Equation
         [SerializeField] Button _buyCoinButton;
         [SerializeField] Text _coinText;
         [SerializeField] Text _coinChangedText;
-        [SerializeField] ShopPanel _shopPanel;
+        [SerializeField] GameObject _shopPanelObj;
+        [SerializeField] ConfirmScreen _gotoStorConfirm;
 
         [SerializeField] AudioSource _coinSound;
         [SerializeField] AudioSource _coinsSound;
@@ -32,7 +33,7 @@ namespace Equation
         {
             GameSaveData.CoinChangedEvent += CoinChangedEvent;
 
-            _buyCoinButton.onClick.AddListener(BuyCoinButtonClick);
+            _buyCoinButton.onClick.AddListener(() => ShowShopPanel(false));
             RefreshCoinText(false);
         }
         
@@ -125,19 +126,37 @@ namespace Equation
             if (notEnoughHint)
             {
                 if (showShop)
-                    _shopPanel.ShowPanel(true);
+                {
+                    MyAnalytics.SendEvent(MyAnalytics.not_enough_coin);
+                    _gotoStorConfirm.OpenConfirm(type =>
+                    {
+                        if (type == ConfirmScreen.ConfirmTypes.Ok)
+                        {
+                            _gotoStorConfirm.CloseConfirm();
+                            ShowShopPanel(true);
+                        }
+                    });
+                }
                 return false;
             }
 
             return true;
         }
-        
-        void BuyCoinButtonClick()
+
+        void ShowShopPanel(bool notEnoughCoin)
         {
-            _shopPanel.ShowPanel();
-            MyAnalytics.SendEvent(MyAnalytics.shop_button_clicked_ingame);
+            var obj = Instantiate(_shopPanelObj, transform.parent);
+            var popup = obj.GetComponent<PopupScreen>();
+            popup.HideEvent = () => Destroy(obj);
+            var shopPanel = obj.GetComponent<ShopPanel>();
+            shopPanel.ShowPanel();
+
+            if (!notEnoughCoin)
+                MyAnalytics.SendEvent(MyAnalytics.shop_button_clicked_ingame);
+            else
+                MyAnalytics.SendEvent(MyAnalytics.went_to_shop_not_enough_coin);
         }
-        
+
         void RefreshCoinText(bool anim)
         {
             _coinText.text = GameSaveData.GetCoin().ToString();

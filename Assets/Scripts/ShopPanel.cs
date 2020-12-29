@@ -26,8 +26,6 @@ namespace Equation
 		[SerializeField] int[] _prices = null;
 		[SerializeField] int[] _coins = null;
 
-		[SerializeField] GameObject _notEnoughCoinMessage;
-
 		PopupScreen _popupScreen;
 
 		int _selectedProductIndex;
@@ -169,17 +167,12 @@ namespace Equation
 				_shopPanelResult.ShowResult(0, $"{Translator.GetString("Yor_Purchase_Failed")}\n<color=red>code:{code}, {message}</color>", false);
 		}
 
-		public void ShowPanel(bool notEnoughCoin = false)
+		public void ShowPanel()
 		{
 			if (_popupScreen == null)
 				_popupScreen = gameObject.GetComponent<PopupScreen>();
 
-			_notEnoughCoinMessage.SetActive(notEnoughCoin);
-			
 			_popupScreen.Show();
-
-			if (notEnoughCoin)
-				MyAnalytics.SendEvent(MyAnalytics.not_enough_coin);
 		}
 
 		

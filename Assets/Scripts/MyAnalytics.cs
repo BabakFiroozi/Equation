@@ -12,6 +12,7 @@ namespace Equation
         public const string daily_played = "daily_done";
         public const string shop_button_clicked = "shop_button_clicked";
         public const string shop_button_clicked_ingame = "shop_button_clicked_ingame";
+        public const string went_to_shop_not_enough_coin = "went_to_shop_not_enough_coin";
         public const string not_enough_coin = "not_enough_coin";
         public const string leaderboard_button_clicked = "leaderboard_button_clicked";
         public const string setting_button_clicked = "setting_button_clicked";
