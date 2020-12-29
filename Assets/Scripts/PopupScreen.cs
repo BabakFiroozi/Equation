@@ -25,6 +25,7 @@ namespace Equation
         [SerializeField] bool _moveHor;
         [SerializeField] int _moveDir = 1;
         [SerializeField] bool _avtiveWhenHidden = false;
+        [SerializeField] bool _setSibling = true;
 
         const float _animTime = .4f;
 
@@ -64,7 +65,8 @@ namespace Equation
         void OnEnable()
         {
             var tr = transform;
-            tr.SetSiblingIndex(tr.parent.childCount - 2);
+            if (_setSibling)
+                tr.SetSiblingIndex(tr.parent.childCount - 2);
         }
 
 
