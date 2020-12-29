@@ -2955,7 +2955,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 243.7}
+  m_AnchoredPosition: {x: 0, y: 243.70001}
   m_SizeDelta: {x: 0, y: -384.48853}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1510137284
@@ -4476,6 +4476,7 @@ MonoBehaviour:
   _moveHor: 0
   _moveDir: 1
   _avtiveWhenHidden: 0
+  _setSibling: 1
   _animAudio: {fileID: 3018547601710574356}
 --- !u!114 &2308037925639624724
 MonoBehaviour:
@@ -6565,7 +6566,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 460, y: 340}
+  m_SizeDelta: {x: 460, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3765285200006735939
 MonoBehaviour:
@@ -7258,6 +7259,7 @@ MonoBehaviour:
   _moveHor: 0
   _moveDir: 1
   _avtiveWhenHidden: 0
+  _setSibling: 1
   _animAudio: {fileID: 6520655147661604987}
 --- !u!114 &6520655147661604993
 MonoBehaviour:
