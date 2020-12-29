@@ -233,7 +233,7 @@ namespace Equation
             ProcessTable();
 
             if (prevDragging != null)
-                OnRightMove(prevDragging.State == PawnStates.Right);
+                OnRightMove(prevDragging.RightState);
         }
 
         void OnCancelMove()
@@ -261,25 +261,26 @@ namespace Equation
 
         void ProcessTable()
         {
+            foreach (var p in Pawns)
+                p.SetState(false);
+            
             var horDic = new Dictionary<Pawn, bool>();
             ProcessTable(true, horDic);
             foreach (var pair in horDic)
-                pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
-
-            var otherPawns = Pawns.Where(p => !horDic.ContainsKey(p)).ToList();
-            foreach (var p in otherPawns)
-                p.SetState(PawnStates.Normal);
+            {
+                if (pair.Value)
+                    pair.Key.SetState(pair.Value);
+            }
 
             var verDic = new Dictionary<Pawn, bool>();
             ProcessTable(false, verDic);
             foreach (var pair in verDic)
             {
-                if(horDic.ContainsKey(pair.Key))
-                    continue;
-                pair.Key.SetState(pair.Value ? PawnStates.Right : PawnStates.Wrong);
+                if (pair.Value)
+                    pair.Key.SetState(true);
             }
             
-            if (Pawns.All(p => p.State == PawnStates.Right))
+            if (Pawns.All(p => p.RightState))
                 FinishGame();
         }
 

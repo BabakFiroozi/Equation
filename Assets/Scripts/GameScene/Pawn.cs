@@ -12,7 +12,7 @@ namespace Equation
         [SerializeField] Text _valueText;
         [SerializeField] Image _movableBadge;
         [SerializeField] Image _fixedBadge;
-        [SerializeField] Color[] _stateColors;
+        [SerializeField] Color _stateColor;
         [SerializeField] Font[] _fonts;
         
         [SerializeField] AudioSource _helpSound;
@@ -30,9 +30,7 @@ namespace Equation
         public int Id { get; set; }
         
 
-        PawnStates _state;
-
-        public PawnStates State => _state;
+        public bool RightState { get; private set; }
 
         float _initWidth;
         float _initFontSize;
@@ -40,15 +38,11 @@ namespace Equation
         int _fontSize;
         
         
-        public void SetState(PawnStates state)
+        public void SetState(bool state)
         {
-            if (state == PawnStates.Wrong)
-                return;
-            
-            _state = state;
+            RightState = state;
             _movableBadge.DOKill();
-            _movableBadge.color = _stateColors[(int) state];
-            _fixedBadge.color = _stateColors[(int) state];
+            _fixedBadge.color = _movableBadge.color = state ? _stateColor : Color.white;
         }
 
         public float SetCell(BoardCell cell, bool anim = true, bool help = false)
@@ -134,12 +128,5 @@ namespace Equation
             _initWidth = RectTr.rect.width;
             _initFontSize = _valueText.fontSize;
         }
-    }
-
-    public enum PawnStates
-    {
-        Normal,
-        Right,
-        Wrong
     }
 }
