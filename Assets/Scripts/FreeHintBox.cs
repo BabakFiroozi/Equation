@@ -20,28 +20,14 @@ namespace Equation
 
         bool _done;
 
-        void Awake()
-        {
-            if (!GameSaveData.HasDailyFreeGuide(GameConfig.Instance.FreeHintDayCap))
-            {
-                gameObject.SetActive(false);
-            }
-        }
-
-        void Update()
-        {
-            if (_done)
-                return;
-
-            if (GameWord.Instance != null && GameWord.Instance.Board.GameFinished)
-            {
-                _done = true;
-                Dismiss(true);
-            }
-        }
-
         void Start()
         {
+            if (!GameSaveData.HasDailyFreeGuide(GameConfig.Instance.FreeHintDayCap) || GameWord.Instance.CurrentPlayedInfo.Level == 0)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            
             _rectTr = gameObject.GetComponent<RectTransform>();
 
             _canvasGroupHint.DOFade(0, 0);
@@ -74,6 +60,18 @@ namespace Equation
         void OnDestroy()
         {
             MyTapsellAds.Instance.OnFinishedEvent -= MyTapsell_OnFinishedHandler;
+        }
+
+        void Update()
+        {
+            if (_done)
+                return;
+
+            if (GameWord.Instance != null && GameWord.Instance.Board.GameFinished)
+            {
+                _done = true;
+                Dismiss(true);
+            }
         }
 
         void Dismiss(bool onlyHide = false)
