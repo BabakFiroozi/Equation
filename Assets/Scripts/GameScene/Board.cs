@@ -509,14 +509,12 @@ namespace Equation
             GameSaveData.SolveStage(DataHelper.Instance.LastPlayedInfo);
             DoResetBoard();
 
-            int diff = MovesCount - ShufflesCount;
-
-            int limit = ClausesCount;
+            int limit = ShufflesCount * ClausesCount;
 
             int rank = 1;
-            if (diff < limit)
+            if (MovesCount <= limit)
                 rank = 3;
-            else if (diff < limit * 2)
+            else if (MovesCount <= limit * 2)
                 rank = 2;
 
             GameSaveData.SetStageRank(DataHelper.Instance.LastPlayedInfo, rank);

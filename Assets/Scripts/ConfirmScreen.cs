@@ -42,8 +42,9 @@ namespace Equation
 
         [SerializeField] AudioSource _animAudio;
 
-        public bool IsOpening { get; set; }
-        
+        public bool IsOpening { get; private set; }
+        public bool IsClosing { get; private set; }
+
         public bool IsBusy { get; private set; }
 
 
@@ -67,6 +68,9 @@ namespace Equation
             if(IsOpening)
                 return;
             
+            if(IsClosing)
+                return;
+            
             if (!_okButton.enabled)
                 return;
             
@@ -77,6 +81,12 @@ namespace Equation
         void CloseButtonClick()
         {
             if(IsOpening)
+                return;
+            
+            if(IsClosing)
+                return;
+            
+            if (!_okButton.enabled)
                 return;
             
             ConfirmedEvent?.Invoke(ConfirmTypes.Close);
@@ -101,6 +111,8 @@ namespace Equation
             IsBusy = true;
             
             IsOpening = true;
+
+            IsClosing = false;
             
             s_popupsList.Add(this);
             
@@ -158,6 +170,7 @@ namespace Equation
         
         public void CloseConfirm()
         {
+            IsClosing = true;
             _framRectTr.DOScale(Vector3.one * .1f, _animTime).SetEase(Ease.InBack);
             _backgImage.DOFade(0, _animTime).SetEase(Ease.Linear).onComplete = () =>
             {
