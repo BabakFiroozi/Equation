@@ -106,7 +106,11 @@ namespace Equation
                     {
                         _nativeBannerSeen = true;
                         _otherProduct.DOAnchorPos(otherProductPos, .5f).SetEase(Ease.OutBack).SetDelay(.5f);
-                        _otherProduct.GetComponent<Button>().onClick.AddListener(() => { Application.OpenURL("https://cafebazaar.ir/app/com.babgames.ganjyab"); });
+                        _otherProduct.GetComponent<Button>().onClick.AddListener(() =>
+                        {
+                            Application.OpenURL("https://cafebazaar.ir/app/com.babgames.ganjyab");
+                            MyAnalytics.SendEvent(MyAnalytics.other_prod_button_clicked);
+                        });
                     }
                 }
             }

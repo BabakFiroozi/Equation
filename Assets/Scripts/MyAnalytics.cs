@@ -38,6 +38,7 @@ namespace Equation
 		public const string email_button_clicked = "email_button_clicked";
 		public const string grid_button_clicked = "grid_button_clicked";
 		public const string lang_button_clicked = "lang_button_clicked";
+		public const string other_prod_button_clicked = "other_prod_button_clicked";
         
         
 

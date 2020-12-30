@@ -19,7 +19,7 @@ namespace Equation
 		[SerializeField] SettingPanel _settingPanel;
 		[SerializeField] float _animTime = .4f;
 		
-		static string _bundleId = "com.babgames.tablemath";
+		static string _bundleId = "com.babgames.mathtable";
 
 		int _showState;
 		bool _isShowing;
