@@ -9,6 +9,7 @@
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <meta-data android:name="android.notch_support" android:value="true" />
+      <meta-data android:name="cheshmakPush" android:value="openActivityOnPush"/>
     </activity>
 	
 	
