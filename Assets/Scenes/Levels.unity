@@ -858,8 +858,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEAA\uFEF4\uFEB7\uFE8E\uFE91 \uFEF2\uFEE7\uFE8E\uFEB3\uFEAD \uFEAF\uFEED\uFEAD
-    \uFEEA\uFE91 \uFEAE\uFEC8\uFE98\uFEE8\uFEE3"
+  m_Text: "\uFEAA\uFEF4\uFEB7\uFE8E\uFE91 \uFEF2\uFEE7\uFE8E\uFEB3\uFEAD\uFEAF\uFEED\uFEAE\uFE91
+    \uFEAE\uFEC8\uFE98\uFEE8\uFEE3"
 --- !u!222 &454512027
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2468,7 +2468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.74625826, b: 0.14509803, a: 1}
+  m_Color: {r: 1, g: 0.725698, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
