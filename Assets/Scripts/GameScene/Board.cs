@@ -64,12 +64,12 @@ namespace Equation
 
         public void Init()
         {
+            MovesCount = GameSaveData.GetMovesCount(GameWord.Instance.CurrentPlayedInfo);
             MakePuzzleUI();
         }
 
         void MakePuzzleUI()
         {
-
             string filePath = !DataHelper.Instance.LastPlayedInfo.Daily ? $"Puzzles/level_{DataHelper.Instance.LastPlayedInfo.Level:000}" : "DailyPuzzles/level_999";
             var textAsset = Resources.Load<TextAsset>(filePath);
             var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(textAsset.text);
@@ -159,13 +159,12 @@ namespace Equation
                     pawn.SetData(pawn.Id, pawn.Content, false);
             }
 
-            ProcessTable();
-
             if(DataHelper.Instance.LastPlayedInfo.Daily)
                 foreach (var hint in Hints)
                     hint.Reveal(false, true);
-        }
 
+            ProcessTable();
+        }
 
         public void SetPawnsFont(bool eng)
         {

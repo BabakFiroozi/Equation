@@ -22,6 +22,18 @@ namespace Equation
 
 	public static class GameSaveData
 	{
+		public static int GetMovesCount(PuzzlePlayedInfo info)
+		{
+			string key = $"Stage_Moves_{info.Level}_{info.Stage}_{info.Daily}";
+			return PlayerPrefs.GetInt(key);
+		}
+		
+		public static void SetMovesCount(int moves, PuzzlePlayedInfo info)
+		{
+			string key = $"Stage_Moves_{info.Level}_{info.Stage}_{info.Daily}";
+			PlayerPrefs.SetInt(key, moves);
+		}
+		
 		public static void UnlockLevel(int level, bool daily = false)
 		{
 			string key = $"Level_Unlocked_{level}_{daily}";

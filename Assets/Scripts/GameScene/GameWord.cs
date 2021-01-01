@@ -31,10 +31,10 @@ namespace Equation
         {
             Instance = this;
             
-            Board.Init();
-            
             CurrentPlayedInfo = DataHelper.Instance.LastPlayedInfo.Copy();
             NextPlayedInfo = CurrentPlayedInfo.Copy();
+            
+            Board.Init();
             
             if (CurrentPlayedInfo.Stage < Board.StagesCount - 1)
             {
@@ -117,6 +117,8 @@ namespace Equation
             
             LevelsPanel.StageResumed = CurrentPlayedInfo;
             
+            GameSaveData.SetMovesCount(Board.MovesCount, CurrentPlayedInfo);
+
             if (Instance == this)
                 Instance = null;
         }
