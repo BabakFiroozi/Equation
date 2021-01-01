@@ -45,6 +45,11 @@ namespace Equation
             _fixedBadge.color = _movableBadge.color = state ? _stateColor : Color.white;
         }
 
+        public void EmptyCell()
+        {
+            Cell = null;
+        }
+
         public float SetCell(BoardCell cell, bool anim = true, bool help = false)
         {
             if (Cell != null)

@@ -150,10 +150,31 @@ namespace Equation
             foreach (var hint in hints)
                 hint.Reveal(false);
 
+            var busyDic = new Dictionary<Pawn, BoardCell>();
+
             foreach (var pawn in Pawns)
             {
-                var cell = GameSaveData.LoadPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id, pawn.Cell.index);
-                pawn.SetCell(Cells[cell], false);
+                if(busyDic.Keys.Contains(pawn))
+                    continue;
+                
+                int cellIndex = GameSaveData.LoadPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id, pawn.Cell.index);
+
+                var busy = Pawns.Find(p => p.Cell != null && p.Cell.index == cellIndex);
+                if (busy != null)
+                {
+                    var cellIndexx = GameSaveData.LoadPawnCell(DataHelper.Instance.LastPlayedInfo, busy.Id, busy.Cell.index);
+                    busyDic[busy] = Cells.Find(c => c.index == cellIndexx); 
+                    busy.EmptyCell();
+                }
+                
+                pawn.SetCell(Cells[cellIndex], false);
+            }
+
+            foreach (var pair in busyDic)
+                pair.Key.SetCell(pair.Value);
+
+            foreach (var pawn in Pawns)
+            {
                 bool helped = GameSaveData.LoadPawnHelped(DataHelper.Instance.LastPlayedInfo, pawn.Id);
                 if (pawn.Movable && helped)
                     pawn.SetData(pawn.Id, pawn.Content, false);
