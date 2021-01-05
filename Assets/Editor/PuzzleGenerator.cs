@@ -54,7 +54,7 @@ namespace Equation.Tools
 
         const string SAVE_PATH = "Resources/Puzzles";
         int _saveGameLevel;
-        int _trimSaveGameLevel;
+        int _trimCulledIndex;
         
         int _loadedLevel = 0;
         int _selectedStage = -1;
@@ -205,9 +205,9 @@ namespace Equation.Tools
             GUI.Label(new Rect(400 - 250 + 20, 120, 60, 20), "MaxNum");
             _cullMaxNum = EditorGUI.IntField(new Rect(470 - 250 + 20, 120, 40, 20), _cullMaxNum);
 
-            _trimSaveGameLevel = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimSaveGameLevel);
+            _trimCulledIndex = EditorGUI.IntField(new Rect(780, 20, 40, 20), _trimCulledIndex);
             if (GUI.Button(new Rect(720, 20, 50, 20), "Trim"))
-                TrimSavePuzzles();
+                TrimCulledPuzzles();
 
             _saveGameLevel = EditorGUI.IntField(new Rect(780, 50, 40, 20), _saveGameLevel);
             if (GUI.Button(new Rect(720, 50, 50, 20), "Save"))
@@ -1100,12 +1100,20 @@ namespace Equation.Tools
             return key;
         }
 
-        void TrimSavePuzzles()
+        void TrimCulledPuzzles()
         {
             try
             {
-                _culledPuzzlesPack.puzzles = _culledPuzzlesPack.puzzles.Take(_trimSaveGameLevel).ToList();
-                _culledSelectedStage = _trimSaveGameLevel - 1;
+                if(_trimCulledIndex >= 0)
+                {
+                    _culledPuzzlesPack.puzzles = _culledPuzzlesPack.puzzles.Take(_trimCulledIndex).ToList();
+                    _culledSelectedStage = _trimCulledIndex - 1;
+                }
+                else
+                {
+                    int index = Mathf.Abs(_trimCulledIndex);
+                    _culledPuzzlesPack.puzzles.RemoveAt(index - 1);
+                }
             }
             catch (Exception e)
             {
