@@ -32,7 +32,7 @@ namespace Equation
         static TapsellNativeBannerAd _nativeBannerAd;
         static bool _nativeBannerSeen;
 
-        int _totalStarsCount;
+        int _solvedStagesCount;
 
 
         void Start()
@@ -79,21 +79,6 @@ namespace Equation
                     error => { },
                     onNoNetworkEvent => { }
                 );
-            }
-
-            _totalStarsCount = 1;
-            var playedInfo = new PuzzlePlayedInfo();
-            for (int i = 0; i < DataHelper.Instance.LevelsCount; ++i)
-            {
-                var level = Resources.Load<TextAsset>($"Puzzles/level_{i:000}");
-                var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
-                foreach (var puzzle in puzzlesPack.puzzles)
-                {
-                    playedInfo.Level = puzzlesPack.level;
-                    playedInfo.Stage = puzzle.stage;
-                    int rank = GameSaveData.GetStageRank(playedInfo);
-                    _totalStarsCount += rank;
-                }
             }
 
             //Other product
@@ -168,7 +153,7 @@ namespace Equation
                 try
                 {
                     _signupPanel.HidePanel();
-                    await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _totalStarsCount);
+                    await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _solvedStagesCount);
                     _leaderboardPanel.GetComponent<LeaderboardPanel>().Show();
                 }
                 catch (GameServiceException e)
@@ -186,7 +171,7 @@ namespace Equation
                 await GameService.Login(token);
             if (GameService.IsAuthenticated())
             {
-                await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _totalStarsCount);
+                await GameService.SubmitScore(GameConfig.Instance.LeaderboardId, _solvedStagesCount);
             }
         }
 
@@ -236,23 +221,36 @@ namespace Equation
 
         void CalcLastPlayed()
         {
-            int levels = DataHelper.Instance.LevelsCount;
+            _solvedStagesCount = 0;
+            int levelsCount = DataHelper.Instance.LevelsCount;
             int lastUnlockedLevel = -1;
-            for (int l = 0; l < levels; ++l)
+            for (int l = 0; l < levelsCount; ++l)
             {
                 if (GameSaveData.IsLevelUnlocked(l))
+                {
                     lastUnlockedLevel++;
+                    if (l > 0)
+                    {
+                        var levelText = Resources.Load<TextAsset>($"Puzzles/level_{l - 1:000}");
+                        var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(levelText.text);
+                        _solvedStagesCount += puzzlesPack.puzzles.Count;
+                    }
+                }
             }
 
-            var level = Resources.Load<TextAsset>($"Puzzles/level_{lastUnlockedLevel:000}");
-            var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(level.text);
             var playedInfo = new PuzzlePlayedInfo();
-            playedInfo.Level = lastUnlockedLevel;
-            for (int s = 0; s < puzzlesPack.puzzles.Count; ++s)
             {
-                playedInfo.Stage = s;
-                if (GameSaveData.IsStageUnlocked(lastUnlockedLevel, s) && !GameSaveData.IsStageSolved(playedInfo))
-                    break;
+                var levelText = Resources.Load<TextAsset>($"Puzzles/level_{lastUnlockedLevel:000}");
+                var puzzlesPack = JsonUtility.FromJson<PuzzlesPackModel>(levelText.text);
+                playedInfo.Level = lastUnlockedLevel;
+                for (int s = 0; s < puzzlesPack.puzzles.Count; ++s)
+                {
+                    playedInfo.Stage = s;
+                    if (GameSaveData.IsStageSolved(playedInfo))
+                        _solvedStagesCount++;
+                    if (GameSaveData.IsStageUnlocked(lastUnlockedLevel, s) && !GameSaveData.IsStageSolved(playedInfo))
+                        break;
+                }
             }
 
             DataHelper.Instance.LastPlayedInfo.Daily = false;

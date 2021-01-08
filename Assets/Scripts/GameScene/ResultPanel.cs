@@ -219,7 +219,7 @@ namespace Equation
 
 			if (!_ratePageAsked && !GameSaveData.IsGameRated())
 			{
-				if (currentPlayedInfo.Level > 1 && currentPlayedInfo.Stage > 0 && currentPlayedInfo.Stage % 10 == 0)
+				if (currentPlayedInfo.Level > 1 && (currentPlayedInfo.Stage + 1) % 10 == 0)
 				{
 					_ratePageAsked = true;
 					var obj = Instantiate(_rateAskPageObj, transform.parent);

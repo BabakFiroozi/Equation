@@ -20,7 +20,6 @@ namespace Equation
         [SerializeField] InputField _emailInput;
         [SerializeField] InputField _passwordInput;
         [SerializeField] Button _loginButton;
-        [SerializeField] Button _signupButton;
         [SerializeField] Text _messageText;
         [SerializeField] GameObject _loadingOverlay;
         [SerializeField] TextAsset _forbiddenWords;
@@ -43,13 +42,11 @@ namespace Equation
         void Start()
         {
             _loginButton.onClick.AddListener(DoLoginAsync);
-            _signupButton.onClick.AddListener(DoSignUpAsync);
         }
 
 
         void Clear()
         {
-            _loadingOverlay.SetActive(false);
             _messageText.text = "";
             _nicknameInput.text = "";
             _emailInput.text = "";
@@ -63,7 +60,7 @@ namespace Equation
                 _confirmScreen = GetComponent<ConfirmScreen>();
             _confirmScreen.OpenConfirm(ConfirmedHandler);
             SignedUpEvent = signedUpEvent;
-            ShowMessage(Translator.GetString("You_Need_To_Register"), false);
+            ShowMessage(Translator.GetString("Enter_Your_Name"), false);
         }
 
         public void HidePanel()
@@ -87,15 +84,13 @@ namespace Equation
 
         async void DoLoginAsync()
         {
-            Debug.Log("Login Started");
-            
             _messageText.text = "";
             
             string emailAddress = _emailInput.text;
             string password = _passwordInput.text;
             
-            // emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@ganj.ir";
-            // password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
+            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
+            password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
 
             if (emailAddress.Length < MIN_EMAIL_LEN || !emailAddress.Contains("@") || password.Length < MIN_PASSW_LEN)
             {
@@ -106,7 +101,7 @@ namespace Equation
             _loadingOverlay.SetActive(true);
 
             await Task.Delay(500);
-                
+            
             try
             {
                 string token = await GameService.Login(emailAddress, password);
@@ -123,8 +118,6 @@ namespace Equation
             }
             catch (GameServiceException e)
             {
-                _loadingOverlay.SetActive(false);
-
                 if (e.Message == "user_notfound")
                 {
                     ShowMessage(Translator.GetString("You_Not_Signed_Up_Yet"), true);
@@ -152,16 +145,14 @@ namespace Equation
 
         async void DoSignUpAsync()
         {
-            Debug.Log("Signup Started");
-            
             _messageText.text = "";
             
             string nickName = _nicknameInput.text;
             string emailAddress = _emailInput.text;
             string password = _passwordInput.text;
 
-            // emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
-            // password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
+            emailAddress = $"E{MakeSignupData(SystemInfo.deviceUniqueIdentifier)}@math.ir";
+            password = MakeSignupData(SystemInfo.deviceUniqueIdentifier);
 
             var forbiddens = _forbiddenWords.text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
             bool isForbidden = forbiddens.Any(f => nickName.Contains(f));
@@ -200,22 +191,20 @@ namespace Equation
                 
                 _loadingOverlay.SetActive(false);
 
-                var jsonObj = new JSONObject();
-                var jsonData = new JSONObject();
-                jsonObj.AddField("Signup_Data", jsonData);
-                jsonData.AddField(CheshmakLib.getCheshmakID(), emailAddress);
-                CheshmakLib.sendTag(jsonObj.Print());
+                // var jsonObj = new JSONObject();
+                // var jsonData = new JSONObject();
+                // jsonObj.AddField("Signup_Data", jsonData);
+                // jsonData.AddField(CheshmakLib.getCheshmakID(), emailAddress);
+                // CheshmakLib.sendTag(jsonObj.Print());
                 
                 MyAnalytics.SendEvent(MyAnalytics.profile_signed_up);
             }
             catch (GameServiceException e)
             {
-                _loadingOverlay.SetActive(false);
-
                 if (e.Message == "used_email")
                 {
                     ShowMessage(Translator.GetString("You_Already_Signed_Up"), true);
-                    // DoLoginAsync();
+                    DoLoginAsync();
                 }
 
                 Debug.LogError(e.Message);

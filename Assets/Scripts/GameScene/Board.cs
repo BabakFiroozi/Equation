@@ -171,7 +171,7 @@ namespace Equation
             }
 
             foreach (var pair in busyDic)
-                pair.Key.SetCell(pair.Value);
+                pair.Key.SetCell(pair.Value, false);
 
             foreach (var pawn in Pawns)
             {

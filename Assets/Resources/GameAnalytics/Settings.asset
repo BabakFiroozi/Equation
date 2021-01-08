@@ -30,7 +30,7 @@ MonoBehaviour:
   secretKey:
   - ebd7b24fdfe0490683662ed61d7fabf91a2c2580
   Build:
-  - 1.0.1
+  - 1.0.5
   SelectedPlatformOrganization:
   - 
   SelectedPlatformStudio:
@@ -41,8 +41,30 @@ MonoBehaviour:
   SelectedOrganization: 00000000
   SelectedStudio: 00000000
   SelectedGame: 00000000
-  NewVersion: 
-  Changes: 
+  NewVersion: 6.3.9
+  Changes: '6.3.9
+
+    - fixed ironsource impression event compile error
+
+
+    6.3.8
+
+    -
+    removed memory info from automatic crash reports
+
+    - updated sqlite lib
+
+
+    6.3.7
+
+    -
+    corrected ad event annotation
+
+
+    6.3.6
+
+    - updated validator for impression
+    events (android, ios)'
   SignUpOpen: 1
   StudioName: 
   GameName: 

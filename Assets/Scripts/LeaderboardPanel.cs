@@ -123,11 +123,11 @@ namespace Equation
 
             if (!meWasInLeaderboaed)
             {
-                var score = scores.Find(s => s.Submitter.User.IsMe);
                 var obj = Instantiate(_betweenObj, _content);
                 obj.SetActive(true);
                 obj = Instantiate(_scoreItemObj, _content);
                 obj.SetActive(true);
+                var score = scores.Find(s => s.Submitter.User.IsMe);
                 obj.GetComponent<LeaderboardPanelItem>().FillData(score.Submitter.Name, score.Rank, score.Value, score.Submitter.User.Logo, score.Submitter.User.IsMe);
             }
 
