@@ -246,6 +246,7 @@ namespace Equation
             {
                 pawn.RectTr.SetAsLastSibling();
                 MovesCount++;
+                GameSaveData.SetMovesCount(MovesCount, GameWord.Instance.CurrentPlayedInfo);
             }
 
             _draggingPawn = pawn;
@@ -253,7 +254,7 @@ namespace Equation
             ProcessTable();
 
             if (prevDragging != null)
-                OnRightMove(prevDragging.RightState);
+                OnMovedPawn(prevDragging.RightState);
         }
 
         void OnCancelMove()
@@ -272,7 +273,7 @@ namespace Equation
             }
         }
 
-        void OnRightMove(bool right)
+        void OnMovedPawn(bool right)
         {
             if (right)
                 _rightSound.Play();
@@ -509,12 +510,13 @@ namespace Equation
 
         public void DoResetBoard()
         {
-            GameSaveData.SetMovesCount(0, DataHelper.Instance.LastPlayedInfo);
-            GameSaveData.ResetUsedHints(DataHelper.Instance.LastPlayedInfo);
+            var playedInfo = GameWord.Instance.CurrentPlayedInfo;
+            GameSaveData.SetMovesCount(0, playedInfo);
+            GameSaveData.ResetUsedHints(playedInfo);
             foreach (var pawn in Pawns)
             {
-                GameSaveData.ResetPawnCell(DataHelper.Instance.LastPlayedInfo, pawn.Id);
-                GameSaveData.ResetPawnHelped(DataHelper.Instance.LastPlayedInfo, pawn.Id);
+                GameSaveData.ResetPawnCell(playedInfo, pawn.Id);
+                GameSaveData.ResetPawnHelped(playedInfo, pawn.Id);
             }
         }
 

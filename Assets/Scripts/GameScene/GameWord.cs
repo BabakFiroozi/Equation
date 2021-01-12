@@ -117,8 +117,6 @@ namespace Equation
             
             LevelsPanel.StageResumed = CurrentPlayedInfo;
             
-            GameSaveData.SetMovesCount(Board.MovesCount, CurrentPlayedInfo);
-
             if (Instance == this)
                 Instance = null;
         }
