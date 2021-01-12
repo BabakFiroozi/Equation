@@ -164,7 +164,7 @@ namespace Equation
 				if(currentPlayedInfo.Level < DataHelper.Instance.LevelsCount - 1)
 				{
 					_nextLevelText.text = $"{Translator.GetString("Become")} <color=yellow>{currentPlayedInfo.Level + 2}</color> {Translator.GetString("You_Entered_Level")}";
-					LevelsPanel.ResetStageHistoryScroll();
+					MyAnalytics.SendEvent(MyAnalytics.levels_entred_next);
 				}
 				else
 				{

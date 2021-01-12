@@ -50,11 +50,6 @@ namespace Equation
             _levelsContent.anchoredPosition = pos;
         }
 
-        public static void ResetStageHistoryScroll()
-        {
-            //TODO - scroll
-        }
-
         void OnDestroy()
         {
             StageResumed = null;

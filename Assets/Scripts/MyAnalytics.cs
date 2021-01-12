@@ -32,6 +32,7 @@ namespace Equation
         public const string profile_logged_in = "profile_logged_in";
         public const string profile_edited = "profile_edited";
         public const string back_ingame_clicked = "back_ingame_clicked";
+        public const string levels_entred_next = "levels_next";
         public const string levels_end_vivsited = "game_end_vivsited";
 		public const string share_button_clicked = "share_button_clicked";
 		public const string rate_button_clicked = "rate_button_clicked";

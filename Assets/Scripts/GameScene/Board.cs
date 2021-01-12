@@ -509,6 +509,7 @@ namespace Equation
 
         public void DoResetBoard()
         {
+            GameSaveData.SetMovesCount(0, DataHelper.Instance.LastPlayedInfo);
             GameSaveData.ResetUsedHints(DataHelper.Instance.LastPlayedInfo);
             foreach (var pawn in Pawns)
             {
