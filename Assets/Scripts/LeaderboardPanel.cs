@@ -98,7 +98,7 @@ namespace Equation
             
             // var leaderboards = await GameService.GetLeaderBoards();
             LeaderBoardDetails details = null;
-            details = await GameService.GetLeaderBoardDetails(GameConfig.Instance.LeaderboardId);
+            details = await GameService.GetLeaderBoardDetails(GameConfig.Instance.LeaderboardId, _maxShow);
 
             print(details.ToString());
 

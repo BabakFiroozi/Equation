@@ -8,10 +8,12 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: B Kourosh
+  fontName: Anko Personal Use
   fontNames:
-  - B Kourosh
-  fallbackFontReferences: []
+  - Anko Personal Use
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 338454304eb7a5e498b8ca9ab1ff4125, type: 3}
+  - {fileID: 12800000, guid: 72226baac7121054eabc9f5094dc1fa1, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

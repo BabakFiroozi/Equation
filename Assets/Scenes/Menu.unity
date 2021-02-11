@@ -530,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &327269373
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1435,10 +1435,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 80
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1446,7 +1446,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEEA\uFEE3\uFE8D\uFEA9\uFE8D"
+  m_Text: Continue
 --- !u!222 &859952466
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2071,7 +2071,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 28
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -2082,7 +2082,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "45 \uFEEA\uFEE0\uFEA3\uFEAE\uFEE3 - 2 \uFEDE\uFEBC\uFED3"
+  m_Text: Level 1 - Stage 3
 --- !u!222 &1053396105
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3948,7 +3948,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFE8E\uFEEB \uFEDE\uFEBC\uFED3"
+  m_Text: Levels
 --- !u!222 &2054742147
 CanvasRenderer:
   m_ObjectHideFlags: 0

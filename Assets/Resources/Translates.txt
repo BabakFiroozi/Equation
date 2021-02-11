@@ -23,48 +23,48 @@ Ordinary4=جالب نبود
 Ordinary5=زیاد خوب نبود
 
 *Clauses*
-Level=سطح
+Level=Level
 In_Every_Stage=تو هر مرحله ای
-You_Already_Solved=قبلا حلش کرده بودی
+You_Already_Solved=You already solved it
 Solved_Move=حرکت حل شد
 With=با
 Old_Record=رکورد قبلی
 Entrance=ورودی
 You_Have=انقدر داری
 
-Ok=باشه
-Ready=آماده ام
-Enter=ورود
-Start=شروع
-Continue=ادامه
-Become=شدید
-Clause=عبارت
+Ok=Ok
+Ready=I'm eady
+Enter=Enter
+Start=Start
+Continue=Continue
+Become=Became
+Clause=Clause
 
-Hint=راهنما
-Help=کمکی
+Hint=Hint
+Help=Help
 
-Toman=تومان
+Toman=Dollar
 
-You_Not_Signed_Up_Yet=شما هنوز ثبت نام نکرده اید
-You_Already_Signed_Up=شما قبلا ثبت نام کرده اید ورود را بزنید
-You_Need_To_Register=برای ثبت رکورد اول باید ثبت نام کنید
-Enter_Your_Name=برای ثبت رکورد نام خود را وارد کنید
-Name_Is_Invalid=نامی که وارد کردید نامعتبر است
+You_Not_Signed_Up_Yet=You have not signed up yet
+You_Already_Signed_Up=You already signed up
+You_Need_To_Register=You need to register
+Enter_Your_Name=Enter your name
+Name_Is_Invalid=The name is invalid
 Email_Or_Password_Is_Wrong=ایمیل یا رمزعبور نامعتبر است
 
 Email_Is_Wrong=ایمیلی که زدید نامعتبر است
-Name_Is_Forbidden=اسم حاوی کلمه غیرمجاز است
+Name_Is_Forbidden=The name contains forbidden words
 Your_Leaderboard_Info=مشخصات شما در جدول امتیازات
 
-No_Internet_Access=دستگاه شما به نت وصل نیست
-Receveing_Data=در حال دریافت...
-You_May_Be_Lucky=بخت و اقبال یارت
-You_Need_To_Wait=فردا بیا دوباره شانستو امتحان کن
-Damn_The_Luck=ای بخشکی شانس
-Bad_The_Luck=شانست جالب نبود
-You_Fair_lucky=شانست خوب بود
-You_Very_Lucky=خیلی خوش شانسی
-Unable_To_Get_Time=مشکل در هنگام دریافت لطفا بعدا امتحان کنید
+No_Internet_Access=Youre device has not intrnet access
+Receveing_Data=Receving data...
+You_May_Be_Lucky=You may be lucky
+You_Need_To_Wait=Come again tomorrow and test your chance
+Damn_The_Luck=Bad chance today
+Bad_The_Luck=Your chance was not good
+You_Fair_lucky=Your chance was good
+You_Very_Lucky=You're very lucky
+Unable_To_Get_Time=Unable to get time from server
 
 You_Got_Some_Coin=تا سکه گرفتی
 Thanks_For_See=ممنون از تماشای شما
@@ -73,17 +73,17 @@ Thanks_For_Buy=ممنون از خرید شما
 Yor_Purchase_Failed=خرید شما ناموفق بود
 Thanks_For_Your_Purchase=ممنون از خرید شما
 Cross_Sign=×
-Day=روز
-Daily=روزانه
-Levels=فصل ها
-Level=فصل
-Stage=مرحله
-Stages_Of_level=مراحل فصل
-Needed_Moves=جابجایی
-Moves_You_Did=تعداد حرکاتی که رفتی
+Day=Day
+Daily=Daily
+Levels=Levels
+Level=Season
+Stage=Stage
+Stages_Of_level=Level stages
+Needed_Moves=Neeed moves
+Moves_You_Did=Moves count
 You_Entered_Level=شما وارد فصل
-You_Finished_Levels=شما همه فصل رو رفتید منتظر آپدیت باشد
+You_Finished_Levels=You finshed all the levels. Wait for update.
 
-RankTitle_1=بد نبود
-RankTitle_2=خوب بود
-RankTitle_3=عالی بود
+RankTitle_1=Not bad
+RankTitle_2=Good
+RankTitle_3=Excellent
