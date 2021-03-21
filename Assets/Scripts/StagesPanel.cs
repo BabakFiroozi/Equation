@@ -25,7 +25,7 @@ namespace Equation
             _stagesContent.anchoredPosition = Vector2.zero;
 
             var playedInfo = DataHelper.Instance.LastPlayedInfo;
-            _levelText.text = $"<color=#73D6FF>{playedInfo.Level + 1}</color> <color=#F0FF00>{Translator.GetString("Stages_Of_level")}</color>";
+            _levelText.text = $"<color=#F0FF00>{Translator.GetString("Stages_Of_level")}</color> <color=#73D6FF>{playedInfo.Level + 1}</color>";
 
             foreach (var c in _stagesContent)
             {

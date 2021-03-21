@@ -44,8 +44,8 @@ namespace Equation
                     _progress++;
             }
 
-            _levelText.text = $"{_level + 1} {Translator.GetString("Level")}";
-            _clauseText.text = $"{Translator.GetString("Clause")} {_clause}";
+            _levelText.text = $"{Translator.GetString("Level")} {_level + 1}";
+            _clauseText.text = $"{_clause} {Translator.GetString("Clause")}";
             _progressText.text = $"{_progress} / {_count}";
 
             bool unlcoked = GameSaveData.IsLevelUnlocked(_level) || GameConfig.Instance.GameIsUnlock;

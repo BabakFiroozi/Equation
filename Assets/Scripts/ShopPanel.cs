@@ -49,11 +49,11 @@ namespace Equation
 			{
 				int b = i;
 				_buyButtons[i].onClick.AddListener(() => BuyButtonClick(b));
-				_buyButtons[i].transform.Find("Image/amount").GetComponent<Text>().text = $"{Translator.CROSS_SIGN}{_coins[i]}";
-				_buyButtons[i].transform.Find("price").GetComponent<Text>().text = $"{Translator.GetString("Toman")} {_prices[i]}";
+				_buyButtons[i].transform.Find("Image/amount").GetComponent<Text>().text = $"{_coins[i]}{Translator.CROSS_SIGN}";
+				_buyButtons[i].transform.Find("price").GetComponent<Text>().text = $"${_prices[i]}";
 			}
 
-			_adCoinAmountText.text = $"{Translator.CROSS_SIGN}{GameConfig.Instance.FreeCoinAmount}";
+			_adCoinAmountText.text = $"{GameConfig.Instance.FreeCoinAmount}{Translator.CROSS_SIGN}";
 			
 			GameSaveData.CoinChangedEvent += CoinChangedHandler;
 			

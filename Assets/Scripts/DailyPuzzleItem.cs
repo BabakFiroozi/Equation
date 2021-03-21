@@ -39,7 +39,7 @@ namespace Equation
 
             _puzzleInfo = new PuzzlePlayedInfo {Level = 999, Stage = _stage, Daily = true};
             Rank = GameSaveData.GetStageRank(_puzzleInfo);
-            _dayText.text = $"{day + 1} {Translator.GetString("Day")}";
+            _dayText.text = $"{Translator.GetString("Day")} {day + 1}";
             for (int i = 0; i < 3; ++i)
                 _stars[i].SetActive(i + 1 <= Rank);
         }

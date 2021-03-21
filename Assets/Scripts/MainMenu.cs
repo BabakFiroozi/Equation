@@ -68,7 +68,7 @@ namespace Equation
             {
                 var info = DataHelper.Instance.LastPlayedInfo;
                 _startText.text = Translator.GetString("Continue");
-                _continueText.text = $"{info.Stage + 1} {Translator.GetString("Stage")} - {info.Level + 1} {Translator.GetString("Level")}";
+                _continueText.text = $"{Translator.GetString("Level")} {info.Level + 1} - {Translator.GetString("Stage")} {info.Stage + 1}";
             }
 
             if (Random.Range(0, 100) < GameConfig.Instance.ExitAdChance && _nativeBannerAd == null)

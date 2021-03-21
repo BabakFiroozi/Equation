@@ -63,7 +63,7 @@ namespace Equation
 
             _solvedBadge.fillAmount = 0;
             
-            _clauseText.text = $"{Translator.GetString("Clause")} {Board.ClausesCount}";
+            _clauseText.text = $"{Board.ClausesCount} {Translator.GetString("Clause")}";
             
             RemoveBannerAd();
             Invoke(nameof(RemoveBannerAd), 3);
@@ -87,6 +87,7 @@ namespace Equation
             bool isEng = GameSaveData.IsNumberFontEng();
             if (change)
                 isEng = !isEng;
+            isEng = true;
             GameSaveData.SetNumberFontEng(isEng);
             var tr = _fontButton.transform;
             tr.Find("en").gameObject.SetActive(isEng);

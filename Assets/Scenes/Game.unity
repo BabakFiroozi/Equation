@@ -1687,7 +1687,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 34
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -1698,8 +1698,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEE6\uFB90 \uFEB2\uFEE4\uFEDF \uFEEA\uFEE3\uFE8D\uFEA9\uFE8D \uFEF1\uFE8D\uFEAE\uFE91 
-    \uFEAA\uFEB7 \uFEDE\uFEA3"
+  m_Text: Solved. Touch to continue
 --- !u!222 &414586667
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2732,7 +2731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 101, y: -141}
+  m_AnchoredPosition: {x: 42, y: -141}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &684532869
@@ -6960,7 +6959,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEE6\uFE98\uFEB4\uFEEB \uFE96\uFE91\uFE8E\uFE9B \uFE8E\uFEEB \uFEE9\uFEAE\uFEF4\uFE97"
+  m_Text: Not movable
 --- !u!222 &1891484391
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7324,7 +7323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2016664169
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9427,7 +9426,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFEAE\uFEF4\uFEA7"
+  m_Text: no
 --- !u!1 &3060551583383380416
 GameObject:
   m_ObjectHideFlags: 0
@@ -9529,7 +9528,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 36
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -9540,8 +9539,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u061F\uFEF2\uFEE7\uFEB0\uFE91 \uFEE9\uFE8E\uFB95\uFEB7\uFEED\uFEAE\uFED3
-    \uFEEA\uFE91 \uFEAE\uFEB3 \uFEEA\uFEF3 \uFEF1\uFE8D\uFEEE\uFEA8\uFEF4\uFEE3"
+  m_Text: Do you want to go to store?
 --- !u!224 &3586166920642974607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9620,7 +9618,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFEEA\uFEE0\uFE91"
+  m_Text: yes
 --- !u!222 &3747858423990592208
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9747,7 +9745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -103, y: 81}
+  m_AnchoredPosition: {x: 103, y: 81}
   m_SizeDelta: {x: 120, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4284955958116919665
@@ -10012,8 +10010,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFE96\uFEB4\uFEF4\uFEE7 \uFEF2\uFED3\uFE8E\uFB90 \uFE8E\uFEE4\uFEB7 \uFEEA\uFB91\uFEB3
-    \uFEEA\uFEE7\uFE8E\uFED4\uFEB3\uFE8E\uFE98\uFEE3"
+  m_Text: Not enough coin
 --- !u!114 &5182142467067016952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15582,7 +15579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 103, y: 81}
+  m_AnchoredPosition: {x: -103, y: 81}
   m_SizeDelta: {x: 120, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6888514699777388332

@@ -88,7 +88,7 @@ namespace Equation
 			rewardGroup.gameObject.SetActive(!_alreadySolved);
 			rewardGroup.alpha = 0;
 
-			_movesCountText.text = $"<color=yellow>{GameWord.Instance.Board.MovesCount}</color> :{Translator.GetString("Moves_You_Did")}";
+			_movesCountText.text = $"{Translator.GetString("Moves_You_Did")}: <color=yellow>{GameWord.Instance.Board.MovesCount}</color>";
 
 			_titleText.text = Translator.GetString($"RankTitle_{_stageRank}");
 

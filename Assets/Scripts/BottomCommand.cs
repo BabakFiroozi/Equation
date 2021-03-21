@@ -21,8 +21,8 @@ namespace Equation
             _helpButton.onClick.AddListener(HelpButtonClick);
             _resetButton.onClick.AddListener(ResetButtonClick);
 
-            _hintCost.text = $"({GameConfig.Instance.HintCost}){Translator.GetString("Hint")}";
-            _helpCost.text = $"({GameConfig.Instance.HelpCost}){Translator.GetString("Help")}";
+            _hintCost.text = $"{Translator.GetString("Hint")}({GameConfig.Instance.HintCost})";
+            _helpCost.text = $"{Translator.GetString("Help")}({GameConfig.Instance.HelpCost})";
 
             if (GameWord.Instance.CurrentPlayedInfo.Daily)
                 _hintButton.gameObject.SetActive(false);

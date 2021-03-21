@@ -162,7 +162,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75.5, y: 1.9}
+  m_AnchoredPosition: {x: 151.1, y: 1.9}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &189991242
@@ -962,7 +962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -130.6, y: 10}
+  m_AnchoredPosition: {x: 96, y: 10}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &426063155
@@ -3124,7 +3124,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184.6, y: 1.9000092}
+  m_AnchoredPosition: {x: 42, y: 1.9000092}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1619522795
@@ -4819,7 +4819,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "1 \u0632\u0648\u0631"
+  m_Text: Day 1
 --- !u!224 &2818060235393349073
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4836,7 +4836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 76.5, y: 0.0000038146973}
+  m_AnchoredPosition: {x: -152, y: 0.0000038146973}
   m_SizeDelta: {x: -262.93512, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2818060235393349075
@@ -5858,7 +5858,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -5869,7 +5869,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFEA9\uFEAD\uFEEE\uFB90\uFEAD \uFE96\uFE92\uFE9B"
+  m_Text: Set Record
 --- !u!114 &3486640622226030128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7348,8 +7348,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFE8E\uFEF4\uFE91 \uFEAF\uFEED\uFEAD \uFEAE\uFEEB \uFEEA\uFEE7\uFE8D\uFEAF\uFEED\uFEAD
-    \uFEEF\uFE8E\uFEEB \uFEE9\uFEB0\uFEF3\uFE8E\uFE9F \uFEEF\uFE8D\uFEAE\uFE91"
+  m_Text: Comes everyday for daily prize
 --- !u!222 &6520655147793048364
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7592,7 +7591,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -7603,7 +7602,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFEEA\uFEE7\uFE8D\uFEAF\uFEED\uFEAD \uFEEF\uFE8E\uFEEB\uFE8E\uFEE4\uFECC\uFEE3"
+  m_Text: Daily Puzzles
 --- !u!222 &6520655148927255253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7790,7 +7789,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "*\uFEAA\uFEB7 \uFEE1\uFE8E\uFEE4\uFE97*"
+  m_Text: Finished
 --- !u!222 &6520655149198281180
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8024,10 +8023,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7916f9250c9d3f349bbdee7124a2d47a, type: 3}
-    m_FontSize: 32
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -8035,8 +8034,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEA9\uFEAE\uFB94\uFEAE\uFE91 \uFE8D\uFEA9\uFEAE\uFED3 \uFEEA\uFEE7\uFE8D\uFEAF\uFEED\uFEAD
-    \uFEEF\uFE8E\uFEEB \uFEE9\uFEB0\uFEF3\uFE8E\uFE9F \uFEEF\uFE8D\uFEAE\uFE91"
+  m_Text: Comes tomorrow for more prize
 --- !u!222 &6520655149326115029
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8591,7 +8589,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uFEAA\uFEF4\uFEF3\uFE8E\uFE97"
+  m_Text: Apply
 --- !u!222 &7546129216396211113
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8917,8 +8915,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uFEAA\uFBFF\uFEE8\uFB90 \uFEA9\uFEAD\uFE8D\uFEED \uFE8D\uFEAD \uFEA9\uFEEE\uFEA7
-    \uFEE1\uFE8E\uFEE7 \uFEA9\uFEAD\uFEEE\uFB90\uFEAD \uFE96\uFE92\uFE9B \uFBFC\uFE8D\uFEAE\uFE91"
+  m_Text: Enter your name
 --- !u!1 &7546129217044124743
 GameObject:
   m_ObjectHideFlags: 0
@@ -9947,7 +9944,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "...\uFEE1\uFE8E\uFEE7"
+  m_Text: Name...
 --- !u!1 &7546129218324420375
 GameObject:
   m_ObjectHideFlags: 0
