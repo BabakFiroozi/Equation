@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.5.5",
   "force": true,
   "url": "www.goggle.com",
   "data": "",
